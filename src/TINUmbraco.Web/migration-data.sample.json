@@ -1,0 +1,13 @@
+[
+  {
+    "wordPressType": "post",
+    "contentTypeAlias": "newsArticlePage",
+    "name": "Imported News Item",
+    "slug": "imported-news-item",
+    "values": {
+      "title": "Imported News Item",
+      "bodyText": "<p>This item was imported from WordPress.</p>"
+    },
+    "publish": true
+  }
+]
