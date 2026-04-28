@@ -1,0 +1,28 @@
+# ----- Secrets / deployment parameters (contain passwords) -----
+infra/main.parameters.json
+
+# ----- .NET build output -----
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
+publish-output/
+publish/
+
+# ----- Umbraco runtime -----
+src/TINUmbraco.Web/umbraco/Data/
+src/TINUmbraco.Web/umbraco/Logs/
+src/TINUmbraco.Web/App_Data/
+
+# ----- User / IDE files -----
+.vs/
+*.user
+*.suo
+*.userprefs
+*.rsuser
+*.userosscache
+
+# ----- Environment / secrets -----
+.env
+.env.*
+appsettings.Production.json.override
