@@ -42,7 +42,14 @@ $webAppName = $outputs.webAppName.value
 $stagingSlotName = $outputs.stagingSlotName.value
 
 Write-Host "Publishing Umbraco app to Azure Web App $webAppName..."
-dotnet publish "src/TINUmbraco.Web/TINUmbraco.Web.csproj" -c Release -o "publish"
+$publishDir = Join-Path $PSScriptRoot "..\publish-output"
+$publishZip = Join-Path $PSScriptRoot "..\publish-output-$deploymentName.zip"
+
+if (Test-Path $publishDir) { Remove-Item $publishDir -Recurse -Force }
+dotnet publish "src/TINUmbraco.Web/TINUmbraco.Web.csproj" -c Release -o $publishDir
+
+Write-Host "Zipping publish output..."
+tar -a -c -f $publishZip -C $publishDir .
 
 if ($DeployToStagingSlot -and -not [string]::IsNullOrWhiteSpace($stagingSlotName)) {
     Write-Host "Deploying package to staging slot '$stagingSlotName'..."
@@ -50,7 +57,9 @@ if ($DeployToStagingSlot -and -not [string]::IsNullOrWhiteSpace($stagingSlotName
         --resource-group $ResourceGroupName `
         --name $webAppName `
         --slot $stagingSlotName `
-        --src-path "publish"
+        --src-path $publishZip `
+        --type zip `
+        --async true
 
     if ($SwapStagingToProduction) {
         Write-Host "Swapping staging slot into production..."
@@ -66,7 +75,9 @@ else {
     az webapp deploy `
         --resource-group $ResourceGroupName `
         --name $webAppName `
-        --src-path "publish"
+        --src-path $publishZip `
+        --type zip `
+        --async true
 }
 
 Write-Host "Deployment complete."

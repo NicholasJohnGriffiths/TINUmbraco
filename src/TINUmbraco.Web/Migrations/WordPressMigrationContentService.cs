@@ -5,6 +5,7 @@ namespace TINUmbraco.Web.Migrations;
 
 public sealed class WordPressMigrationContentService(
     IContentService contentService,
+    IContentTypeService contentTypeService,
     MigrationContentRootLookup rootLookup,
     IWordPressMigrationPropertyMapper propertyMapper)
 {
@@ -17,19 +18,19 @@ public sealed class WordPressMigrationContentService(
             throw new ArgumentException("WordPress type cannot be empty.", nameof(wordPressType));
         }
 
-        MigrationContentRootLookup.MigrationSectionRoots roots = rootLookup.GetRequiredSectionRoots();
         string normalizedType = NormalizeToken(wordPressType);
-
-        return normalizedType switch
+        string sectionAlias = normalizedType switch
         {
-            "report" or "reports" => roots.Reports,
-            "membership" or "memberships" => roots.Memberships,
-            "directory" or "directories" or "sponsor" or "sponsors" => roots.Memberships,
-            "reference" or "references" => roots.References,
-            "event" or "events" => roots.Events,
-            "news" or "post" or "posts" => roots.News,
+            "report" or "reports" => MigrationContentRootLookup.ReportsPageAlias,
+            "membership" or "memberships" => MigrationContentRootLookup.MembershipsPageAlias,
+            "directory" or "directories" or "sponsor" or "sponsors" => MigrationContentRootLookup.MembershipsPageAlias,
+            "reference" or "references" => MigrationContentRootLookup.ReferencesPageAlias,
+            "event" or "events" => MigrationContentRootLookup.EventsPageAlias,
+            "news" or "post" or "posts" => MigrationContentRootLookup.NewsPageAlias,
             _ => throw new InvalidOperationException($"No migration section mapping exists for WordPress type '{wordPressType}'.")
         };
+
+        return rootLookup.GetRequiredSectionRoot(sectionAlias);
     }
 
     public IContent UpsertUnderWordPressSection(
@@ -39,13 +40,20 @@ public sealed class WordPressMigrationContentService(
         string? slug,
         Action<IContent>? mapValues = null,
         bool publish = true,
+        bool allowCreate = true,
+        bool dryRun = false,
         int userId = -1)
     {
         IContent parent = GetParentForWordPressType(wordPressType);
-        return UpsertChild(parent, contentTypeAlias, name, slug, mapValues, publish, userId);
+        return UpsertChild(parent, contentTypeAlias, name, slug, mapValues, publish, allowCreate, dryRun, userId);
     }
 
     public IContent Upsert(WordPressMigrationItem item, int userId = -1)
+    {
+        return Upsert(item, userId, allowCreate: true, dryRun: false);
+    }
+
+    public IContent Upsert(WordPressMigrationItem item, int userId = -1, bool allowCreate = true, bool dryRun = false)
     {
         if (item is null)
         {
@@ -57,8 +65,10 @@ public sealed class WordPressMigrationContentService(
             item.ContentTypeAlias,
             item.Name,
             item.Slug,
-            mapValues: content => propertyMapper.ApplyValues(content, item.Values),
+            mapValues: content => propertyMapper.ApplyValues(content, item.Values, item.WordPressType, dryRun),
             publish: item.Publish,
+            allowCreate: allowCreate,
+            dryRun: dryRun,
             userId: userId);
     }
 
@@ -69,6 +79,8 @@ public sealed class WordPressMigrationContentService(
         string? slug,
         Action<IContent>? mapValues = null,
         bool publish = true,
+        bool allowCreate = true,
+        bool dryRun = false,
         int userId = -1)
     {
         if (parent is null)
@@ -89,8 +101,15 @@ public sealed class WordPressMigrationContentService(
         string normalizedSlug = NormalizeSlug(slug ?? name);
         IContent? existing = FindExistingChildBySlug(parent.Id, contentTypeAlias, normalizedSlug);
 
-        IContent content = existing
-            ?? contentService.Create(name, parent.Id, contentTypeAlias, userId);
+        if (existing is null && !allowCreate)
+        {
+            throw new WordPressMigrationSkipItemException(
+                $"Skipped because no existing '{contentTypeAlias}' item matched slug '{normalizedSlug}'.");
+        }
+
+        IContent content = dryRun
+            ? contentService.Create(name, parent.Id, contentTypeAlias, userId)
+            : existing ?? contentService.Create(name, parent.Id, contentTypeAlias, userId);
 
         content.Name = name.Trim();
 
@@ -101,14 +120,36 @@ public sealed class WordPressMigrationContentService(
 
         mapValues?.Invoke(content);
 
-        contentService.Save([content], userId);
+        EnsureDefaultTemplateAssigned(content);
 
-        if (publish)
+        if (!dryRun)
         {
-            contentService.Publish(content, Array.Empty<string>(), userId);
+            contentService.Save([content], userId);
+
+            if (publish)
+            {
+                contentService.Publish(content, Array.Empty<string>(), userId);
+            }
         }
 
         return content;
+    }
+
+    private void EnsureDefaultTemplateAssigned(IContent content)
+    {
+        if (content.TemplateId > 0)
+        {
+            return;
+        }
+
+        IContentType? fullContentType = contentTypeService.Get(content.ContentTypeId);
+        int? defaultTemplateId = fullContentType?.DefaultTemplateId;
+        if (!defaultTemplateId.HasValue || defaultTemplateId.Value <= 0)
+        {
+            return;
+        }
+
+        content.TemplateId = defaultTemplateId.Value;
     }
 
     private IContent? FindExistingChildBySlug(int parentId, string contentTypeAlias, string normalizedSlug)
@@ -127,9 +168,20 @@ public sealed class WordPressMigrationContentService(
                 return null;
             }
 
+            // First, try to match by umbracoUrlName (published content)
             IContent? match = page.FirstOrDefault(child =>
                 string.Equals(child.ContentType.Alias, contentTypeAlias, StringComparison.OrdinalIgnoreCase)
                 && string.Equals(NormalizeSlug(GetUrlName(child)), normalizedSlug, StringComparison.OrdinalIgnoreCase));
+
+            if (match is not null)
+            {
+                return match;
+            }
+
+            // If not found by URL name, try matching by normalized name (for unpublished content)
+            match = page.FirstOrDefault(child =>
+                string.Equals(child.ContentType.Alias, contentTypeAlias, StringComparison.OrdinalIgnoreCase)
+                && string.Equals(NormalizeSlug(child.Name ?? string.Empty), normalizedSlug, StringComparison.OrdinalIgnoreCase));
 
             if (match is not null)
             {

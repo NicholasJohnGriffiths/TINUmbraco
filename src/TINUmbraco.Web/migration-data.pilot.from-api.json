@@ -1,0 +1,82 @@
+[
+    {
+        "wordPressType":  "reports",
+        "contentTypeAlias":  "reportPage",
+        "name":  "2025 TIN Report",
+        "slug":  "2025-tin-report",
+        "values":  {
+                       "title":  "2025 TIN Report",
+                       "pageHeading":  "2025 TIN Report",
+                       "publishDate":  "2025-10-01",
+                       "publishedAtUtc":  "2025-10-01T10:56:54.0000000Z",
+                       "modifiedAtUtc":  "2025-11-09T17:46:01.0000000Z",
+                       "seoTitle":  "2025 TIN Report | TIN – Technology Investment Network",
+                       "body":  "\u003cp\u003eThe 2025 TIN Report delivers essential intelligence on New Zealand\u0027s technology export sector, continuing nearly two decades of independent data collection and analysis. This year\u0027s edition examines the country\u0027s 200 highest-revenue technology companies across Hi-tech Manufacturing, ICT, and Biotechnology, revealing critical trends in performance, investment, and growth.\u003c/p\u003e\n\n\u003cp\u003eDrawing from surveys of over 1,300 firms, the report provides actionable insights into sector performance metrics, export market opportunities, ownership patterns, and M\u0026A activity. Readers gain access to comprehensive company profiles featuring revenue rankings, employment data, and strategic decisions, alongside an exclusive directory of 100 high-potential start-ups poised to shape the sector\u0027s future.\u003c/p\u003e\n\n\u003cp\u003eWith detailed analysis of regional contributions, employment trends, and the investment landscape, the 2025 TIN Report serves as an essential decision-making tool for investors evaluating opportunities, executives benchmarking performance, and policymakers supporting New Zealand\u0027s innovation economy. As the authoritative annual benchmark for the country\u0027s technology sector, this report offers the data-driven perspective needed to navigate an evolving global market.\u003c/p\u003e\n\n\u003cp\u003eWant deeper insights into New Zealand\u0027s tech sector? \u003ca href=\"https://tin100.com/membership/\"\u003eTIN membership\u003c/a\u003e includes the full TIN Report plus exclusive access to networking events and increased visibility amongst TIN\u0027s network of government agencies, investors, and New Zealand tech sector companies—giving you the competitive edge to make informed decisions and valuable connections.\u003c/p\u003e",
+                       "featuredImage":  "https://tin100.com/wp-content/uploads/2025/10/2025-TIN-Report.jpg",
+                       "heroImage":  "https://tin100.com/wp-content/uploads/2025/10/2025-TIN-Report.jpg",
+                       "coverImage":  "https://tin100.com/wp-content/uploads/2025/10/2025-TIN-Report.jpg",
+                       "thumbnail":  "https://tin100.com/wp-content/uploads/2025/10/2025-TIN-Report.jpg"
+                   },
+        "publish":  true
+    },
+    {
+        "wordPressType":  "reports",
+        "contentTypeAlias":  "reportPage",
+        "name":  "2025 Technology Investment Report",
+        "slug":  "2025-technology-investment-report",
+        "values":  {
+                       "title":  "2025 Technology Investment Report",
+                       "pageHeading":  "Technology Investment Report 2025",
+                       "publishDate":  "2025-08-26",
+                       "publishedAtUtc":  "2025-08-26T11:37:42.0000000Z",
+                       "modifiedAtUtc":  "2025-08-28T09:27:09.0000000Z",
+                       "seoTitle":  "2025 Technology Investment Report | TIN – Technology Investment Network",
+                       "body":  "Free Report",
+                       "featuredImage":  "https://tin100.com/wp-content/uploads/2025/07/Technology-Investment-Report-2025-TIN.jpg",
+                       "heroImage":  "https://tin100.com/wp-content/uploads/2025/07/Technology-Investment-Report-2025-TIN.jpg",
+                       "coverImage":  "https://tin100.com/wp-content/uploads/2025/07/Technology-Investment-Report-2025-TIN.jpg",
+                       "thumbnail":  "https://tin100.com/wp-content/uploads/2025/07/Technology-Investment-Report-2025-TIN.jpg"
+                   },
+        "publish":  true
+    },
+    {
+        "wordPressType":  "reports",
+        "contentTypeAlias":  "reportPage",
+        "name":  "2024 TIN Report",
+        "slug":  "2024-tin-report",
+        "values":  {
+                       "title":  "2024 TIN Report",
+                       "pageHeading":  "2024 TIN Report",
+                       "publishDate":  "2024-09-17",
+                       "publishedAtUtc":  "2024-09-16T15:32:32.0000000Z",
+                       "modifiedAtUtc":  "2024-11-21T08:31:32.0000000Z",
+                       "seoTitle":  "2024 TIN Report | TIN – Technology Investment Network",
+                       "body":  "Marking its 20th anniversary, the 2024 Technology Investment Network (TIN) Report offers a comprehensive analysis of New Zealand\u0027s top tech exporters in Hi-tech Manufacturing, ICT, and Biotechnology. This landmark edition showcases the performance of the country\u0027s 200 leading tech firms, providing crucial insights into sector dynamics, regional impacts, and key markets. The report features in-depth analysis of company performance and growth trends, detailed profiles of top 200 companies, and a spotlight on 100 emerging Kiwi tech start-ups. It also includes analysis of primary and secondary sector performance and regional trends, offering a holistic view of the industry. As the definitive resource for New Zealand\u0027s tech ecosystem, the 2024 TIN Report is invaluable for investors, business leaders, policymakers, and anyone interested in the future of the country\u0027s innovation-driven economy. See inside the 2024 TIN Report. Buy Now",
+                       "featuredImage":  "https://tin100.com/wp-content/uploads/2024/09/2024-TIN-Report-Cover.jpg",
+                       "heroImage":  "https://tin100.com/wp-content/uploads/2024/09/2024-TIN-Report-Cover.jpg",
+                       "coverImage":  "https://tin100.com/wp-content/uploads/2024/09/2024-TIN-Report-Cover.jpg",
+                       "thumbnail":  "https://tin100.com/wp-content/uploads/2024/09/2024-TIN-Report-Cover.jpg"
+                   },
+        "publish":  true
+    },
+    {
+        "wordPressType":  "reports",
+        "contentTypeAlias":  "reportPage",
+        "name":  "2024 NZ Healthtech Report",
+        "slug":  "2024-nz-healthtech-report",
+        "values":  {
+                       "title":  "2024 NZ Healthtech Report",
+                       "pageHeading":  "2024 NZ Healthtech Report",
+                       "publishDate":  "2024-08-14",
+                       "publishedAtUtc":  "2024-08-14T09:51:28.0000000Z",
+                       "modifiedAtUtc":  "2024-08-14T11:19:31.0000000Z",
+                       "seoTitle":  "2024 NZ Healthtech Report | TIN – Technology Investment Network",
+                       "body":  "Free Report",
+                       "featuredImage":  "https://tin100.com/wp-content/uploads/2024/08/Online-Drop-Shadow-Healthtech-Report-Cover-Image-Lowres.jpg",
+                       "heroImage":  "https://tin100.com/wp-content/uploads/2024/08/Online-Drop-Shadow-Healthtech-Report-Cover-Image-Lowres.jpg",
+                       "coverImage":  "https://tin100.com/wp-content/uploads/2024/08/Online-Drop-Shadow-Healthtech-Report-Cover-Image-Lowres.jpg",
+                       "thumbnail":  "https://tin100.com/wp-content/uploads/2024/08/Online-Drop-Shadow-Healthtech-Report-Cover-Image-Lowres.jpg"
+                   },
+        "publish":  true
+    }
+]

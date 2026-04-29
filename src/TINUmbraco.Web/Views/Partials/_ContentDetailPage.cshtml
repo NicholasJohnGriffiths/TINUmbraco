@@ -1,0 +1,25 @@
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<IPublishedContent>
+@{
+    Layout = "~/Views/_Master.cshtml";
+
+    string pageTitle = Model.Value<string>("pageTitle") ?? Model.Name;
+    string pageHeading = Model.Value<string>("pageHeading") ?? pageTitle;
+    string? heroText = Model.Value<string>("heroText");
+    IHtmlContent? mainContent = Model.Value<IHtmlContent>("mainContent");
+}
+@if (Model.Parent is not null)
+{
+    <a class="back" href="@Model.Parent.Url()">Back to @Model.Parent.Name</a>
+}
+
+<h1 class="page-title">@pageHeading</h1>
+
+@if (!string.IsNullOrWhiteSpace(heroText))
+{
+    <p class="lead">@heroText</p>
+}
+
+@if (mainContent is not null)
+{
+    <article class="content">@mainContent</article>
+}

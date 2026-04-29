@@ -1,0 +1,90 @@
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<IPublishedContent>
+@inject TINUmbraco.Web.Tools.ToolsAccessService ToolsAccessService
+@{
+    IPublishedContent homePage = Model.Root() ?? Model;
+
+    string siteTitle = homePage.Value<string>("pageTitle") ?? homePage.Name;
+    string? navigationTitle = homePage.Value<string>("navigationTitle");
+    string? pageSeoTitle = Model.Value<string>("seoTitle");
+    string? pageSeoDescription = Model.Value<string>("seoDescription");
+    string documentTitle = string.IsNullOrWhiteSpace(pageSeoTitle)
+        ? (Model.Value<string>("pageTitle") ?? Model.Name)
+        : pageSeoTitle;
+
+    IPublishedContent? siteLogo = homePage.Value<IPublishedContent>("siteLogo");
+    string? siteLogoUrl = siteLogo?.Url();
+    string siteLogoAlt = siteLogo?.Name ?? siteTitle;
+
+    IReadOnlyList<IPublishedContent> navigationItems = homePage
+        .Children()
+        .Where(x => x.IsVisible())
+        .OrderBy(x => x.SortOrder)
+        .ToList();
+    bool showToolsLink = ToolsAccessService.CanAccess(Context);
+    bool toolsPageIsActive = Context.Request.Path.StartsWithSegments("/tools/migration", StringComparison.OrdinalIgnoreCase);
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@documentTitle</title>
+    @if (!string.IsNullOrWhiteSpace(pageSeoDescription))
+    {
+        <meta name="description" content="@pageSeoDescription" />
+    }
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script src="~/js/site.js" asp-append-version="true" defer></script>
+</head>
+<body>
+    <div class="shell">
+        <header class="masthead">
+            <a class="brand" href="@homePage.Url()">
+                @if (!string.IsNullOrWhiteSpace(siteLogoUrl))
+                {
+                    <img class="logo" src="@siteLogoUrl" alt="@siteLogoAlt" />
+                }
+
+                <div class="brand-copy">
+                    <p class="brand-title">@siteTitle</p>
+                    @if (!string.IsNullOrWhiteSpace(navigationTitle))
+                    {
+                        <p class="nav-title">@navigationTitle</p>
+                    }
+                </div>
+            </a>
+
+            @if (navigationItems.Count > 0 || showToolsLink)
+            {
+                <button class="menu-toggle" type="button" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="menu-toggle-bar"></span>
+                    <span class="menu-toggle-bar"></span>
+                    <span class="menu-toggle-bar"></span>
+                </button>
+
+                <nav aria-label="Primary navigation">
+                    <ul class="menu">
+                        @foreach (IPublishedContent navItem in navigationItems)
+                        {
+                            bool isActive = Model.Id == navItem.Id || Model.Path.Split(',').Contains(navItem.Id.ToString());
+                            <li>
+                                <a href="@navItem.Url()" class="@(isActive ? "is-active" : null)" aria-current="@(isActive ? "page" : null)">@navItem.Name</a>
+                            </li>
+                        }
+                        @if (showToolsLink)
+                        {
+                            <li>
+                                <a href="/tools/migration" class="@(toolsPageIsActive ? "is-active" : null)" aria-current="@(toolsPageIsActive ? "page" : null)">Tools / Migration</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            }
+        </header>
+
+        <main class="page-body">
+            @RenderBody()
+        </main>
+    </div>
+</body>
+</html>

@@ -61,7 +61,103 @@ param sqlServerName string = toLower('${appName}sql')
 @description('Name of the App Service environment variable for Umbraco DB connection string')
 param umbracoConnectionStringName string = 'umbracoDbDSN'
 
-var sqlConnectionString = 'Server=tcp:${sqlServerName}.${environment().suffixes.sqlServerHostname},1433;Initial Catalog=${sqlDatabaseName};Persist Security Info=False;User ID=${sqlAdminLogin};Password=${sqlAdminPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
+@description('Name of the Key Vault that stores the Umbraco SQL connection string secret')
+param keyVaultName string = toLower('${appName}kv')
+
+@description('Name of the Key Vault secret containing the Umbraco SQL connection string')
+param keyVaultSqlConnectionSecretName string = 'umbraco-db-connection'
+
+@description('Name of the Azure Storage account used by Umbraco media and image cache')
+@minLength(3)
+@maxLength(24)
+param mediaStorageAccountName string = toLower('${appName}st')
+
+@description('Blob container name for Umbraco media files')
+param mediaContainerName string = 'media'
+
+@description('Blob container name for Umbraco ImageSharp cache files')
+param imageSharpCacheContainerName string = 'cache'
+
+@description('Name of the Key Vault secret containing the media storage connection string')
+param keyVaultMediaConnectionSecretName string = 'umbraco-media-storage-connection'
+
+var sqlConnectionString = 'Server=tcp:${sqlServerName}${environment().suffixes.sqlServerHostname},1433;Initial Catalog=${sqlDatabaseName};Persist Security Info=False;User ID=${sqlAdminLogin};Password=${sqlAdminPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
+var mediaStorageConnectionString = 'DefaultEndpointsProtocol=https;AccountName=${mediaStorageAccount.name};AccountKey=${mediaStorageAccount.listKeys().keys[0].value};EndpointSuffix=${environment().suffixes.storage}'
+var umbracoConnectionStringEnvironmentVariableName = 'ConnectionStrings__${umbracoConnectionStringName}'
+
+resource mediaStorageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
+  name: mediaStorageAccountName
+  location: location
+  kind: 'StorageV2'
+  sku: {
+    name: 'Standard_LRS'
+  }
+  properties: {
+    allowBlobPublicAccess: false
+    minimumTlsVersion: 'TLS1_2'
+    supportsHttpsTrafficOnly: true
+    accessTier: 'Hot'
+  }
+}
+
+resource mediaBlobService 'Microsoft.Storage/storageAccounts/blobServices@2023-05-01' = {
+  parent: mediaStorageAccount
+  name: 'default'
+}
+
+resource mediaBlobContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2023-05-01' = {
+  parent: mediaBlobService
+  name: mediaContainerName
+  properties: {
+    publicAccess: 'None'
+  }
+}
+
+resource imageSharpCacheBlobContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2023-05-01' = {
+  parent: mediaBlobService
+  name: imageSharpCacheContainerName
+  properties: {
+    publicAccess: 'None'
+  }
+}
+
+resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' = {
+  name: keyVaultName
+  location: location
+  properties: {
+    tenantId: subscription().tenantId
+    sku: {
+      family: 'A'
+      name: 'standard'
+    }
+    enableRbacAuthorization: true
+    enabledForDeployment: false
+    enabledForDiskEncryption: false
+    enabledForTemplateDeployment: true
+    publicNetworkAccess: 'Enabled'
+    softDeleteRetentionInDays: 90
+    networkAcls: {
+      bypass: 'AzureServices'
+      defaultAction: 'Allow'
+    }
+  }
+}
+
+resource sqlConnectionStringSecret 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = {
+  parent: keyVault
+  name: keyVaultSqlConnectionSecretName
+  properties: {
+    value: sqlConnectionString
+  }
+}
+
+resource mediaStorageConnectionStringSecret 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = {
+  parent: keyVault
+  name: keyVaultMediaConnectionSecretName
+  properties: {
+    value: mediaStorageConnectionString
+  }
+}
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2023-12-01' = {
   name: appServicePlanName
@@ -81,6 +177,9 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
   name: webAppName
   location: location
   kind: 'app,linux'
+  identity: {
+    type: 'SystemAssigned'
+  }
   properties: {
     serverFarmId: appServicePlan.id
     httpsOnly: true
@@ -97,18 +196,37 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
           value: 'Production'
         }
         {
-          name: 'WEBSITE_RUN_FROM_PACKAGE'
-          value: '1'
+          name: umbracoConnectionStringEnvironmentVariableName
+          value: '@Microsoft.KeyVault(SecretUri=${sqlConnectionStringSecret.properties.secretUriWithVersion})'
         }
-      ]
-      connectionStrings: [
         {
-          name: umbracoConnectionStringName
-          connectionString: sqlConnectionString
-          type: 'SQLAzure'
+          name: 'Umbraco__Storage__AzureBlob__Media__ConnectionString'
+          value: '@Microsoft.KeyVault(SecretUri=${mediaStorageConnectionStringSecret.properties.secretUriWithVersion})'
+        }
+        {
+          name: 'Umbraco__Storage__AzureBlob__Media__ContainerName'
+          value: mediaContainerName
+        }
+        {
+          name: 'Umbraco__Storage__AzureBlob__ImageSharpCache__ConnectionString'
+          value: '@Microsoft.KeyVault(SecretUri=${mediaStorageConnectionStringSecret.properties.secretUriWithVersion})'
+        }
+        {
+          name: 'Umbraco__Storage__AzureBlob__ImageSharpCache__ContainerName'
+          value: imageSharpCacheContainerName
         }
       ]
     }
+  }
+}
+
+resource webAppKeyVaultSecretsUserRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(keyVault.id, webApp.id, 'key-vault-secrets-user')
+  scope: keyVault
+  properties: {
+    principalId: webApp.identity.principalId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '4633458b-17de-408a-b874-0445c86b69e6')
   }
 }
 
@@ -133,6 +251,9 @@ resource stagingSlot 'Microsoft.Web/sites/slots@2023-12-01' = if (enableStagingS
   name: stagingSlotName
   location: location
   kind: 'app,linux'
+  identity: {
+    type: 'SystemAssigned'
+  }
   properties: {
     serverFarmId: appServicePlan.id
     httpsOnly: true
@@ -148,18 +269,37 @@ resource stagingSlot 'Microsoft.Web/sites/slots@2023-12-01' = if (enableStagingS
           value: 'Production'
         }
         {
-          name: 'WEBSITE_RUN_FROM_PACKAGE'
-          value: '1'
+          name: umbracoConnectionStringEnvironmentVariableName
+          value: '@Microsoft.KeyVault(SecretUri=${sqlConnectionStringSecret.properties.secretUriWithVersion})'
         }
-      ]
-      connectionStrings: [
         {
-          name: umbracoConnectionStringName
-          connectionString: sqlConnectionString
-          type: 'SQLAzure'
+          name: 'Umbraco__Storage__AzureBlob__Media__ConnectionString'
+          value: '@Microsoft.KeyVault(SecretUri=${mediaStorageConnectionStringSecret.properties.secretUriWithVersion})'
+        }
+        {
+          name: 'Umbraco__Storage__AzureBlob__Media__ContainerName'
+          value: mediaContainerName
+        }
+        {
+          name: 'Umbraco__Storage__AzureBlob__ImageSharpCache__ConnectionString'
+          value: '@Microsoft.KeyVault(SecretUri=${mediaStorageConnectionStringSecret.properties.secretUriWithVersion})'
+        }
+        {
+          name: 'Umbraco__Storage__AzureBlob__ImageSharpCache__ContainerName'
+          value: imageSharpCacheContainerName
         }
       ]
     }
+  }
+}
+
+resource stagingSlotKeyVaultSecretsUserRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (enableStagingSlot) {
+  name: guid(keyVault.id, stagingSlot.id, 'key-vault-secrets-user')
+  scope: keyVault
+  properties: {
+    principalId: stagingSlot!.identity.principalId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '4633458b-17de-408a-b874-0445c86b69e6')
   }
 }
 
@@ -248,3 +388,5 @@ output stagingSlotName string = enableStagingSlot ? stagingSlotName : ''
 output stagingSlotUrl string = enableStagingSlot ? 'https://${webApp.name}-${stagingSlotName}.azurewebsites.net' : ''
 output sqlServerName string = sqlServer.name
 output sqlDatabaseName string = sqlDatabase.name
+output keyVaultName string = keyVault.name
+output mediaStorageAccountName string = mediaStorageAccount.name

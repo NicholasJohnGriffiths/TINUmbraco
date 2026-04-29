@@ -12,42 +12,20 @@ public sealed class MigrationContentRootLookup(IContentService contentService)
     public const string EventsPageAlias = "eventsPage";
     public const string NewsPageAlias = "newsPage";
 
-    private static readonly string[] RequiredSectionAliases =
-    [
-        ReportsPageAlias,
-        MembershipsPageAlias,
-        ReferencesPageAlias,
-        EventsPageAlias,
-        NewsPageAlias
-    ];
-
-    public MigrationSectionRoots GetRequiredSectionRoots()
+    public IContent GetRequiredSectionRoot(string sectionAlias)
     {
-        IContent home = GetRequiredHome();
-        IReadOnlyList<IContent> homeChildren = contentService
-            .GetPagedChildren(home.Id, 0, int.MaxValue, out _, null, null, null, false)
-            .ToList();
-
-        Dictionary<string, IContent> rootsByAlias = homeChildren
-            .Where(x => RequiredSectionAliases.Contains(x.ContentType.Alias, StringComparer.OrdinalIgnoreCase))
-            .ToDictionary(x => x.ContentType.Alias, StringComparer.OrdinalIgnoreCase);
-
-        string[] missing = RequiredSectionAliases
-            .Where(alias => !rootsByAlias.ContainsKey(alias))
-            .ToArray();
-
-        if (missing.Length > 0)
+        if (string.IsNullOrWhiteSpace(sectionAlias))
         {
-            throw new InvalidOperationException(
-                $"Missing expected section roots under Home: {string.Join(", ", missing)}");
+            throw new ArgumentException("Section alias cannot be empty.", nameof(sectionAlias));
         }
 
-        return new MigrationSectionRoots(
-            rootsByAlias[ReportsPageAlias],
-            rootsByAlias[MembershipsPageAlias],
-            rootsByAlias[ReferencesPageAlias],
-            rootsByAlias[EventsPageAlias],
-            rootsByAlias[NewsPageAlias]);
+        IContent home = GetRequiredHome();
+        IContent? sectionRoot = contentService
+            .GetPagedChildren(home.Id, 0, int.MaxValue, out _, null, null, null, false)
+            .FirstOrDefault(x => string.Equals(x.ContentType.Alias, sectionAlias, StringComparison.OrdinalIgnoreCase));
+
+        return sectionRoot
+            ?? throw new InvalidOperationException($"Missing expected section root under Home: {sectionAlias}");
     }
 
     public IContent GetRequiredHome()
@@ -57,11 +35,4 @@ public sealed class MigrationContentRootLookup(IContentService contentService)
             ?? contentService.GetRootContent().FirstOrDefault()
             ?? throw new InvalidOperationException("No root content found.");
     }
-
-    public sealed record MigrationSectionRoots(
-        IContent Reports,
-        IContent Memberships,
-        IContent References,
-        IContent Events,
-        IContent News);
 }

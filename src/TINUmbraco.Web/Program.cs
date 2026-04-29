@@ -1,6 +1,7 @@
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using TINUmbraco.Web.Migrations;
+using TINUmbraco.Web.Tools;
 using Umbraco.Cms.Core.DependencyInjection;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,7 @@ string? keyVaultUri = builder.Configuration["AzureKeyVault:VaultUri"];
 string keyVaultSecretName = builder.Configuration["AzureKeyVault:ConnectionStringSecretName"] ?? "umbraco-db-connection";
 string mediaConnectionStringSecretName = builder.Configuration["AzureKeyVault:MediaConnectionStringSecretName"] ?? "umbraco-media-storage-connection";
 
+builder.Services.AddControllersWithViews();
 builder.Services.Configure<WordPressMigrationOptions>(builder.Configuration.GetSection("Migration:WordPress"));
 
 if (!string.IsNullOrWhiteSpace(keyVaultUri))
@@ -26,9 +28,13 @@ if (!string.IsNullOrWhiteSpace(keyVaultUri))
 }
 
 builder.Services.AddScoped<MigrationContentRootLookup>();
+builder.Services.AddHttpClient(nameof(WordPressMigrationMediaService));
+builder.Services.AddScoped<WordPressMigrationMediaService>();
 builder.Services.AddScoped<IWordPressMigrationPropertyMapper, WordPressMigrationPropertyMapper>();
 builder.Services.AddScoped<WordPressMigrationContentService>();
 builder.Services.AddScoped<WordPressMigrationRunner>();
+builder.Services.AddSingleton<MigrationDashboardService>();
+builder.Services.AddSingleton<ToolsAccessService>();
 
 builder.CreateUmbracoBuilder()
     .AddBackOffice()
@@ -47,7 +53,7 @@ WordPressMigrationOptions migrationOptions = app.Services
     .GetRequiredService<Microsoft.Extensions.Options.IOptions<WordPressMigrationOptions>>()
     .Value;
 
-if (!string.IsNullOrWhiteSpace(migrationOptions.JsonPath))
+if (migrationOptions.RunOnStartup && !string.IsNullOrWhiteSpace(migrationOptions.JsonPath))
 {
     using IServiceScope scope = app.Services.CreateScope();
     WordPressMigrationRunner migrationRunner = scope.ServiceProvider.GetRequiredService<WordPressMigrationRunner>();
@@ -66,5 +72,7 @@ app.UseUmbraco()
         u.UseBackOfficeEndpoints();
         u.UseWebsiteEndpoints();
     });
+
+app.MapControllers();
 
 await app.RunAsync();

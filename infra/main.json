@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.42.1.51946",
-      "templateHash": "8028215862815909620"
+      "templateHash": "14782287077470234455"
     }
   },
   "parameters": {
@@ -135,12 +135,149 @@
       "metadata": {
         "description": "Name of the App Service environment variable for Umbraco DB connection string"
       }
+    },
+    "keyVaultName": {
+      "type": "string",
+      "defaultValue": "[toLower(format('{0}kv', parameters('appName')))]",
+      "metadata": {
+        "description": "Name of the Key Vault that stores the Umbraco SQL connection string secret"
+      }
+    },
+    "keyVaultSqlConnectionSecretName": {
+      "type": "string",
+      "defaultValue": "umbraco-db-connection",
+      "metadata": {
+        "description": "Name of the Key Vault secret containing the Umbraco SQL connection string"
+      }
+    },
+    "mediaStorageAccountName": {
+      "type": "string",
+      "defaultValue": "[toLower(format('{0}st', parameters('appName')))]",
+      "minLength": 3,
+      "maxLength": 24,
+      "metadata": {
+        "description": "Name of the Azure Storage account used by Umbraco media and image cache"
+      }
+    },
+    "mediaContainerName": {
+      "type": "string",
+      "defaultValue": "media",
+      "metadata": {
+        "description": "Blob container name for Umbraco media files"
+      }
+    },
+    "imageSharpCacheContainerName": {
+      "type": "string",
+      "defaultValue": "cache",
+      "metadata": {
+        "description": "Blob container name for Umbraco ImageSharp cache files"
+      }
+    },
+    "keyVaultMediaConnectionSecretName": {
+      "type": "string",
+      "defaultValue": "umbraco-media-storage-connection",
+      "metadata": {
+        "description": "Name of the Key Vault secret containing the media storage connection string"
+      }
     }
   },
   "variables": {
-    "sqlConnectionString": "[format('Server=tcp:{0}.{1},1433;Initial Catalog={2};Persist Security Info=False;User ID={3};Password={4};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;', parameters('sqlServerName'), environment().suffixes.sqlServerHostname, parameters('sqlDatabaseName'), parameters('sqlAdminLogin'), parameters('sqlAdminPassword'))]"
+    "sqlConnectionString": "[format('Server=tcp:{0}{1},1433;Initial Catalog={2};Persist Security Info=False;User ID={3};Password={4};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;', parameters('sqlServerName'), environment().suffixes.sqlServerHostname, parameters('sqlDatabaseName'), parameters('sqlAdminLogin'), parameters('sqlAdminPassword'))]",
+    "umbracoConnectionStringEnvironmentVariableName": "[format('ConnectionStrings__{0}', parameters('umbracoConnectionStringName'))]"
   },
   "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2023-05-01",
+      "name": "[parameters('mediaStorageAccountName')]",
+      "location": "[parameters('location')]",
+      "kind": "StorageV2",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "properties": {
+        "allowBlobPublicAccess": false,
+        "minimumTlsVersion": "TLS1_2",
+        "supportsHttpsTrafficOnly": true,
+        "accessTier": "Hot"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices",
+      "apiVersion": "2023-05-01",
+      "name": "[format('{0}/{1}', parameters('mediaStorageAccountName'), 'default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('mediaStorageAccountName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+      "apiVersion": "2023-05-01",
+      "name": "[format('{0}/{1}/{2}', parameters('mediaStorageAccountName'), 'default', parameters('mediaContainerName'))]",
+      "properties": {
+        "publicAccess": "None"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('mediaStorageAccountName'), 'default')]"
+      ]
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+      "apiVersion": "2023-05-01",
+      "name": "[format('{0}/{1}/{2}', parameters('mediaStorageAccountName'), 'default', parameters('imageSharpCacheContainerName'))]",
+      "properties": {
+        "publicAccess": "None"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('mediaStorageAccountName'), 'default')]"
+      ]
+    },
+    {
+      "type": "Microsoft.KeyVault/vaults",
+      "apiVersion": "2023-07-01",
+      "name": "[parameters('keyVaultName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "tenantId": "[subscription().tenantId]",
+        "sku": {
+          "family": "A",
+          "name": "standard"
+        },
+        "enableRbacAuthorization": true,
+        "enabledForDeployment": false,
+        "enabledForDiskEncryption": false,
+        "enabledForTemplateDeployment": true,
+        "publicNetworkAccess": "Enabled",
+        "softDeleteRetentionInDays": 90,
+        "networkAcls": {
+          "bypass": "AzureServices",
+          "defaultAction": "Allow"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.KeyVault/vaults/secrets",
+      "apiVersion": "2023-07-01",
+      "name": "[format('{0}/{1}', parameters('keyVaultName'), parameters('keyVaultSqlConnectionSecretName'))]",
+      "properties": {
+        "value": "[variables('sqlConnectionString')]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.KeyVault/vaults/secrets",
+      "apiVersion": "2023-07-01",
+      "name": "[format('{0}/{1}', parameters('keyVaultName'), parameters('keyVaultMediaConnectionSecretName'))]",
+      "properties": {
+        "value": "[format('DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};EndpointSuffix={2}', parameters('mediaStorageAccountName'), listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('mediaStorageAccountName')), '2023-05-01').keys[0].value, environment().suffixes.storage)]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('mediaStorageAccountName'))]"
+      ]
+    },
     {
       "type": "Microsoft.Web/serverfarms",
       "apiVersion": "2023-12-01",
@@ -162,6 +299,9 @@
       "name": "[parameters('webAppName')]",
       "location": "[parameters('location')]",
       "kind": "app,linux",
+      "identity": {
+        "type": "SystemAssigned"
+      },
       "properties": {
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]",
         "httpsOnly": true,
@@ -178,21 +318,47 @@
               "value": "Production"
             },
             {
-              "name": "WEBSITE_RUN_FROM_PACKAGE",
-              "value": "1"
-            }
-          ],
-          "connectionStrings": [
+              "name": "[variables('umbracoConnectionStringEnvironmentVariableName')]",
+              "value": "[format('@Microsoft.KeyVault(SecretUri={0})', reference(resourceId('Microsoft.KeyVault/vaults/secrets', parameters('keyVaultName'), parameters('keyVaultSqlConnectionSecretName')), '2023-07-01').secretUriWithVersion)]"
+            },
             {
-              "name": "[parameters('umbracoConnectionStringName')]",
-              "connectionString": "[variables('sqlConnectionString')]",
-              "type": "SQLAzure"
+              "name": "Umbraco__Storage__AzureBlob__Media__ConnectionString",
+              "value": "[format('@Microsoft.KeyVault(SecretUri={0})', reference(resourceId('Microsoft.KeyVault/vaults/secrets', parameters('keyVaultName'), parameters('keyVaultMediaConnectionSecretName')), '2023-07-01').secretUriWithVersion)]"
+            },
+            {
+              "name": "Umbraco__Storage__AzureBlob__Media__ContainerName",
+              "value": "[parameters('mediaContainerName')]"
+            },
+            {
+              "name": "Umbraco__Storage__AzureBlob__ImageSharpCache__ConnectionString",
+              "value": "[format('@Microsoft.KeyVault(SecretUri={0})', reference(resourceId('Microsoft.KeyVault/vaults/secrets', parameters('keyVaultName'), parameters('keyVaultMediaConnectionSecretName')), '2023-07-01').secretUriWithVersion)]"
+            },
+            {
+              "name": "Umbraco__Storage__AzureBlob__ImageSharpCache__ContainerName",
+              "value": "[parameters('imageSharpCacheContainerName')]"
             }
           ]
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]",
+        "[resourceId('Microsoft.KeyVault/vaults/secrets', parameters('keyVaultName'), parameters('keyVaultMediaConnectionSecretName'))]",
+        "[resourceId('Microsoft.KeyVault/vaults/secrets', parameters('keyVaultName'), parameters('keyVaultSqlConnectionSecretName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "scope": "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]",
+      "name": "[guid(resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName')), resourceId('Microsoft.Web/sites', parameters('webAppName')), 'key-vault-secrets-user')]",
+      "properties": {
+        "principalId": "[reference(resourceId('Microsoft.Web/sites', parameters('webAppName')), '2023-12-01', 'full').identity.principalId]",
+        "principalType": "ServicePrincipal",
+        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '4633458b-17de-408a-b874-0445c86b69e6')]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]",
+        "[resourceId('Microsoft.Web/sites', parameters('webAppName'))]"
       ]
     },
     {
@@ -224,6 +390,9 @@
       "name": "[format('{0}/{1}', parameters('webAppName'), parameters('stagingSlotName'))]",
       "location": "[parameters('location')]",
       "kind": "app,linux",
+      "identity": {
+        "type": "SystemAssigned"
+      },
       "properties": {
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]",
         "httpsOnly": true,
@@ -239,22 +408,49 @@
               "value": "Production"
             },
             {
-              "name": "WEBSITE_RUN_FROM_PACKAGE",
-              "value": "1"
-            }
-          ],
-          "connectionStrings": [
+              "name": "[variables('umbracoConnectionStringEnvironmentVariableName')]",
+              "value": "[format('@Microsoft.KeyVault(SecretUri={0})', reference(resourceId('Microsoft.KeyVault/vaults/secrets', parameters('keyVaultName'), parameters('keyVaultSqlConnectionSecretName')), '2023-07-01').secretUriWithVersion)]"
+            },
             {
-              "name": "[parameters('umbracoConnectionStringName')]",
-              "connectionString": "[variables('sqlConnectionString')]",
-              "type": "SQLAzure"
+              "name": "Umbraco__Storage__AzureBlob__Media__ConnectionString",
+              "value": "[format('@Microsoft.KeyVault(SecretUri={0})', reference(resourceId('Microsoft.KeyVault/vaults/secrets', parameters('keyVaultName'), parameters('keyVaultMediaConnectionSecretName')), '2023-07-01').secretUriWithVersion)]"
+            },
+            {
+              "name": "Umbraco__Storage__AzureBlob__Media__ContainerName",
+              "value": "[parameters('mediaContainerName')]"
+            },
+            {
+              "name": "Umbraco__Storage__AzureBlob__ImageSharpCache__ConnectionString",
+              "value": "[format('@Microsoft.KeyVault(SecretUri={0})', reference(resourceId('Microsoft.KeyVault/vaults/secrets', parameters('keyVaultName'), parameters('keyVaultMediaConnectionSecretName')), '2023-07-01').secretUriWithVersion)]"
+            },
+            {
+              "name": "Umbraco__Storage__AzureBlob__ImageSharpCache__ContainerName",
+              "value": "[parameters('imageSharpCacheContainerName')]"
             }
           ]
         }
       },
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]",
+        "[resourceId('Microsoft.KeyVault/vaults/secrets', parameters('keyVaultName'), parameters('keyVaultMediaConnectionSecretName'))]",
+        "[resourceId('Microsoft.KeyVault/vaults/secrets', parameters('keyVaultName'), parameters('keyVaultSqlConnectionSecretName'))]",
         "[resourceId('Microsoft.Web/sites', parameters('webAppName'))]"
+      ]
+    },
+    {
+      "condition": "[parameters('enableStagingSlot')]",
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "scope": "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]",
+      "name": "[guid(resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName')), resourceId('Microsoft.Web/sites/slots', parameters('webAppName'), parameters('stagingSlotName')), 'key-vault-secrets-user')]",
+      "properties": {
+        "principalId": "[reference(resourceId('Microsoft.Web/sites/slots', parameters('webAppName'), parameters('stagingSlotName')), '2023-12-01', 'full').identity.principalId]",
+        "principalType": "ServicePrincipal",
+        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '4633458b-17de-408a-b874-0445c86b69e6')]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]",
+        "[resourceId('Microsoft.Web/sites/slots', parameters('webAppName'), parameters('stagingSlotName'))]"
       ]
     },
     {
@@ -396,6 +592,14 @@
     "sqlDatabaseName": {
       "type": "string",
       "value": "[parameters('sqlDatabaseName')]"
+    },
+    "keyVaultName": {
+      "type": "string",
+      "value": "[parameters('keyVaultName')]"
+    },
+    "mediaStorageAccountName": {
+      "type": "string",
+      "value": "[parameters('mediaStorageAccountName')]"
     }
   }
 }

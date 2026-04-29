@@ -1,0 +1,165 @@
+@model TINUmbraco.Web.Migrations.MigrationDashboardService.MigrationDashboardSnapshot
+@{
+    Layout = null;
+    string pageTitle = "Tools / Migration";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@pageTitle</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script src="~/js/site.js" asp-append-version="true" defer></script>
+    <script src="~/js/migration-dashboard.js" asp-append-version="true" defer></script>
+</head>
+<body>
+    <div class="shell">
+        <header class="masthead">
+            <a class="brand" href="/">
+                <div class="brand-copy">
+                    <p class="brand-title">TIN</p>
+                    <p class="nav-title">Migration tools</p>
+                </div>
+            </a>
+
+            <button class="menu-toggle" type="button" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="menu-toggle-bar"></span>
+                <span class="menu-toggle-bar"></span>
+                <span class="menu-toggle-bar"></span>
+            </button>
+
+            <nav aria-label="Primary navigation">
+                <ul class="menu">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/tools/migration" class="is-active" aria-current="page">Tools / Migration</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="page-body">
+            <section class="tool-hero">
+                <p class="kicker">Manual Run</p>
+                <h1 class="page-title">WordPress Migration Dashboard</h1>
+                <p class="lead">Run the configured migration dataset on demand and watch item-by-item progress, errors, and final counts.</p>
+            </section>
+
+            <section class="migration-dashboard"
+                     data-migration-dashboard
+                     data-status-url="/tools/migration/status"
+                     data-run-url="/tools/migration/run"
+                     data-preflight-url="/tools/migration/preflight">
+                <div class="tool-card tool-actions">
+                    <p class="section-title">Configured dataset</p>
+                    <label class="tool-label" for="migration-json-path">JSON file</label>
+                    <input id="migration-json-path"
+                           class="tool-input tool-mono"
+                           list="migration-json-options"
+                           type="text"
+                           data-json-path-input
+                           value="@Model.SelectedJsonPath"
+                           placeholder="migration-data.pilot.json" />
+                    <datalist id="migration-json-options">
+                        @foreach (string jsonPath in Model.AvailableJsonPaths)
+                        {
+                            <option value="@jsonPath"></option>
+                        }
+                    </datalist>
+                    <p class="tool-note">Configured default: <span class="tool-mono" data-field="configuredJsonPath">@(string.IsNullOrWhiteSpace(Model.ConfiguredJsonPath) ? "Not configured" : Model.ConfiguredJsonPath)</span></p>
+                    <div class="tool-button-row">
+                        <button class="tool-button" type="button" data-run-button-live @(Model.CanStart ? null : "disabled")>
+                            @(Model.IsRunning && !Model.IsDryRun ? "Live Run Running" : "Run Live")
+                        </button>
+                        <button class="tool-button tool-button-secondary" type="button" data-run-button-dry @(Model.CanStart ? null : "disabled")>
+                            @(Model.IsRunning && Model.IsDryRun ? "Dry Run Running" : "Run Dry")
+                        </button>
+                        <button class="tool-button tool-button-neutral" type="button" data-preflight-button>
+                            Check Preflight
+                        </button>
+                    </div>
+                    <p class="tool-note">Choose a listed dataset or type a different relative or absolute JSON path for this run.</p>
+                </div>
+
+                <div class="tool-grid">
+                    <article class="tool-card">
+                        <p class="section-title">Status</p>
+                        <p class="tool-stat" data-field="status">@Model.Status</p>
+                        <p class="tool-note" data-field="lastMessage">@Model.LastMessage</p>
+                    </article>
+
+                    <article class="tool-card">
+                        <p class="section-title">Mode</p>
+                        <p class="tool-stat" data-field="runModeLabel">@Model.RunModeLabel</p>
+                        <p class="tool-note">Live mode writes content. Dry run validates lookup, mapping, and routing without saving.</p>
+                    </article>
+
+                    <article class="tool-card">
+                        <p class="section-title">Current item</p>
+                        <p class="tool-stat" data-field="currentItemName">@(Model.CurrentItemName ?? "Waiting")</p>
+                        <p class="tool-note"><span data-field="currentWordPressType">@(Model.CurrentWordPressType ?? "-")</span> / <span data-field="currentContentTypeAlias">@(Model.CurrentContentTypeAlias ?? "-")</span></p>
+                    </article>
+
+                    <article class="tool-card">
+                        <p class="section-title">Progress</p>
+                        <p class="tool-stat"><span data-field="current">@Model.Current</span> / <span data-field="total">@Model.Total</span></p>
+                        <div class="tool-progress" role="progressbar" aria-label="Migration progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-field="progressBar">
+                            <div class="tool-progress-fill" data-field="progressFill"></div>
+                        </div>
+                        <p class="tool-note">Completion: <span data-field="progressPercent">0%</span></p>
+                        <p class="tool-note">Succeeded <span data-field="succeeded">@Model.Succeeded</span>, Failed <span data-field="failed">@Model.Failed</span>, Skipped <span data-field="skipped">@Model.Skipped</span></p>
+                    </article>
+                </div>
+
+                <div class="tool-grid tool-grid-wide">
+                    <article class="tool-card">
+                        <p class="section-title">Preflight</p>
+                        <p class="tool-note" data-field="preflightSummary">Run preflight to validate media folder readiness before migration.</p>
+                        <div class="tool-results" data-field="preflightFolders">
+                            <p class="tool-log-empty">No preflight check yet.</p>
+                        </div>
+                        <div class="tool-results" data-field="preflightMessages">
+                            <p class="tool-log-empty">No preflight messages yet.</p>
+                        </div>
+                    </article>
+
+                    <article class="tool-card">
+                        <p class="section-title">What we are doing</p>
+                        <div class="tool-log" data-field="logEntries">
+                            @if (Model.LogEntries.Count == 0)
+                            {
+                                <p class="tool-log-empty">No migration activity yet.</p>
+                            }
+                            else
+                            {
+                                foreach (string entry in Model.LogEntries)
+                                {
+                                    <div class="tool-log-line">@entry</div>
+                                }
+                            }
+                        </div>
+                    </article>
+
+                    <article class="tool-card">
+                        <p class="section-title">Results</p>
+                        <div class="tool-results" data-field="errors">
+                            @if (Model.Errors.Count == 0)
+                            {
+                                <p class="tool-log-empty">No errors recorded.</p>
+                            }
+                            else
+                            {
+                                foreach (string error in Model.Errors)
+                                {
+                                    <div class="tool-error-line">@error</div>
+                                }
+                            }
+                        </div>
+                        <p class="tool-note">Started: <span data-field="startedUtc">@(Model.StartedUtc?.ToLocalTime().ToString("g") ?? "-")</span></p>
+                        <p class="tool-note">Finished: <span data-field="finishedUtc">@(Model.FinishedUtc?.ToLocalTime().ToString("g") ?? "-")</span></p>
+                    </article>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

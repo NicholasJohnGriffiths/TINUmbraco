@@ -1,0 +1,74 @@
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<IPublishedContent>
+@using Umbraco.Cms.Core.Models
+@{
+    Layout = "~/Views/_Master.cshtml";
+
+    string pageTitle = Model.Value<string>("pageTitle") ?? Model.Name;
+    string pageHeading = Model.Value<string>("pageHeading") ?? pageTitle;
+    string? heroText = Model.Value<string>("heroText");
+    IHtmlContent? mainContent = Model.Value<IHtmlContent>("mainContent");
+
+    bool isReportsPage = string.Equals(Model.ContentType.Alias, "reportsPage", StringComparison.OrdinalIgnoreCase);
+
+    DateTime GetPublishDateOrMin(IPublishedContent item)
+    {
+        object? raw = item.Value("publishDate");
+        return raw switch
+        {
+            DateTimeOffset dto => dto.UtcDateTime,
+            DateTime dt => dt,
+            DateOnly d => d.ToDateTime(TimeOnly.MinValue),
+            string s when DateTime.TryParse(s, out DateTime parsed) => parsed,
+            _ => DateTime.MinValue
+        };
+    }
+
+    IReadOnlyList<IPublishedContent> children = Model
+        .Children()
+        .Where(x => x.IsVisible())
+        .OrderByDescending(x => isReportsPage ? GetPublishDateOrMin(x) : DateTime.MinValue)
+        .ThenBy(x => x.SortOrder)
+        .ToList();
+}
+<p class="kicker">TIN Section</p>
+<h1 class="page-title">@pageHeading</h1>
+
+@if (!string.IsNullOrWhiteSpace(heroText))
+{
+    <p class="lead">@heroText</p>
+}
+
+@if (mainContent is not null)
+{
+    <div class="content">@mainContent</div>
+}
+
+@if (children.Count == 0)
+{
+    <div class="empty">No content has been published in this section yet.</div>
+}
+else
+{
+    <section class="cards" aria-label="Section items">
+        @foreach (IPublishedContent child in children)
+        {
+            MediaWithCrops? cardImage = null;
+            if (isReportsPage)
+            {
+                cardImage = child.Value<MediaWithCrops>("coverImage")
+                    ?? child.Value<MediaWithCrops>("featuredImage")
+                    ?? child.Value<MediaWithCrops>("heroImage")
+                    ?? child.Value<MediaWithCrops>("thumbnail");
+            }
+
+            <a class="card" href="@child.Url()">
+                @if (cardImage is not null)
+                {
+                    <img class="card-image" src="@cardImage.MediaUrl()" alt="@child.Name" loading="lazy" />
+                }
+                <h2>@child.Name</h2>
+                <p>Read more</p>
+            </a>
+        }
+    </section>
+}

@@ -1,0 +1,58 @@
+﻿[
+    {
+        "wordPressType":  "reports",
+        "contentTypeAlias":  "reportPage",
+        "name":  "2025 TIN Report",
+        "slug":  "2025-tin-report",
+        "values":  {
+                       "title":  "2025 TIN Report",
+                       "featuredImage": "https://tin100.com/wp-content/uploads/2025/10/2025-TIN-Report.jpg",
+                       "heroImage": "https://tin100.com/wp-content/uploads/2025/10/2025-TIN-Report.jpg",
+                       "coverImage": "https://tin100.com/wp-content/uploads/2025/10/2025-TIN-Report.jpg",
+                       "thumbnail": "https://tin100.com/wp-content/uploads/2025/10/2025-TIN-Report.jpg"
+                   },
+        "publish":  false
+    },
+    {
+        "wordPressType":  "reports",
+        "contentTypeAlias":  "reportPage",
+        "name":  "2025 Technology Investment Report",
+        "slug":  "2025-technology-investment-report",
+        "values":  {
+                       "title":  "2025 Technology Investment Report",
+                       "featuredImage": "https://tin100.com/wp-content/uploads/2025/07/Technology-Investment-Report-2025-TIN.jpg",
+                       "heroImage": "https://tin100.com/wp-content/uploads/2025/07/Technology-Investment-Report-2025-TIN.jpg",
+                       "coverImage": "https://tin100.com/wp-content/uploads/2025/07/Technology-Investment-Report-2025-TIN.jpg",
+                       "thumbnail": "https://tin100.com/wp-content/uploads/2025/07/Technology-Investment-Report-2025-TIN.jpg"
+                   },
+        "publish":  false
+    },
+    {
+        "wordPressType":  "reports",
+        "contentTypeAlias":  "reportPage",
+        "name":  "2024 TIN Report",
+        "slug":  "2024-tin-report",
+        "values":  {
+                       "title":  "2024 TIN Report",
+                       "featuredImage": "https://tin100.com/wp-content/uploads/2024/09/2024-TIN-Report-Cover.jpg",
+                       "heroImage": "https://tin100.com/wp-content/uploads/2024/09/2024-TIN-Report-Cover.jpg",
+                       "coverImage": "https://tin100.com/wp-content/uploads/2024/09/2024-TIN-Report-Cover.jpg",
+                       "thumbnail": "https://tin100.com/wp-content/uploads/2024/09/2024-TIN-Report-Cover.jpg"
+                   },
+        "publish":  false
+    },
+    {
+        "wordPressType":  "reports",
+        "contentTypeAlias":  "reportPage",
+        "name":  "2024 NZ Healthtech Report",
+        "slug":  "2024-nz-healthtech-report",
+        "values":  {
+                       "title":  "2024 NZ Healthtech Report",
+                       "featuredImage": "https://tin100.com/wp-content/uploads/2024/08/Online-Drop-Shadow-Healthtech-Report-Cover-Image-Lowres.jpg",
+                       "heroImage": "https://tin100.com/wp-content/uploads/2024/08/Online-Drop-Shadow-Healthtech-Report-Cover-Image-Lowres.jpg",
+                       "coverImage": "https://tin100.com/wp-content/uploads/2024/08/Online-Drop-Shadow-Healthtech-Report-Cover-Image-Lowres.jpg",
+                       "thumbnail": "https://tin100.com/wp-content/uploads/2024/08/Online-Drop-Shadow-Healthtech-Report-Cover-Image-Lowres.jpg"
+                   },
+        "publish":  false
+    }
+]

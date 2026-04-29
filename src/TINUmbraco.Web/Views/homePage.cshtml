@@ -1,0 +1,45 @@
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<IPublishedContent>
+@{
+    Layout = "_Master.cshtml";
+
+    string pageTitle = Model.Value<string>("pageTitle") ?? Model.Name;
+    string pageHeading = Model.Value<string>("pageHeading") ?? pageTitle;
+    string heroText = Model.Value<string>("heroText") ?? "Welcome to TIN Umbraco.";
+    IHtmlContent? mainContent = Model.Value<IHtmlContent>("mainContent");
+
+    IReadOnlyList<IPublishedContent> sectionPages = Model
+        .Children()
+        .Where(x => x.IsVisible())
+        .OrderBy(x => x.SortOrder)
+        .ToList();
+}
+<section class="hero">
+    <p class="kicker">Technology Investment Network</p>
+    <h1 class="hero-title">@pageTitle</h1>
+    <p class="lead">@heroText</p>
+    <h2 class="section-title">@pageHeading</h2>
+
+    @if (mainContent is not null)
+    {
+        <div class="body-content">@mainContent</div>
+    }
+</section>
+
+@if (sectionPages.Count == 0)
+{
+    <div class="empty">
+        No child sections are published under this homepage yet.
+    </div>
+}
+else
+{
+    <section class="sections" aria-label="Site sections">
+        @foreach (IPublishedContent childPage in sectionPages)
+        {
+            <a class="section-card" href="@childPage.Url()">
+                <h2 class="section-title">@childPage.Name</h2>
+                <span class="section-link">Open section</span>
+            </a>
+        }
+    </section>
+}
