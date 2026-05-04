@@ -50,16 +50,31 @@ jobs:
 
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4.2.1
         with:
           name: umbraco-webapp
 
+      - name: Validate Azure OIDC inputs
+        run: |
+          if [ -z "${{ secrets.AZURE_CLIENT_ID }}${{ vars.AZURE_CLIENT_ID }}" ]; then
+            echo "Missing AZURE_CLIENT_ID (set as environment secret or repository variable)."
+            exit 1
+          fi
+          if [ -z "${{ secrets.AZURE_TENANT_ID }}${{ vars.AZURE_TENANT_ID }}" ]; then
+            echo "Missing AZURE_TENANT_ID (set as environment secret or repository variable)."
+            exit 1
+          fi
+          if [ -z "${{ secrets.AZURE_SUBSCRIPTION_ID }}${{ vars.AZURE_SUBSCRIPTION_ID }}" ]; then
+            echo "Missing AZURE_SUBSCRIPTION_ID (set as environment secret or repository variable)."
+            exit 1
+          fi
+
       - name: Azure login (OIDC)
-        uses: azure/login@v2
+        uses: azure/login@v2.3.0
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID || vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID || vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID || vars.AZURE_SUBSCRIPTION_ID }}
 
       - name: Deploy to staging slot
         if: ${{ vars.AZURE_STAGING_SLOT != '' }}
