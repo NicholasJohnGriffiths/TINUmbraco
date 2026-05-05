@@ -31,6 +31,7 @@ appsettings.Production.json.override
 appservice-logs*.zip
 publish-output*.zip
 wp-structure.json
+images/
 
 # ----- Generated test artifacts -----
 src/TINUmbraco.Web.Tests/appsettings-schema*.json
