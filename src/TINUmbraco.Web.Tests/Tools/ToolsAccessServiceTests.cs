@@ -62,6 +62,53 @@ public sealed class ToolsAccessServiceTests
         Assert.False(canAccess);
     }
 
+    [Fact]
+    public void CanAccess_ReturnsFalse_WhenForwardedHostIsPublic()
+    {
+        // Arrange
+        var service = new ToolsAccessService(new StubHostEnvironment(Environments.Development));
+        var httpContext = new DefaultHttpContext();
+        httpContext.Request.Host = new HostString("localhost");
+        httpContext.Request.Headers["X-Forwarded-Host"] = "www.tin100.com";
+
+        // Act
+        bool canAccess = service.CanAccess(httpContext);
+
+        // Assert
+        Assert.False(canAccess);
+    }
+
+    [Fact]
+    public void CanAccess_ReturnsTrue_WhenForwardedHostIsLoopback()
+    {
+        // Arrange
+        var service = new ToolsAccessService(new StubHostEnvironment(Environments.Development));
+        var httpContext = new DefaultHttpContext();
+        httpContext.Request.Host = new HostString("localhost");
+        httpContext.Request.Headers["X-Forwarded-Host"] = "localhost:5137";
+
+        // Act
+        bool canAccess = service.CanAccess(httpContext);
+
+        // Assert
+        Assert.True(canAccess);
+    }
+
+    [Fact]
+    public void CanAccess_ReturnsTrue_ForIpv6LoopbackHostWithPort()
+    {
+        // Arrange
+        var service = new ToolsAccessService(new StubHostEnvironment(Environments.Development));
+        var httpContext = new DefaultHttpContext();
+        httpContext.Request.Host = new HostString("[::1]:44377");
+
+        // Act
+        bool canAccess = service.CanAccess(httpContext);
+
+        // Assert
+        Assert.True(canAccess);
+    }
+
     private sealed class StubHostEnvironment(string environmentName) : IHostEnvironment
     {
         public string EnvironmentName { get; set; } = environmentName;
