@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace TINUmbraco.Web.Tools;
 
 public sealed class ToolsAccessService(IHostEnvironment hostEnvironment)
@@ -7,34 +9,18 @@ public sealed class ToolsAccessService(IHostEnvironment hostEnvironment)
         ArgumentNullException.ThrowIfNull(httpContext);
 
         // Keep tools strictly local/dev-only and never expose on live environments.
-        return hostEnvironment.IsDevelopment() && IsLocalRequest(httpContext);
+        return hostEnvironment.IsDevelopment() && IsLoopbackHost(httpContext.Request.Host.Host);
     }
 
-    private static bool IsLocalRequest(HttpContext httpContext)
+    private static bool IsLoopbackHost(string host)
     {
-        if (httpContext.Request.Host.Host.Equals("localhost", StringComparison.OrdinalIgnoreCase))
+        if (host.Equals("localhost", StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
 
-        string host = httpContext.Request.Host.Host;
-        if (host == "127.0.0.1" || host == "::1")
-        {
-            return true;
-        }
-
-        IPAddress? remoteIp = httpContext.Connection.RemoteIpAddress;
-        if (remoteIp is null)
-        {
-            return false;
-        }
-
-        if (IPAddress.IsLoopback(remoteIp))
-        {
-            return true;
-        }
-
-        IPAddress? localIp = httpContext.Connection.LocalIpAddress;
-        return localIp is not null && remoteIp.Equals(localIp);
+        string normalizedHost = host.Trim('[', ']');
+        return IPAddress.TryParse(normalizedHost, out IPAddress? parsedIp)
+            && IPAddress.IsLoopback(parsedIp);
     }
 }

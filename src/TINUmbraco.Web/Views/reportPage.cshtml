@@ -43,6 +43,10 @@
 		DateTimeOffset dateTimeOffset => dateTimeOffset.ToString("d MMM yyyy"),
 		_ => publishDateRaw?.ToString()
 	};
+
+	string? flipbookUrl = Model.Value<string>("flipbookUrl");
+	bool hasFlipbookUrl = !string.IsNullOrWhiteSpace(flipbookUrl);
+	string readReportHref = hasFlipbookUrl ? flipbookUrl! : "#";
 }
 
 @if (Model.Parent is not null)
@@ -62,7 +66,13 @@
 	<img class="report-cover-image" src="@coverImage.Url()" alt="@pageHeading" loading="eager" />
 }
 
-@if (bodyContent is not null)
+@if (bodyContent is not null || hasFlipbookUrl)
 {
-	<article class="content">@bodyContent</article>
+	<article class="content">
+		<p><a href="@readReportHref">Read report</a></p>
+		@if (bodyContent is not null)
+		{
+			@bodyContent
+		}
+	</article>
 }
