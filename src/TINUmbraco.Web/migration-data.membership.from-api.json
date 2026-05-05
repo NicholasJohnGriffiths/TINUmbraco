@@ -1,0 +1,1166 @@
+[
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Cello",
+        "Slug":  "cello",
+        "Values":  {
+                       "Company Name":  "Cello",
+                       "About":  "Cello is a proven leader in the design, provision and management of enterprise network solutions, helping leading New Zealand organisations achieve their business outcomes. Specialists in enterprise networking: Cello is New Zealand’s largest dedicated team of enterprise managed network experts. We live and breathe networking – with deep experience in Cisco, Fortinet, Zscaler and others – so your design, deployment and operations are backed by proven specialists who know exactly how to design, deliver and support your critical network services.",
+                       "Website":  "https://www.cello.co.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2025/09/Cello_2.jpg",
+                       "seoTitle":  "Cello",
+                       "Company Type":  "Tech Company"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Fusion5",
+        "Slug":  "fusion5",
+        "Values":  {
+                       "Company Name":  "Fusion5",
+                       "About":  "Drawing on over 22 years of IT industry experience, Fusion5 is a trusted transformation partner for established enterprises and growing businesses across Australasia. We excel in sectors as diverse as agriculture and finance, and retail to real estate, helping our valued customers close the gaps between business vision and IT performance. From world-leading business applications to AI, and from cloud to security, our all-encompassing technology capability delivers the digital horsepower today’s organisations need to navigate a rapidly evolving business world. No matter where you are on your tech journey, our cross-functional team of over 850+ innovators will help you go beyond.",
+                       "Website":  "https://www.fusion5.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2025/09/Fusion-5.jpg",
+                       "seoTitle":  "Fusion5",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Caliber Design",
+        "Slug":  "caliber-design",
+        "Values":  {
+                       "Company Name":  "Caliber Design",
+                       "About":  "Caliber Design is a mechanical engineering consultancy with a difference. Our team of 60+ engineers works on secondment with clients across New Zealand, embedding directly into their teams to deliver mechanical design and project engineering support—when and where it’s needed. This unique model allows us to bring deep cross-industry insight to every project. From machine and product design to FEA and commissioning support, our engineers are hands-on and results-focused, supporting some of New Zealand’s most innovative companies in industries as diverse as aerospace, materials and food handling, marine, medical, and agriculture. We\u0027re proud to play a key role in enabling NZ engineering to deliver the best solutions in the world—and to provide NZ engineers with world-class experience. Our purpose drives everything we do, and our vision is to be the ‘go-to’ mechanical engineering company for both engineering companies and engineers alike, through a collaborative engineering ecosystem. Whether it’s a high-speed production line, a cutting-edge medical device, a time-critical site upgrade, or supporting the development of clean technologies like hydrogen and green energy solutions, our clients rely on Caliber engineers to bring the horsepower, rigour, and flexibility to get the job done.",
+                       "Website":  "https://www.caliberdesign.co.nz",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2025/07/Caliber-Design-Logo.jpg",
+                       "seoTitle":  "Caliber Design",
+                       "Company Type":  "Affiliate Company"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Enterprise Dunedin",
+        "Slug":  "enterprise-dunedin",
+        "Values":  {
+                       "Company Name":  "Enterprise Dunedin",
+                       "About":  "Enterprise Dunedin is the economic development agency for the Dunedin City Council. Enterprise Dunedin works in partnership to lead and support a sustainable environment where business and entrepreneurial activity can thrive.",
+                       "Website":  "https://www.dunedinnz.com/business/enterprise-dunedin",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2024/06/dcc-logo2.jpg",
+                       "seoTitle":  "Enterprise Dunedin"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Te Papa Hauora",
+        "Slug":  "te-papa-hauora",
+        "Values":  {
+                       "Company Name":  "Te Papa Hauora",
+                       "About":  "Te Papa Hauora is a strategic partnership between Canterbury\u0027s major tertiary and health institutions, working together with representatives from Ngāi Tūāhuriri. Te Papa Hauora commits its activities to improve the health and wellbeing of the community, pursuing equity of health outcomes and working with and supporting the aspirations of Māori.",
+                       "Website":  "https://www.healthprecinct.org.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2024/08/TPH-Primary-Logo-RGB-scaled.jpg",
+                       "seoTitle":  "Te Papa Hauora"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "ChristchurchNZ",
+        "Slug":  "christchurchnz",
+        "Values":  {
+                       "Company Name":  "ChristchurchNZ",
+                       "About":  "ChristchurchNZ is focused on making Ōtautahi Christchurch a better place to live, work and play. ChristchurchNZ brings together partnerships across businesses, communities, iwi and the government to deliver multi-generational community benefits informed by evidence-based economic insights.",
+                       "Website":  "https://www.christchurchnz.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2024/08/O╠atautahiChristchurch_Lockup_POS_Red.png",
+                       "seoTitle":  "ChristchurchNZ"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Dosh",
+        "Slug":  "dosh",
+        "Values":  {
+                       "Company Name":  "Dosh",
+                       "About":  "Banking made freak’n easy. Dosh is the Kiwi app that helps you spend, save, and borrow money. Cause life is for living, not banking. We believe Kiwis deserve the world’s best digital solutions to maximise their financial well being. We\u0027re here to disrupt traditional banking services. At Dosh our magic is to turn what was hard-earned into something that is easily enjoyed. We’re here to set your money free to be as powerful and fast as it can be. ‍ We believe a digital generation deserves a digital-first money app. “At Dosh we believe Kiwis deserve the world’s best digital solutions to maximise their financial wellbeing. We have developed a best-in-class money app that helps consumers easily spend, save, and manage money. Our customers are the digital generation who demand mobile-based experiences. Their needs have set us on a path to disrupting traditional banking in Aotearoa New Zealand. Because life is for living, not banking.” – Shane Marsh, CEO and Cofounder",
+                       "Website":  "https://dosh.nz",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2024/06/E9b9RuYVkAQphhx.png",
+                       "seoTitle":  "Dosh",
+                       "Company Type":  "Tech Company"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Bill Rush",
+        "Slug":  "bill-rush",
+        "Values":  {
+                       "Company Name":  "Bill Rush",
+                       "About":  "Bill Rush is a billing subscription and payment processing platform that provides access to the latest payment technologies and tailored financial services. The SaaS solution improves liquidity, speeds up capital allocations to productive endeavours, and provides state of art money-in machinery in shared or sovereign computing environments. Billers have easy access to services that are defined, scoped and priced to solve well defined problems in the context of an accounts receivable business process. Next-generation connectivity utilises zero trust, time boxed, monitored, consent based mechanisms to enable secure access to a broad variety of systems and networks. Our Vision: Be the catalyst for connections between billers, bankers, trusted advisers and service providers by enabling conduits for better business outcomes. Our Mission: To make business partnerships easier and more resilient by creating accounts receivable ecosystems that deliver help when you need it.",
+                       "Website":  "https://billrush.co.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2024/06/Bill-Rush_1-logo.jpg",
+                       "seoTitle":  "Bill Rush",
+                       "Company Type":  "Tech Company"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Waikato Management School",
+        "Slug":  "waikato-management-school",
+        "Values":  {
+                       "Company Name":  "Waikato Management School",
+                       "About":  "Waikato Management School is part of the University of Waikato and is in the top 1% of business schools globally. They were the first business school in New Zealand to achieve the prestigious Triple Crown Accreditation, which they still hold today. In 2024, they launched NZ’s first undergraduate degree in fintech: the Bachelor of Banking, Finance, and Technology.",
+                       "Website":  "https://www.waikato.ac.nz/about/faculties-schools/management/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2024/05/2020_Waikato-Management-School-w-Logo-1526x1024-bc2a545.png",
+                       "seoTitle":  "Waikato Management School",
+                       "Company Type":  "Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Worldline",
+        "Slug":  "worldline",
+        "Values":  {
+                       "Company Name":  "Worldline",
+                       "About":  "Worldline provides in-store, online, and mobile payment solutions to help Kiwi businesses succeed. They were the first in the world to implement EFTPOS and in 2016 launched New Zealand’s first open banking payment, Online EFTPOS. With more than 1.2 billion transactions going through their network every year, they can help businesses solve problems with power, data, and insights. That’s why they are New Zealand’s most experienced paytech.",
+                       "Website":  "https://www.paymark.co.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2024/05/Worldline-Mint-Horizontal-1.png",
+                       "seoTitle":  "Worldline",
+                       "Company Type":  "Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Knobbe Martens",
+        "Slug":  "knobbe-martens",
+        "Values":  {
+                       "Company Name":  "Knobbe Martens",
+                       "About":  "Knobbe Martens is one of the largest IP law firms in the US, with close to 300 lawyers and scientists representing the complete spectrum of technologies and IP practice areas. They combine unmatched technical and litigation expertise to deliver superior results in both transactional and contested matters, serving cutting-edge start-ups and established Fortune 500 companies alike.",
+                       "Website":  "https://www.knobbe.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2024/05/KM-Primary-Logo-Black-Blue-RGB2000px.jpg",
+                       "seoTitle":  "Knobbe Martens",
+                       "Company Type":  "Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "First Table",
+        "Slug":  "first-table",
+        "Values":  {
+                       "Company Name":  "First Table",
+                       "About":  "First Table is New Zealand’s leading hospitality technology platform that connects its community of diners with restaurants around the world. With its innovative model, First Table rewards diners for dining early, with 50% off the food bill for two to four people (drinks are regular price), which in turn helps restaurants optimise revenue during off-peak hours. There are now over 1,700 venues on the restaurant discovery platform globally, offering breakfast, lunch, and dinner tables. Whether it’s a date night, working lunch or just an excuse to try that new restaurant everyone’s raving about, customers are spoilt for choice when it comes to discovering new dining experiences. Mat Weir was inspired to create First Table after he dined at a restaurant in Queenstown offering 50% off the food bill when you booked the first table of the night. Realising the value of creating an atmosphere early on in a restaurant\u0027s service, Mat saw an opportunity to scale the simple win-win idea into a global marketplace. It\u0027s free and easy for restaurants to use, and the software fully integrates with seven major restaurant reservation systems.",
+                       "Website":  "https://www.firsttable.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2024/03/First-Table-logo.png",
+                       "seoTitle":  "First Table",
+                       "Company Type":  "Tech Company"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Fisher \u0026 Paykel Technologies",
+        "Slug":  "fisher-paykel-technologies",
+        "Values":  {
+                       "Company Name":  "Fisher \u0026 Paykel Technologies",
+                       "About":  "Fisher \u0026 Paykel Technologies is at the forefront of shaping the future through technology-driven solutions. For 35 years we have specialised in creating smart, connected, and customised motor drive systems for our customers. They use our solutions to deliver compelling and innovative products to the home appliance, fitness, and adjacent industries. Our core business is producing innovative drive system technology for fabric care. Every year we provide customers with millions of direct drive motor systems for premium washing machines. More recently, we have diversified through the addition of new product lines including innovative airflow systems, such as those found in rangehoods, where our low noise and high efficiency are class leading; and we have applied our technology to the health and fitness industry through the implementation of motorised resistance and advanced control that unlocks a new category of customer experiences. Innovation occurs at the intersection of customer insight and engineering expertise and our deep expertise spans multiple domains including systems architecture, motor design, hardware engineering, motor control software, and scalable manufacturing. We thrive on digital - specialising in IoT, soft sensing, machine learning / AI, cloud platforms, and big data analytics. With 21 automated production lines manufacturing over 5 million motors annually, we are a global player supported by the Haier Group\u0027s backing and the strength of our partnerships.",
+                       "Website":  "https://www.fisherpaykeltechnologies.com",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2024/03/FisherPaykelTechnologiesprimarylogo.jpg",
+                       "seoTitle":  "Fisher \u0026 Paykel Technologies",
+                       "Company Type":  "Tech Company"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Atomic.io",
+        "Slug":  "atomic-io",
+        "Values":  {
+                       "Company Name":  "Atomic.io",
+                       "About":  "At Atomic.io, we\u0027re transforming the way you connect with your customers by tapping into a powerful yet underutilised channel – your app. We understand that your app is the most impactful avenue for engaging with your customers, delivering higher read rates and conversion rates compared to traditional communication methods like SMS, calls, or email. More than a simple notification, Atomic action cards let your users complete tasks instantly, creating a zero effort impact to your end goal. With our platform, we empower you to deliver timely and actionable messages precisely where your customers want them. Your app is your customers’ preferred channel, so why not harness its potential to connect with your audience on their terms?",
+                       "Website":  "https://www.Atomic.io",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2023/12/Navy-1.png",
+                       "seoTitle":  "Atomic.io"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Orbis Diagnostics",
+        "Slug":  "orbis-diagnostics",
+        "Values":  {
+                       "Company Name":  "Orbis Diagnostics",
+                       "About":  "Orbis aims to make complex medical testing simple and accessible wherever and whenever needed. Orbis diagnostics has developed an automated lab-in-a-box to provide rapid and reliable results at the point of need utilising microfluidics. The proprietary microfluidic disks contain all the reagents required to miniaturise an enzyme-linked immunosorbent assay (ELISA), the gold-standard serology test used in laboratories worldwide. The platform controls the flow of fluid through the disks and analyses the output using an automated optical read-out system. This achieves the speed and portability of a rapid strip test with the accuracy and robust repeatability of an ELISA. Orbis has also created a way that allows various assay types to be run together, improving the versatility of the testing platform. This enables routine blood testing to be more accessible and convenient than ever before, without compromising on lab-accuracy. Ultimately ensuring that everyone can understand their true health status and make life-changing decisions with confidence.",
+                       "Website":  "https://www.orbisdiagnostics.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2023/03/Orbis-Dignostics.png",
+                       "seoTitle":  "Orbis Diagnostics",
+                       "Company Type":  "Tech Company"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Altered Capital",
+        "Slug":  "altered-capital",
+        "Values":  {
+                       "Company Name":  "Altered Capital",
+                       "About":  "Altered Capital is a venture capital firm. We back founders with product-market fit to reach their greatest ambitions. Launched in 2022, Altered has a $100m New Zealand fund and $100m invested in offshore VC. We have a concentrated investment strategy, driving full alignment between us, our investors, and our portfolio companies. Our mission is to leverage our international access and expertise to empower success in any market.",
+                       "Website":  "https://www.alteredcapital.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2023/09/Altered-Capital.png",
+                       "seoTitle":  "Altered Capital",
+                       "Company Type":  "Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Veriphi",
+        "Slug":  "veriphi",
+        "Values":  {
+                       "Company Name":  "Veriphi",
+                       "About":  "Veriphi is an innovative medical device company whose objective is to make intravenous cancer therapy safer and more effective.",
+                       "Website":  "https://www.veriphi.co.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2023/03/Veriphi-100.jpg",
+                       "seoTitle":  "Veriphi",
+                       "Company Type":  "Tech Company"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Younity",
+        "Slug":  "younity",
+        "Values":  {
+                       "Company Name":  "Younity",
+                       "About":  "Younity is a New Zealand owned recruitment and consulting services company specialising in Technology, Digital \u0026 Business Transformation. Our consulting team share a common philosophy around best practice recruitment methodologies and are driven to provide excellent recruitment experiences and to deliver consistently great outcomes. With offices in both Auckland and Wellington and a national footprint, our business prides itself on going the extra mile and working harder and smarter to meet your recruitment needs.",
+                       "Website":  "https://www.younity.co.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2023/03/Younity_1-logo.jpg",
+                       "seoTitle":  "Younity",
+                       "Company Type":  "Affiliate Company"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Latin America Centre for Asia-Pacific Excellence",
+        "Slug":  "latin-america-centre-for-asia-pacific-excellence",
+        "Values":  {
+                       "Company Name":  "Latin America Centre for Asia-Pacific Excellence",
+                       "About":  "The Latin American CAPE is one of three Centres of Asia Pacific Excellence that utilise university expertise and networks to enhance trade and economic linkages between New Zealand and North Asia, Southeast Asia, and Latin America, respectively. We develop tools and programmes that enable New Zealand to engage effectively in the Asia-Pacific region. By drawing on local and global university knowledge to enhance connectivity between government agencies, businesses, education, iwi and communities we deepen New Zealand’s understanding of the Asia-Pacific and its many cultures and languages. We do this by disseminating university-based knowledge through innovative interventions such as: Professional development workshops Market perceptions research Case studies Supporting start-ups to explore new markets The CAPEs are an initiative supported by a consortium of New Zealand’s leading universities: the University of Auckland, the University of Waikato, the University of Otago, and Victoria University of Wellington.",
+                       "Website":  "https://cape.org.nz/latin-america-cape/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2023/03/Latm-cape.png",
+                       "seoTitle":  "Latin America Centre for Asia-Pacific Excellence",
+                       "Company Type":  "Affiliate Company"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "The Insides Company",
+        "Slug":  "the-insides-company",
+        "Values":  {
+                       "Company Name":  "The Insides Company",
+                       "About":  "The Insides Company is the developer and manufacturer of therapeutic chyme reinfusion solutions for patients recovering from colorectal surgery and complex intestinal diseases, including patients with intestinal failure resulting from enterocutaneous fistulas and high output enterostomies. Founded in 2017, The Insides Company formerly known as Surgical Design Studio, is a spin-out of The University of Auckland Faculty of Medical and Health Sciences and supported by the MedTech CoRE and Auckland UniServices. The Insides Company is an ISO13485 certified manufacturer of medical devices and its first product, The Insides System has been granted Breakthrough Device Designation by the US FDA. The Insides System is now commercially available in the United Kingdom, Europe and New Zealand after being CE marked and registered on the WAND Database, with Obex Medical Limited appointed as the exclusive distributors for New Zealand.",
+                       "Website":  "https://www.theinsides.co/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/insides.jpg",
+                       "seoTitle":  "The Insides Company",
+                       "Company Type":  "Tech Company"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Rakon",
+        "Slug":  "rakon",
+        "Values":  {
+                       "Company Name":  "Rakon",
+                       "About":  "Rakon is one of the world’s largest manufacturers of frequency control products and timing solutions. It\u0027s products can be found at the heart of many applications, from 5G networks to satellites and from emergency beacons to autonomous vehicles. It\u0027s products create extremely accurate electric signals which are used to generate radio waves and synchronise time in the most demanding applications. Rakon has three manufacturing plants, six R\u0026D centres, and fifteen customer support offices worldwide. Founded in Auckland in 1967, Rakon is proud of its New Zealand heritage. It is a public company listed on the New Zealand stock exchange, NZX, ticker code RAK.",
+                       "Website":  "https://www.rakon.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2023/03/Rakon_1-logo.jpg",
+                       "seoTitle":  "Rakon",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "PageProof",
+        "Slug":  "pageproof",
+        "Values":  {
+                       "Company Name":  "PageProof",
+                       "About":  "PageProof is an ingeniously simple to use yet powerful online proofing tool that makes reviewing and approving work feel effortless. Files of any kind—Adobe CC, Microsoft Office, web banners, movies, emails, HTML banners, and more—can be securely shared with your team in just a few clicks. Smart tools help your reviewers make sure everything is pixel perfect – ruler, gridlines, automatic analysis of fonts and colors, side-by-side compare, and even a smart compare mode too. PageProof ColorSep®, perfect for packaging and print files, lets you check color plate preview separations to avoid costly printing mistakes. Gathering feedback and approvals is a breeze with automated workflows and reminders. We are also the only platform to offer checklists. Checklists, along with audit, add the essential layer of marketing compliance you’re looking for. PageProof offers native integrations into all your favorite design, communication, and project management tools like Adobe, Canva, monday.com, Asana, Trello, Slack, MS Teams, and more. Working on pre-release creative material with clients who have rigorous security standards? PageProof is the only fully encrypted online proofing solution, and it has the added security of ISO 27001 certification for its information management system. PageProof offers a flat pricing plan that gives unlimited team members a voice, unlimited storage, and proofs – making feedback welcome.",
+                       "Website":  "https://pageproof.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2023/03/Page-Proof-logo.jpg",
+                       "seoTitle":  "PageProof",
+                       "Company Type":  "Tech Company"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Vista Group International",
+        "Slug":  "vista-group-international",
+        "Values":  {
+                       "Company Name":  "Vista Group International",
+                       "About":  "Vista Group (NZSX \u0026 ASX: VGL) provides software and additional technology solutions across the global film industry including Cinema Management for large scale and smaller cinemas, Film Distribution, Moviegoer Data Analytics, Business Intelligence Solutions and Box Office reporting software. Two companies that provide Creative and Marketing services to studios and online Movie Media Services for moviegoers are also included in the Group.",
+                       "Website":  "https://vistagroup.co.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/vista.jpg",
+                       "seoTitle":  "Vista Group International",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "ZeroJet Limited",
+        "Slug":  "zerojet-limited",
+        "Values":  {
+                       "Company Name":  "ZeroJet Limited",
+                       "About":  "ZeroJet was founded by Neil Mans and Bex Rempel with the goal to replace 10,000 internal combustion outboards with electric propulsion within five years — resulting in an emissions saving equivalent to removing 1.5 million cars off the road. Their unique electric jet propulsion system is half the weight of a traditional outboard motor, resulting in faster and lighter boats, while also creating a zero emissions alternative to standard motors. The ZeroJet system will accelerate time to market for boat manufacturers and create new revenue streams for boat builders and resellers who want to tap into the emerging environmentally conscious market.",
+                       "Website":  "https://www.zerojet.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/zero.jpg",
+                       "seoTitle":  "ZeroJet Limited"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Orion Health",
+        "Slug":  "orion-health",
+        "Values":  {
+                       "Company Name":  "Orion Health",
+                       "About":  "Orion Health is revolutionising global healthcare so that every individual receives the perfect care for them. It’s leading the world away from traditional broken healthcare systems, towards a future where people are in control of their wellness and able to beat illnesses before they appear. Orion Health knows the same old, same old approach to healthcare is killing us. That’s why they’ve invested hundreds of millions in AI, machine learning and other R\u0026D to come up with healthcare solutions that vastly improve clinician and patient experiences, while delivering better health outcomes. With more than 30 years’ experience and operations in 13 countries, Orion Health technology is used by more than 300,000 clinicians, holding records for more than 150 million people.",
+                       "Website":  "https://orionhealth.com/nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/orion.jpg",
+                       "seoTitle":  "Orion Health"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "NanoLayr",
+        "Slug":  "nanolayr",
+        "Values":  {
+                       "Company Name":  "NanoLayr",
+                       "About":  "NanoLayr, formerly Revolution Fibres, is the next-generation textile manufacturer committed to transforming extraordinary nanofibres into ingenious and functional textiles. The company has developed a platform technology incorporating a novel electrospinning process using a variety of polymers and substrates to create custom-made fibres for use in a wide variety of applications, including filtration, cosmetics and healthcare, textiles, composites, and electronics. Founded in 2009 by Iain Hosie, Simon Feasey and Michael Perrett, RF has transformed from an R\u0026D orientated business producing cotton wool ball-sized textiles, into a full-scale manufacturer, supplying hundreds of thousands of meters of nanofibre to customers across the globe. As COVID developed, the deep tech company secured a further $900k granted for the development of the advanced novel filter material from MBIE to support a national response to PPE shortage. The company today has more than 40 employees and relocated into new facilities to meet the on-growing demand for its products. With the use of sonic electrospinning technology process, NanoLayr is the custodians of an amazing platform technology that is leading the world in the production of nanofibre. Their aim is to put New Zealand at the forefront of the global textiles industry and establish the country as the centre of excellence for nanofibre.",
+                       "Website":  "https://www.nanolayr.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/Nany-Layr-logo.jpg",
+                       "seoTitle":  "NanoLayr",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Modica Group",
+        "Slug":  "modica-group",
+        "Values":  {
+                       "Company Name":  "Modica Group",
+                       "About":  "Modica is a Communications Platform as a Service (“CPaaS”) company, providing Application to Person (“A2P”) messaging solutions with a focus on large, blue-chip enterprises. Clients use Modica’s OMNI platform to deliver mission-critical, one and two-way communications with both consumers and their own employees. Uses include 2-factor authentication, fraud alerts, emergency responses and appointments reminders. In New Zealand the Company runs direct sales and uses its network of strategic partnerships with Mobile Network Operators (“MNOs”) to access global markets (“Distribution Partnerships”). Modica is the dominant A2P message provider in New Zealand through direct sales and also a Distribution Partnership with Spark, and it entered the Australian market three years ago with a Distribution Partnership with Optus, Australia’s second largest MNO and a subsidiary of SingTel Group. Modica is also in the process of entering South East Asia (“SEA”) and is in advanced discussions with MNOs in Indonesia and the Philippines. Modica is also developing partnerships in Latin America (“LATAM”) with direct connections having been established in Paraguay and with a large global MNO’s pan-LATAM network. In addition to growing its existing markets and pursuing overseas expansion, the Company is expanding its platform to encompass all kinds of adjacent enterprise mobile solutions including: Data Analytics, Internet of Things, Mobile Payments and Mobile Ads.",
+                       "Website":  "https://www.modicagroup.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/modica.jpg",
+                       "seoTitle":  "Modica Group",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "New Zealand Health IT (NZHIT)",
+        "Slug":  "new-zealand-health-it-nzhit",
+        "Values":  {
+                       "Company Name":  "New Zealand Health IT (NZHIT)",
+                       "About":  "NZHIT is a not-for-profit, incorporated society which has grown to become the peak body for the New Zealand digital health industry, providing a coordinated, informed voice that maximises social and economic value for New Zealand through digital technology.",
+                       "Website":  "https://www.dha.org.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/12/NZHiT_1-logo-.jpg",
+                       "seoTitle":  "New Zealand Health IT (NZHIT)",
+                       "Company Type":  "Past Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Health Informatics New Zealand (HiNZ)",
+        "Slug":  "health-informatics-new-zealand-hinz",
+        "Values":  {
+                       "Company Name":  "Health Informatics New Zealand (HiNZ)",
+                       "About":  "HINZ is a not-for-profit organisation supporting the field of health informatics, with a focus on events and professional development. Its annual conference is the largest digital health event in New Zealand with an extensive archive of expert presentations on digital health.",
+                       "Website":  "https://www.hinz.org.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/12/HINZ-logo-.jpg",
+                       "seoTitle":  "Health Informatics New Zealand (HiNZ)",
+                       "Company Type":  "Past Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Cure Kids Ventures",
+        "Slug":  "cure-kids-ventures",
+        "Values":  {
+                       "Company Name":  "Cure Kids Ventures",
+                       "About":  "As a predominant investor in New Zealand’s seed and early stage healthcare and biotech sector, CKV’s portfolio includes companies with products and services covering medical devices, medications, diagnostics, health information, and healthcare delivery systems.",
+                       "Website":  "https://curekidsventures.co.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/12/Cure-Kids-Ventures-logo-.jpg",
+                       "seoTitle":  "Cure Kids Ventures",
+                       "Company Type":  "Past Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Medical Technology Association of New Zealand (MTANZ)",
+        "Slug":  "medical-technology-association-of-new-zealand-mtanz",
+        "Values":  {
+                       "Company Name":  "Medical Technology Association of New Zealand (MTANZ)",
+                       "About":  "MTANZ is the leading industry body representing medical technology manufacturers, importers, exporters and distributors of medical devices in New Zealand, working to increase national awareness of the medical technology industry, and the value it offers to people requiring medical treatment, the economy and society.",
+                       "Website":  "https://mtanz.org.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/12/MTANZ-logo-.jpg",
+                       "seoTitle":  "Medical Technology Association of New Zealand (MTANZ)",
+                       "Company Type":  "Past Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "EY",
+        "Slug":  "ey",
+        "Values":  {
+                       "Company Name":  "EY",
+                       "About":  "At EY, our purpose is building a better working world. The insights and services we provide help to create long-term value for clients, people and society, and to build trust in the capital markets.",
+                       "Website":  "https://www.ey.com/en_nz",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/12/EY-logo-.jpg",
+                       "seoTitle":  "EY",
+                       "Company Type":  "Past Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "NZX",
+        "Slug":  "nzx",
+        "Values":  {
+                       "Company Name":  "NZX",
+                       "About":  "For more than 150 years the NZX has been creating opportunities for Kiwis to grow their personal wealth and helping businesses prosper. As New Zealand’s Exchange, it is passionate about its role in capital formation as a vital ingredient in the success of New Zealand – and is particularly proud of its record in supporting the growth and global ambitions of the technology sector. NZX operates New Zealand\u0027s equity, debt, funds, derivatives and energy markets. To support the growth of our markets, we provide trading, clearing, settlement, depository and data services for our customers. We also own Smartshares, New Zealand\u0027s only issuer of listed Exchange Traded Funds (ETFs), and KiwiSaver provider SuperLife. NZX Wealth Technologies is a 100% owned subsidiary delivering rich online platform functionality to enable New Zealand investment advisors and providers to efficiently manage, trade and administer their client\u0027s assets.",
+                       "Website":  "https://www.nzx.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/NZX-logo-.jpg",
+                       "seoTitle":  "NZX",
+                       "Company Type":  "Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Global From Day One (GD1)",
+        "Slug":  "global-from-day-one-gd1",
+        "Values":  {
+                       "Company Name":  "Global From Day One (GD1)",
+                       "About":  "We help New Zealand founders and teams believe bigger. To dream, act and achieve on a global scale. We are an institutional-grade VC fund that supports globally ambitious kiwi tech startups with capital, on the ground operating expertise, and a vast international network in order to help them achieve growth on the world stage. Based in Auckland, New Zealand we have connections globally. We invest from seed to scale and provide operational support across product, growth and HR. GD1’s deep expertise in venture capital and first-hand international operating knowledge was gained via experience in technology companies across Europe, the US (including Silicon Valley), and New Zealand. This experience, as well as ongoing relationships, ensures that founders and management teams are supported from day one.",
+                       "Website":  "https://www.gd1.vc/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/12/GD1-logo-.jpg",
+                       "seoTitle":  "Global From Day One (GD1)",
+                       "Company Type":  "Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "New Zealand Trade and Enterprise (NZTE)",
+        "Slug":  "new-zealand-trade-and-enterprise-nzte",
+        "Values":  {
+                       "Company Name":  "New Zealand Trade and Enterprise (NZTE)",
+                       "About":  "Te Taurapa Tūhono | New Zealand Trade and Enterprise (NZTE) is the New Zealand government\u0027s international business development agency, supporting exporters in order to grow a productive, sustainable and inclusive economy. NZTE works with all kinds of innovative businesses, including food producers, Māori land trusts and iwi, tech startups, service providers, manufacturers and more. NZTE has around 600 employees and 180 private sector advisors around the world who use their knowledge and connections to add value to ambitious New Zealand businesses who want to go global, for the good of New Zealand. NZTE operates under the Crown Entities Act 2004, the Public Finance Act 1989, and the NZTE Act 2003, governed by a board of seven directors and four crown ministers, and is fully committed to the Treaty of Waitangi.",
+                       "Website":  "https://www.nzte.govt.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/NZTE-logo-.jpg",
+                       "seoTitle":  "New Zealand Trade and Enterprise (NZTE)",
+                       "Company Type":  "Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "JBWere",
+        "Slug":  "jbwere",
+        "Values":  {
+                       "Company Name":  "JBWere",
+                       "About":  "JBWere is a leading wealth manager that offers tailor-made investment advice to clients. The company helps clients protect and grow their wealth, through a commitment to delivering bespoke and strategic advice that delivers timely investment solutions for high-net-worth individuals, families, foundations and institutional investors. JBWere’s purpose is to give clients the confidence to do what matters.",
+                       "Website":  "https://www.jbwere.co.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/JB-Were-logo-.jpg",
+                       "seoTitle":  "JBWere",
+                       "Company Type":  "Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "James \u0026 Wells",
+        "Slug":  "james-wells",
+        "Values":  {
+                       "Company Name":  "James \u0026 Wells",
+                       "About":  "James \u0026 Wells is one of Australasia’s largest, privately owned, patent and trade mark attorney firms. Its award-winning team assists businesses to own, control and leverage their innovations and brands locally and globally. The James \u0026 Wells team of intellectual property experts include scientists, engineers, accountants, business strategists, lawyers, and commercialisation specialists dedicated to championing innovation, not just locally, but on a global scale. With multiple offices in Australia and New Zealand, James \u0026 Wells provides the full range of intellectual property services in both countries and the Pacific Islands. The firm is also an approved provider of IP services funded by Callaghan Innovation and has close working relationships with many investment providers.",
+                       "Website":  "https://www.jamesandwells.com/nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/James-Wells-logo-.jpg",
+                       "seoTitle":  "James \u0026 Wells",
+                       "Company Type":  "Past Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Invest Hong Kong",
+        "Slug":  "invest-hong-kong",
+        "Values":  {
+                       "Company Name":  "Invest Hong Kong",
+                       "About":  "Invest Hong Kong (InvestHK) is a department of the Hong Kong Special Administrative Region Government tasked with attracting foreign direct investment to Hong Kong and providing overseas and Mainland companies and entrepreneurs with information, advice and services they need to succeed in the city. It works with companies of all sizes, from start-ups and SMEs to multinationals, and supports them in every stage from planning, setting up to promotion and expansion.",
+                       "Website":  "https://www.investhk.gov.hk/en/home.html",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/Invest-Hong-Kong-logo-.jpg",
+                       "seoTitle":  "Invest Hong Kong",
+                       "Company Type":  "Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Hudson Gavin Martin",
+        "Slug":  "hudson-gavin-martin",
+        "Values":  {
+                       "Company Name":  "Hudson Gavin Martin",
+                       "About":  "Hudson Gavin Martin is a leading corporate and commercial law firm specialising in technology, media and IP. Working beyond the traditional scope, the firm helps clients identify opportunities, create new connections, and set new standards in their businesses. Hudson Gavin Martin works at the cutting edge of fintech, advising incumbent players, global providers and exciting local start-ups.",
+                       "Website":  "https://www.hgmlegal.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/09/TIN-Logo.png",
+                       "seoTitle":  "Hudson Gavin Martin",
+                       "Company Type":  "Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Howick Ltd",
+        "Slug":  "howick-ltd",
+        "Values":  {
+                       "Company Name":  "Howick Ltd",
+                       "About":  "Howick is a pioneer in the technology of precision light steel roll-forming machines. Our commitment to innovation in light gauge steel, precision manufacturing, uncompromising quality and exemplary customer service have defined the Howick way. This commitment underpins the competitive advantage enjoyed by our customers. We are trusted partners and suppliers to developers, builders and offsite construction companies in over 75 countries. Our technology offers high-precision manufacturing direct from coil steel to steel framing, flooring and roofing systems. Using CAD technology, our machines produce cold formed steel components ready to assemble for walls, floors and trusses for a total steel building solution. Our customers benefit from proven reliability, rapid build speeds, improved accuracy and dramatically reduced wastage, in projects from new residential builds, low-rise commercial, retro-fit infill walls to bathroom pods. At Howick we see ourselves as part of the solution to better, smarter construction technology and the global housing crisis. We see our job as creating ways for the construction world to solve a major global problem with the cost of construction by providing better technology and smarter ways of building. For over 40 years we have been manufacturing our systems in our plant in East Auckland, with top quality New Zealand-made componentry either manufactured at the Howick factory or sourced locally. This gives us the advantage of tremendous quality",
+                       "Website":  "https://www.howickltd.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/howick.jpg",
+                       "seoTitle":  "Howick Ltd",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Gallagher",
+        "Slug":  "gallagher",
+        "Values":  {
+                       "Company Name":  "Gallagher",
+                       "About":  "When a horse called Joe decided to use the family car as a scratching post back in the 1930s, it inspired Bill Gallagher Senior to solve the problem by electrifying the car. Joe got the message and the concept for the world’s first electric fence system was born. That innovative drive remains at the heart of Gallagher today. Now with over 1000 employees worldwide, and customers in over 140 countries, Gallagher is a global leader in the animal management, security, fuel systems and contract manufacturing sectors. Gallagher’s continued international growth can be attributed to a culture that constantly pushes to discover ground-breaking solutions for its customers. It’s an approach led by CEO Sir William Gallagher, with a large percentage of the group’s revenue reinvested in research \u0026 development each year. Gallagher shows no signs of slowing down, with plenty of growth still to be had in offshore markets. Their continued innovative development in the technology sector tells us this is definitely one New Zealand business to watch.",
+                       "Website":  "https://www.gallagher.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/gallagher.jpg",
+                       "seoTitle":  "Gallagher",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Douglas Pharmaceuticals",
+        "Slug":  "douglas-pharmaceuticals",
+        "Values":  {
+                       "Company Name":  "Douglas Pharmaceuticals",
+                       "About":  "Douglas Pharmaceuticals is New Zealand’s largest family-owned healthcare company and was founded in 1967 by pharmacist Sir Graeme Douglas. Its mission is to improve lives by providing innovative, competitive, and high-quality healthcare solutions. The company’s core business is producing prescription drugs for various therapy areas including oncology, dermatology, the central nervous system, and immunology. Douglas develops, manufactures, and distributes specialty generic products, with a preference for those where there are technical or clinical complexities. The business also focuses on drug repurposing for global markets, seeking to address serious unmet medical needs using medicines approved by the FDA for other indications.",
+                       "Website":  "https://www.douglas.co.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/douglas.jpg",
+                       "seoTitle":  "Douglas Pharmaceuticals",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Xero",
+        "Slug":  "xero",
+        "Values":  {
+                       "Company Name":  "Xero",
+                       "About":  "Xero is a cloud-based accounting software platform for small businesses with over three million subscribers globally. Through Xero, small business owners and their advisors have access to real-time financial data anytime, anywhere and on any device. Xero offers an ecosystem of over 1,000 third-party apps and 300 plus connections to banks and other financial partners.",
+                       "Website":  "https://www.xero.com/nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/12/Xero_1logo-.jpg",
+                       "seoTitle":  "Xero",
+                       "Company Type":  "Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Ministry of Business, Innovation and Employment (MBIE)",
+        "Slug":  "ministry-of-business-innovation-and-employment-mbie",
+        "Values":  {
+                       "Company Name":  "Ministry of Business, Innovation and Employment (MBIE)",
+                       "About":  "The Ministry of Business, Innovation and Employment (MBIE) is the Government’s lead business-facing agency. Its contribution to improving the well-being of New Zealanders is summarised in its stated purpose: To grow New Zealand for all. “For all” means all people have an opportunity to participate in and benefit from the economy. New Zealand looks like: • Prosperous and adaptable people, sectors and regions • People are skilled and engaged in safe and fulfilling work • Informed consumers and businesses interacting with confidence • Value is sustainably derived from the natural environment • A dynamic business environment fostering innovation and international connections.",
+                       "Website":  "https://www.mbie.govt.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/12/MBIE-logo-.jpg",
+                       "seoTitle":  "Ministry of Business, Innovation and Employment (MBIE)",
+                       "Company Type":  "Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Ministry For Primary Industries",
+        "Slug":  "ministry-for-primary-industries",
+        "Values":  {
+                       "Company Name":  "Ministry For Primary Industries",
+                       "About":  "The Ministry for Primary Industries (MPI) is the lead government agency for the food and fibre sector in Aotearoa New Zealand. We work with businesses, farmers, fishers, foresters, growers, manufacturers and processors to ensure prosperity and wellbeing for New Zealanders. We’re responsible for regulatory systems that underpin functions such as food safety, forestry, biosecurity, and fisheries. In 2020, MPI launched the Government and sector roadmap Fit for a Better World to drive New Zealand’s economic recovery from COVID-19 by boosting productivity, sustainability and jobs over 10 years.",
+                       "Website":  "https://www.mpi.govt.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/12/Ministry-for-Primary-Industries-logo-.jpg",
+                       "seoTitle":  "Ministry For Primary Industries",
+                       "Company Type":  "Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Hamilton City Council",
+        "Slug":  "hamilton-city-council",
+        "Values":  {
+                       "Company Name":  "Hamilton City Council",
+                       "About":  "Hamilton and the Waikato reflect New Zealand – we are young, diverse, entrepreneurial, and community-minded. What sets us apart is our collective strength to challenge what’s possible and connect to global opportunities while remaining grounded in our kiwi values. Our city is at the centre of a collection of regions where more than half of New Zealanders live and two-thirds of recent population growth has occurred. Thirteen of 19 high-growth local authority areas are located less than 300 kilometres from us. We are a magnet for people and businesses who thrive in a culture that embraces the game-changing power of true collaboration.",
+                       "Website":  "https://hamilton.govt.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/12/Hamilton-City-Council-logo-.jpg",
+                       "seoTitle":  "Hamilton City Council",
+                       "Company Type":  "Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Spark Health",
+        "Slug":  "spark-health",
+        "Values":  {
+                       "Company Name":  "Spark Health",
+                       "About":  "Spark Health was formed in 2018 as a commitment from Spark to better support the digital and connectivity needs of the health sector. Spark Health has lots more to offer than mobile services and wireless broadband. Our aspiration is to help all New Zealanders live healthier lives through the power of technology. With an end-to-end digital services capability, existing across cloud, security, service management and systems integration, delivered by a national team of Client Directors we work across Spark and its subsidiaries to find the right solution for our health businesses, saving time and improving efficiencies so they can focus on providing care to their communities.",
+                       "Website":  "https://sparkhealth.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/12/Spark-Health_1-logo-.jpg",
+                       "seoTitle":  "Spark Health",
+                       "Company Type":  "Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Central Economic Development Agency (CEDA)",
+        "Slug":  "central-economic-development-agency-ceda",
+        "Values":  {
+                       "Company Name":  "Central Economic Development Agency (CEDA)",
+                       "About":  "As the economic development agency for Palmerston North city and Manawatū, CEDA’s vision is that Manawatū will be Aotearoa’s most progressive region by 2025. One of the three big goals that will show this has been achieved is for the region to be recognised as one of the worlds top three agrihubs. CEDA works across the three strategic pillars of economic development – People, Place and Business, with their partnerships and programmes all designed to create outcomes and impact that will power economic prosperity and achieve this vision for Palmerston North city and Manawatū.",
+                       "Website":  "https://ceda.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/CEDA_1logo.jpg",
+                       "seoTitle":  "Central Economic Development Agency (CEDA)",
+                       "Company Type":  "Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "ANZ",
+        "Slug":  "anz",
+        "Values":  {
+                       "Company Name":  "ANZ",
+                       "About":  "ANZ provides banking and financial products and services to around 10 million individual and business customers. Employing around 50,000 people worldwide and operating in 33 markets internationally, ANZ is one of the four largest banks in Australia, the largest in NZ and one of the 25 largest banks in the world by market.",
+                       "Website":  "https://www.anz.co.nz/personal/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/ANZ-logo.jpg",
+                       "seoTitle":  "ANZ",
+                       "Company Type":  "Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Tātaki Auckland Unlimited",
+        "Slug":  "auckland-unlimited",
+        "Values":  {
+                       "Company Name":  "Tātaki Auckland Unlimited",
+                       "About":  "Auckland Unlimited is Tāmaki Makaurau Auckland’s economic and cultural agency committed to making our region a desirable place to live, work, visit, invest and do business. As an Auckland Council-controlled organisation, we deliver a co-ordinated, region-wide programme to maximise cultural, social and economic benefits for our residents and visitors. Driving investment and innovation, we support Auckland businesses to thrive. Building on the 10-year legacy of our founding organisations – Regional Facilities Auckland Ltd, and Auckland Tourism, Events \u0026 Economic Development Ltd – we will continue to make Auckland a vibrant destination and support the development of our region’s economy. We will lead the development of our region’s growth industries, support innovation, and help to attract transformative investment and multi-national companies",
+                       "Website":  "https://aucklandunlimited.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/Auckland-Unlimited_1.png",
+                       "seoTitle":  "Tātaki Auckland Unlimited",
+                       "Company Type":  "Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Aroa Biosurgery",
+        "Slug":  "aroa-biosurgery",
+        "Values":  {
+                       "Company Name":  "Aroa Biosurgery",
+                       "About":  "Aroa Biosurgery is a publicly listed (ASX:ARX) soft-tissue repair company commercialising regenerative tissue substitutes for medical indications.",
+                       "Website":  "https://aroabio.com/nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/Aroa.jpg",
+                       "seoTitle":  "Aroa Biosurgery",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "New Zealand Growth Capital Partners (NZGCP)",
+        "Slug":  "new-zealand-growth-capital-partners-nzgcp",
+        "Values":  {
+                       "Company Name":  "New Zealand Growth Capital Partners (NZGCP)",
+                       "About":  "NZGCP was established in 2002 by the New Zealand Government to stimulate investment into early-stage Kiwi companies with high-growth potential. We partner with other investors to support companies with aspirations of achieving great things, giving Kiwi innovators the leg up that they need to succeed. Our Aspire fund invests directly into early-stage NZ tech start-ups at the Seed and Angel investment stage. Our Elevate fund is a $300m venture capital fund of funds, investing directly into venture capital firms, and is aimed at filling the Series A and B capital gap for high growth NZ tech companies.",
+                       "Website":  "https://www.nzgcp.co.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/NZGCP-logo-.jpg",
+                       "seoTitle":  "New Zealand Growth Capital Partners (NZGCP)",
+                       "Company Type":  "Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Callaghan Innovation",
+        "Slug":  "callaghan-innovation",
+        "Values":  {
+                       "Company Name":  "Callaghan Innovation",
+                       "About":  "Callaghan Innovation exists to activate innovation and help businesses grow faster for a better New Zealand by partnering with ambitious businesses of all sizes, and providing a range of innovation and research and development (R\u0026D) services to suit each stage of growth. With a team including more than 200 of New Zealand’s leading scientists and engineers, Callaghan Innovation empowers innovators by connecting people, opportunities and networks, and providing tailored technical solutions, skills and capability development programmes, and grants co-funding. Callaghan Innovation also enhances the operation of New Zealand’s innovation ecosystem, working closely with government partners, Crown Research Institutes, and other organisations that help increase business investment in R\u0026D and innovation.",
+                       "Website":  "https://www.callaghaninnovation.govt.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/Callaghan-Innovation-scaled.jpg",
+                       "seoTitle":  "Callaghan Innovation",
+                       "Company Type":  "Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "ASX",
+        "Slug":  "asx",
+        "Values":  {
+                       "Company Name":  "ASX",
+                       "About":  "ASX operates at the heart of Australia’s financial markets. Our integrated listings, trading, clearing and settlement businesses provide customers with efficient access to and exchange of capital, management of risk, and provision of data and other solutions. ASX operates across multiple asset classes including equities, fixed income, commodities and energy. ASX is the global leader in A$ and NZ$ financial markets, one of the top 10 securities exchanges in the world and the largest interest rate derivatives market in Asia. We have trading hubs in many of the world’s major financial centres, attract company listings from all around the globe and are based in Australia, which has one of the five largest pools of investable assets in the world. ASX opened an office in Auckland in 2019 and is proud to support the New Zealand technology industry as the region’s leading technology securities exchange.",
+                       "Website":  "https://www.asx.com.au/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/ASX-logo-1.jpg",
+                       "seoTitle":  "ASX",
+                       "Company Type":  "Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Toi Mai Workforce Development Council",
+        "Slug":  "toi-mai-workforce-development-council",
+        "Values":  {
+                       "Company Name":  "Toi Mai Workforce Development Council",
+                       "About":  "Toi Mai Workforce Development Council represents the creative, cultural, technology and recreation sectors which includes film making, journalism and broadcasting, music, museums, reserves and conservation parks, hairdressing, sports and recreation.",
+                       "Website":  "https://www.toimai.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/toimai.jpg",
+                       "seoTitle":  "Toi Mai Workforce Development Council",
+                       "Company Type":  "Affiliate Company"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Dodd-Walls Centre",
+        "Slug":  "dodd-walls-centre",
+        "Values":  {
+                       "Company Name":  "Dodd-Walls Centre",
+                       "About":  "Dodd-Walls Centre is committed to adding value to New Zealand’s technology sector through collaborative design and development of cutting-edge, sustainable solutions based on photonics and quantum science. We work with institutional and corporate clients here in Aotearoa and around the world, helping them develop solutions across a variety of applications from medical devices, environmental monitoring and agricultural technology to aerospace and additive manufacturing.",
+                       "Website":  "https://www.doddwalls.ac.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/Dodd-Walls.jpg",
+                       "seoTitle":  "Dodd-Walls Centre",
+                       "Company Type":  "Affiliate Company"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Volpara Health",
+        "Slug":  "volpara-health",
+        "Values":  {
+                       "Company Name":  "Volpara Health",
+                       "About":  "Volpara Health makes software to save families from cancer. Healthcare providers use Volpara to better understand cancer risk, empower patients in personal care decisions, and guide recommendations about additional imaging, genetic testing, and other interventions. Our AI-powered image analysis enables radiologists to quantify breast tissue with precision and helps technologists produce mammograms with optimal image quality, positioning, compression, and dose. In an industry facing increasing staffing shortages, our software streamlines operations and provides key performance insights that support continuous quality improvement. Volpara is the preferred partner of leading healthcare institutions around the world. Our software is used in over 2,000 facilities by more than 5,000 technologists, impacting nearly 15 million patients globally. It helps providers conduct more than three million cancer risk assessments each year and can be deployed stand-alone or fully integrated with electronic health record systems, mammography reporting systems, imaging hardware, and genetic laboratories. Volpara holds the most rigorous security certifications and numerous patents and regulatory registrations, including FDA clearance and CE marking. Since listing on the ASX in April 2016, the Company has raised A$132 million. With offices in Seattle and Boston, Volpara is based in Wellington, New Zealand.",
+                       "Website":  "https://www.volparahealth.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/volpara.jpg",
+                       "seoTitle":  "Volpara Health",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Trimax Mowing Systems",
+        "Slug":  "trimax-mowing-system",
+        "Values":  {
+                       "Company Name":  "Trimax Mowing Systems",
+                       "About":  "Trimax Mowing Systems is a family owned company that designs, manufactures and distributes tractor-powered mowing equipment around the world. Trimax has manufacturing, assembly, and warehousing facilities in New Zealand, Australia, the United Kingdom, and the United States. Trimax’s rotary and flail equipment is a market-leading mowing solution around the world and can be found on such high-profile turf as England’s Silverstone Race Circuit and US PGA Championship courses.",
+                       "Website":  "https://trimaxmowers.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/trimax.jpg",
+                       "seoTitle":  "Trimax Mowing Systems",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "TOMRA Fresh Food",
+        "Slug":  "tomra-fresh-food",
+        "Values":  {
+                       "Company Name":  "TOMRA Fresh Food",
+                       "About":  "TOMRA Fresh Food, a division of TOMRA which combines the expertise of BBC Technologies \u0026 Compac, is the global leader for integrated post-harvest solutions for the fresh food industry. The innovation-led, customer focused team is driven by helping customers achieve the best results in every aspect of their produce journey. Customers are seen as partners to the business; therefore, the team designs, develops, manufactures, installs and maintains end-to-end packhouse solutions that reduce labour, increase throughput, improve accuracy and consistency, and provide market compliance and traceability. TOMRA Fresh Food exists for producers with the ambition to make the most of their post-harvest operations, regardless of where they are in their evolution today. By combining the knowledge and expertise of Compac and BBC Technologies, TOMRA Fresh Food delivers innovative, successful products through a focus on customer needs, collaboration, and innovation. Research and Development is performed internally with team members travelling globally to gain first-hand experience with the issues and opportunities customers encounter.",
+                       "Website":  "https://www.tomra.com/en/solutions/food",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/tomra.jpg",
+                       "seoTitle":  "TOMRA Fresh Food",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Seequent",
+        "Slug":  "seequent",
+        "Values":  {
+                       "Company Name":  "Seequent",
+                       "About":  "Seequent is a world leader in the development of geoscience analysis, modelling and collaborative technologies for understanding geoscience and engineering design solutions. Our solutions enable people to analyse complex data, manage risk and ultimately make better decisions about earth, environment and energy challenges. Our software is used on projects globally and across multiple sectors including Energy, Mining, Marine, Civil, Environmental, and Government. Projects include road and rail tunnel construction, groundwater detection and management, geothermal exploration, subsea infrastructure mapping, resource evaluation, unexploded ordnance (UXO). Seequent’s global footprint includes its Christchurch-based HQ and R\u0026D centres in Christchurch and Canada with a network of offices across Asia/Pacific, Africa, South America, North America, and Europe servicing blue-chip companies and customers with leading subsurface solutions in over 100 countries.",
+                       "Website":  "https://www.seequent.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/seequent.jpg",
+                       "seoTitle":  "Seequent",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Pushpay",
+        "Slug":  "pushpay",
+        "Values":  {
+                       "Company Name":  "Pushpay",
+                       "About":  "Engagement and giving solutions for the US faith sector and not-for-profit organisations.",
+                       "Website":  "https://pushpay.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/Pushpay_3-.jpg",
+                       "seoTitle":  "Pushpay",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Pacific Edge",
+        "Slug":  "pacific-edge",
+        "Values":  {
+                       "Company Name":  "Pacific Edge",
+                       "About":  "Pacific Edge Limited is a cancer diagnostic company specialising in the discovery and commercialisation of diagnostic and prognostic tests for better detection and management of cancer. Its Cxbladder suite of non-invasive, simple to use and accurate diagnostic tests provide actionable results, and better detection and management of urothelial cancer. The company is developing and commercialising its range of Cxbladder bladder cancer tests globally through its wholly owned central laboratories in New Zealand and the USA. The company’s products have been tested and validated in a number of international multi-centre clinical studies.",
+                       "Website":  "https://www.pacificedgedx.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/pacific.jpg",
+                       "seoTitle":  "Pacific Edge",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Link Engine Management Ltd",
+        "Slug":  "link-engine-management-ltd",
+        "Values":  {
+                       "Company Name":  "Link Engine Management Ltd",
+                       "About":  "Link Engine Management is a global leader in motorsport electronics and performance technology. We specialise in the development, manufacture, and marketing of engine control units (ECUs) built to manage motorsport and powersport vehicles. Link is headquartered in Christchurch, New Zealand, with offices located in Australia, UK, the Netherlands and USA. We are extremely proud of the quality of our ECU product range which has been over 30 years in the making, is renowned for performance, reliability and value for money, and is now exported to over 75 countries. Motorsport is an excellent laboratory for developing new technology, and the rate of change in automotive technology is faster than ever with increasing eco-friendly synthetic fuels, electrification, automation, connectivity, and multimodal mobility. Our success in performance technology allows us to meet the challenge of developing comprehensive solutions for a wide range of powertrain technologies and fuels, from gasoline and diesel direct injection to multimodal fueling systems. Link is pushing ahead with the development of innovative, eco-friendly technologies and systems based on diesel, gasoline, natural gas, ethanol, and synthetic fuels. Our R\u0026D is focused on developing even more fuel-efficient engine management systems for applications ranging from passenger cars and commercial vehicles of all kinds, to drones and industrial power-generation units. We are focused on leading our markets into the future, int",
+                       "Website":  "https://linkecu.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/link.jpg",
+                       "seoTitle":  "Link Engine Management Ltd",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Fisher \u0026 Paykel Healthcare",
+        "Slug":  "fisher-paykel-healthcare",
+        "Values":  {
+                       "Company Name":  "Fisher \u0026 Paykel Healthcare",
+                       "About":  "Fisher \u0026 Paykel Healthcare is a leading designer, manufacturer and marketer of products for use in respiratory care, acute care, and the treatment of obstructive sleep apnea.",
+                       "Website":  "https://www.fphcare.com/nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/fisher.jpg",
+                       "seoTitle":  "Fisher \u0026 Paykel Healthcare",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Fingermark",
+        "Slug":  "fingermark",
+        "Values":  {
+                       "Company Name":  "Fingermark",
+                       "About":  "Founded in Auckland in 2005, Fingermark™ is an industry-leading digital solutions innovator enabling businesses to improve their revenue through digital customer journeys and operational efficiency. The New Zealand-owned company currently holds partnerships with the world’s largest fast-food and convenience brands, providing machine vision and artificial intelligence software and advanced hardware systems such as self-service kiosks and digital menus. An integrated ecosystem of products deliver speed of service, sales uplift and improved customer experience. Eyecue™ - a cutting-edge, configurable data driven solution - uses computer vision to track humans, equipment, vehicles and their interactions in key operational applications, in real-time with very high accuracy, providing prompts and insights that make operations smarter and safer. Mining customers also benefit from improvements in environment monitoring, safer maintenance procedures, PPE status, as well as tracking vehicle and human movements in dangerous areas.",
+                       "Website":  "https://www.fingermark.tech/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/fingermark.jpg",
+                       "seoTitle":  "Fingermark",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Efficient Market Services (USX)",
+        "Slug":  "efficient-market-services-usx",
+        "Values":  {
+                       "Company Name":  "Efficient Market Services (USX)",
+                       "About":  "Efficient Market Services owns and operates the Unlisted Securities Exchange (USX), a financial product market that operates pursuant to an exemption from subpart 7 of Part 5 of the Financial Markets Conduct Act 2013 (the Act). The Unlisted Securities Exchange (USX) is a cost-effective and transparent securities trading facility and communications platform providing valuable price discovery and liquidity. Since its launch in 2004, USX has transacted over 19,000 trades for a total of 330 million shares traded worth $400 million. USX now has 18 issuers, 19 securities and 6 brokers for a market capitalisation c. $3 billion USX enables businesses to allow informed trading in their shares on an arm’s length basis. USX provides real value to all stakeholders through the ability to easily exchange shares and reduce the cost of capital. For Issuers: USX is a centralised and transparent securities trading mechanism which: • Provides an arm’s length price discovery mechanism for securities • Facilitates communication with investors and shareholders • Enables exposure to greater investor interest and publicity For Investors: • USX delivers transparent value in exchange transactions For Brokers: • USX delivers value in exchange fee income",
+                       "Website":  "https://www.usx.co.nz/agreement",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/USX.jpg",
+                       "seoTitle":  "Efficient Market Services (USX)",
+                       "Company Type":  "Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "DEC International",
+        "Slug":  "dec-international",
+        "Values":  {
+                       "Company Name":  "DEC International",
+                       "About":  "DEC International is a Hamilton based, medical technology, and manufacturing company for human and vet applications. Experts in slow drug/hormone release technologies, their flagship CIDR technology sells 8 million implants per year, and exports globally. They offer GMP manufacture to ISO 13485 for pharmaceuticals and medical devices, as well as R\u0026D, quality, and regulatory support to enable the path to market. In addition, DEC has a long history in high volume injection moulding of polymers and silicones, primarily supplying regulated markets.",
+                       "Website":  "https://decnz.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/dec.jpg",
+                       "seoTitle":  "DEC International",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "DataTorque",
+        "Slug":  "datatorque",
+        "Values":  {
+                       "Company Name":  "DataTorque",
+                       "About":  "We help countries around the world advance by transforming their public revenue systems. By enabling governments to generate essential domestic revenue, DataTorque facilitates investment in key public services and infrastructure that are crucial to improving the lives of their people. Founded in 1994 we are revenue reform specialists who provide integrated tax administration systems and services to help public revenue authorities achieve their vision of a modern, equitable and efficient tax system. Our commercial off the shelf (COTS) Revenue Management System (RMS) manages billions of dollars accounting for 15-25% of a nation’s GDP. Today DataTorque is trusted by 16 governments worldwide – from the Pacific to Africa, the Americas and Europe - to increase the fairness and efficiency of taxation, sustain inclusive economic growth, and so to achieve UN Sustainable Development Goals. Our team comes from all over the world united by a sense of shared purpose. Each one of us is driven by the idea that when everyone contributes, everyone benefits. This shared understanding and commitment has helped define the technology solutions our clients rely upon every day. Most importantly, it has moulded and shaped us into a forward-thinking company with a human, open minded approach that is totally focused on doing things better. Hand-in-hand with our clients we work on solutions that deliver real impact where it matters.",
+                       "Website":  "https://datatorque.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/data.jpg",
+                       "seoTitle":  "DataTorque",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Bluelab",
+        "Slug":  "bluelab",
+        "Values":  {
+                       "Company Name":  "Bluelab",
+                       "About":  "Bluelab is driven to develop technology to unlock the potential in plants while equipping growers with the freedom to pioneer in the plant-age. We target growers in the greenhouse, hydroponic, aquaponic, horticulture, and floriculture sectors. With a range of hardware and software products that monitor and control nutrient, pH, moisture, and temperature in controlled environment agriculture (CEA). Although we market, sell and distribute internationally, we are proud that we continue to design and produce our innovative tools at our Head Office in the Bay of Plenty.",
+                       "Website":  "https://bluelab.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/bluelab.jpg",
+                       "seoTitle":  "Bluelab",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "APLYiD",
+        "Slug":  "aplyid",
+        "Values":  {
+                       "Company Name":  "APLYiD",
+                       "About":  "APLYiD is a trusted \u0026 accredited digital ID solution designed to streamline your customer onboarding with a first-class user experience. APLYiD provides a simplified 2-step approach using biometric verification to match ID photos with government records and a selfie of the document holder. With lightning-fast ID processing and a reduced number of steps and documents required - now you won’t lose customers to form fatigue. Getting setup with APLYiD is as simple as creating an account. You can start trialing the out-of-box solution straight away, to understand how you can save your business time and money. APLYiD ensures your organisation is compliant with the law. Our tech passes government standards so you meet your local and global AML/KYC requirements.",
+                       "Website":  "https://www.aplyid.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/11/APLYiD-logo.png",
+                       "seoTitle":  "APLYiD",
+                       "Company Type":  "Tech Company"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Datacom Group Ltd.",
+        "Slug":  "datacom-group-ltd",
+        "Values":  {
+                       "Company Name":  "Datacom Group Ltd.",
+                       "About":  "Our focus on our customers is at the heart of who we are. We pride ourselves on the range of our offerings, the depth of our expertise and breadth of technology partnerships. At Datacom, we believe our purpose is to help our customers and communities navigate the complexity of this every-changing world we live in, by connecting people and technology, and solving their greatest challenges. With more than 50 years’ experience in technology, we have grown to be one of Australasia’s leading locally owned technology company. We design, build and run IT systems and process for business. We support existing legacy IT systems and processes, and we custom-design brand new ones. We work with our customers to build and operate sustainable solutions by exploring their current state, clarifying their future potential and solving their most pressing problems. Our breadth of advisory and technical skills provides deep expertise in technology platforms to our customers, provided by our 200 tech partners.",
+                       "Website":  "https://datacom.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/10/Datacom_1-logo-.png",
+                       "seoTitle":  "Datacom Group Ltd.",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "BNZ",
+        "Slug":  "bnz",
+        "Values":  {
+                       "Company Name":  "BNZ",
+                       "About":  "We’re the bank for New Zealand. We’ve been helping our customers make their goals a reality for over 150 years, and now we’re working with them to redesign banking for the future. We’re committed to helping Kiwi tech businesses grow and take their ideas to the world. With tech-focused bankers who understand the challenges of scaling from the ground up, and the potential, we can support you through appropriate capital solutions for your business and connections to people and markets that matter.",
+                       "Website":  "https://www.bnz.co.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/10/BNZlogo.jpg",
+                       "seoTitle":  "BNZ",
+                       "Company Type":  "Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Absolute IT",
+        "Slug":  "absolute-it",
+        "Values":  {
+                       "Company Name":  "Absolute IT",
+                       "About":  "A LOCAL STORY We’re proud to be 100% New Zealand grown, with a global focus. As a business, we share a common vision of being New Zealand’s top technology recruitment company. This means being the best connected, the most knowledgeable and most effective in meeting our clients’ and our job seeker’s needs—our success comes from your success. SUPPORTING THE KIWI TECH SECTOR We have been a passionate contributor to New Zealand’s Tech Sector for over 20 years, and we are proud to invest in recurring annual sponsorships. The highlight of our annual partnership with TIN is our sponsorship of the Absolute IT Supreme Scale-Ups award. This accolade celebrates the top ten companies from the ‘Next 100’ (who are ranked between 101-200 in the TIN200). These are organisations that have demonstrated the largest revenue growth in the past year – a clear acknowledgement of the significance of these Kiwi companies, taking the world by storm. From application and software development to AI, Automation, Cloud, Cybersecurity Analytics, CX, UX and Technical Support, we are a leading provider of talent to New Zealand’s IT sector. BUILT ON VALUES Absolute IT built on honesty and integrity. We operate guided by our values. One of our key strengths is our ability to consistently provide quality people solutions to our business partners. We make sure we use leading edge technology, and the most effective marketing and advertising available.",
+                       "Website":  "https://www.absoluteit.co.nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/10/Absolute-IT.png",
+                       "seoTitle":  "Absolute IT",
+                       "Company Type":  "Sponsor"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Syft Technologies",
+        "Slug":  "syft-technologies",
+        "Values":  {
+                       "Company Name":  "Syft Technologies",
+                       "About":  "Providing customer solutions is at the core of Syft Technologies. We employ a vibrant team of chemists, physicists, mathematicians, and engineers, who enable Syft to provide customized solutions for our customers. In all applications the unique attributes of Selected Ion Flow Tube Mass Spectrometry (SIFT-MS) have enabled our customers to measure significantly more than they thought was possible, resulting in a greater understanding of their products. SIFT-MS is the fastest gas analysis technology available, providing thorough chemical analysis in real-time.",
+                       "Website":  "https://www.syft.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/10/Syft-TIN-Member.jpg",
+                       "seoTitle":  "Syft Technologies",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "HMI Technologies",
+        "Slug":  "hmi-technologies",
+        "Values":  {
+                       "Company Name":  "HMI Technologies",
+                       "About":  "HMI Technologies is an innovator in world leading custom-built intelligent transport systems. We design and manufacture hardware and software to exceed quality specifications and service expectations and specialise in products such as variable message signs, speed activated signs, speed indication devices and motorway signalling. We are regional experts in deploying autonomous vehicles and state of the art transport technology. Ohmio self-driving vehicle technology was created by HMI Technologies and are world-leading in their technology and capabilities. Fully electric to reduce emissions, they feature innovative safety and powerful navigational technologies enhanced by artificial intelligence to ensure continuous improvement.",
+                       "Website":  "https://www.hmi.co.nz/en-nz/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/10/HMI-Technologies-2.png",
+                       "seoTitle":  "HMI Technologies",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "AFT Pharmaceuticals",
+        "Slug":  "aft-pharmaceuticals",
+        "Values":  {
+                       "Company Name":  "AFT Pharmaceuticals",
+                       "About":  "Pharmaceutical development and distribution.",
+                       "Website":  "https://www.aftpharm.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/10/aft-pharma.jpg",
+                       "seoTitle":  "AFT Pharmaceuticals",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "Aeroqual",
+        "Slug":  "aeroqual",
+        "Values":  {
+                       "Company Name":  "Aeroqual",
+                       "About":  "Helping people, companies and governments make better air quality decisions by providing them with cost effective and reliable instrumentation and information. Our sensor-based instruments and air quality monitoring systems are used widely in outdoor ambient applications as well as indoor air quality monitoring and ozone monitoring and control.",
+                       "Website":  "https://www.aeroqual.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/10/Aeroqual_1-logo.jpg",
+                       "seoTitle":  "Aeroqual",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    },
+    {
+        "WordPressType":  "directory",
+        "ContentTypeAlias":  "memberPage",
+        "Name":  "ADInstruments",
+        "Slug":  "adinstruments",
+        "Values":  {
+                       "Company Name":  "ADInstruments",
+                       "About":  "At ADInstruments we create high-quality software and hardware solutions that enable life science researchers to record and analyze their data accurately and efficiently, and interactive education platforms that maximize student engagement in science. Powerful, flexible, and high-performing, ADInstruments’ research products are cited in more than 30,000 research papers in peer-reviewed journals and our equipment is used all of the top 100 institutions for Life Science - including Oxford and Cambridge Universities in the UK, Harvard and Stanford Universities in the US, and Tokyo and Sydney Universities. We’ve leveraged our experience in research to extend into life science education. Our online and in-lab education solutions provide all the hardware, software, experiments, and lesson content educators need to create a stimulating and interactive learning environment that guides life science students to connect theory and practice. ADInstruments is proudly headquartered in Dunedin and has offices in the USA, UK, China, Australia, India, and Brazil, as well as a broad global distribution network. Established in 1986 • 10,000 + organisations served worldwide • 100% of top institutions for Life Science served • 90 of the top 100 universities served • 30,000 + citations in scientific journals",
+                       "Website":  "https://www.adinstruments.com/",
+                       "Company Logo - Full Color":  "https://tin100.com/wp-content/uploads/2022/10/ADInstruments-sml800.png",
+                       "seoTitle":  "ADInstruments",
+                       "Company Type":  "TIN200"
+                   },
+        "Publish":  true
+    }
+]

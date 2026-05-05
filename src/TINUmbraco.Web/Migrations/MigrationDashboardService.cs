@@ -25,7 +25,13 @@ public sealed class MigrationDashboardService(
         using IServiceScope scope = serviceScopeFactory.CreateScope();
         WordPressMigrationMediaService mediaService = scope.ServiceProvider.GetRequiredService<WordPressMigrationMediaService>();
 
-        string selectedJsonPath = ResolveJsonPath(requestedJsonPath, options.Value, hostEnvironment);
+        string? fallbackSelectedJsonPath;
+        lock (_sync)
+        {
+            fallbackSelectedJsonPath = _snapshot.SelectedJsonPath;
+        }
+
+        string selectedJsonPath = ResolveJsonPath(requestedJsonPath, fallbackSelectedJsonPath, options.Value, hostEnvironment);
         if (string.IsNullOrWhiteSpace(selectedJsonPath))
         {
             return new MigrationPreflightResult(
@@ -99,7 +105,13 @@ public sealed class MigrationDashboardService(
 
     public bool TryStartRun(MigrationDashboardRunRequest? request, out string message)
     {
-        string selectedJsonPath = ResolveJsonPath(request?.JsonPath, options.Value, hostEnvironment);
+        string? fallbackSelectedJsonPath;
+        lock (_sync)
+        {
+            fallbackSelectedJsonPath = _snapshot.SelectedJsonPath;
+        }
+
+        string selectedJsonPath = ResolveJsonPath(request?.JsonPath, fallbackSelectedJsonPath, options.Value, hostEnvironment);
         bool dryRun = request?.DryRun ?? false;
 
         lock (_sync)
@@ -199,7 +211,7 @@ public sealed class MigrationDashboardService(
         IHostEnvironment hostEnvironment)
     {
         string[] availableJsonPaths = GetAvailableJsonPaths(optionsValue, hostEnvironment);
-        string selectedJsonPath = ResolveJsonPath(optionsValue.JsonPath, optionsValue, hostEnvironment);
+        string selectedJsonPath = ResolveJsonPath(optionsValue.JsonPath, null, optionsValue, hostEnvironment);
 
         return MigrationDashboardSnapshot.CreateIdle(
             configuredJsonPath: optionsValue.JsonPath,
@@ -209,12 +221,18 @@ public sealed class MigrationDashboardService(
 
     private static string ResolveJsonPath(
         string? requestedJsonPath,
+        string? fallbackSelectedJsonPath,
         WordPressMigrationOptions optionsValue,
         IHostEnvironment hostEnvironment)
     {
         string candidate = string.IsNullOrWhiteSpace(requestedJsonPath)
-            ? optionsValue.JsonPath?.Trim() ?? string.Empty
+            ? fallbackSelectedJsonPath?.Trim() ?? string.Empty
             : requestedJsonPath.Trim();
+
+        if (string.IsNullOrWhiteSpace(candidate))
+        {
+            candidate = optionsValue.JsonPath?.Trim() ?? string.Empty;
+        }
 
         if (!string.IsNullOrWhiteSpace(candidate))
         {

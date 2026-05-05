@@ -60,10 +60,12 @@ public sealed class WordPressMigrationContentService(
             throw new ArgumentNullException(nameof(item));
         }
 
+        string effectiveName = ResolveItemName(item);
+
         return UpsertUnderWordPressSection(
             item.WordPressType,
             item.ContentTypeAlias,
-            item.Name,
+            effectiveName,
             item.Slug,
             mapValues: content => propertyMapper.ApplyValues(content, item.Values, item.WordPressType, dryRun),
             publish: item.Publish,
@@ -160,7 +162,7 @@ public sealed class WordPressMigrationContentService(
         while (true)
         {
             IReadOnlyList<IContent> page = contentService
-                .GetPagedChildren(parentId, pageIndex, pageSize, out _, [UrlNamePropertyAlias], null, null, false)
+                .GetPagedChildren(parentId, pageIndex, pageSize, out _, null, null, null, false)
                 .ToList();
 
             if (page.Count == 0)
@@ -168,20 +170,13 @@ public sealed class WordPressMigrationContentService(
                 return null;
             }
 
-            // First, try to match by umbracoUrlName (published content)
+            // Match by umbracoUrlName first; if missing, fall back to normalized name.
             IContent? match = page.FirstOrDefault(child =>
                 string.Equals(child.ContentType.Alias, contentTypeAlias, StringComparison.OrdinalIgnoreCase)
-                && string.Equals(NormalizeSlug(GetUrlName(child)), normalizedSlug, StringComparison.OrdinalIgnoreCase));
-
-            if (match is not null)
-            {
-                return match;
-            }
-
-            // If not found by URL name, try matching by normalized name (for unpublished content)
-            match = page.FirstOrDefault(child =>
-                string.Equals(child.ContentType.Alias, contentTypeAlias, StringComparison.OrdinalIgnoreCase)
-                && string.Equals(NormalizeSlug(child.Name ?? string.Empty), normalizedSlug, StringComparison.OrdinalIgnoreCase));
+                && (
+                    string.Equals(NormalizeSlug(GetUrlName(child)), normalizedSlug, StringComparison.OrdinalIgnoreCase)
+                    || string.Equals(NormalizeSlug(child.Name ?? string.Empty), normalizedSlug, StringComparison.OrdinalIgnoreCase)
+                ));
 
             if (match is not null)
             {
@@ -221,4 +216,48 @@ public sealed class WordPressMigrationContentService(
     {
         return value.Trim().ToLowerInvariant();
     }
+
+    private static string ResolveItemName(WordPressMigrationItem item)
+    {
+        if (!IsMembershipLikeType(item.WordPressType))
+        {
+            return item.Name;
+        }
+
+        foreach (string sourceAlias in CompanyNameSourceAliases)
+        {
+            if (!item.Values.TryGetValue(sourceAlias, out object? value))
+            {
+                continue;
+            }
+
+            string? candidate = value switch
+            {
+                null => null,
+                string s => s.Trim(),
+                _ => value.ToString()?.Trim()
+            };
+
+            if (!string.IsNullOrWhiteSpace(candidate))
+            {
+                return candidate;
+            }
+        }
+
+        return item.Name;
+    }
+
+    private static bool IsMembershipLikeType(string wordPressType)
+    {
+        string normalized = NormalizeToken(wordPressType);
+        return normalized is "membership" or "memberships" or "member" or "members" or "directory" or "directories" or "sponsor" or "sponsors";
+    }
+
+    private static readonly string[] CompanyNameSourceAliases =
+    [
+        "Company Name",
+        "company_name",
+        "companyName",
+        "title"
+    ];
 }

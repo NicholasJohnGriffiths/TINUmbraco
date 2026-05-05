@@ -1,0 +1,77 @@
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<IPublishedContent>
+@{
+    Layout = "~/Views/_Master.cshtml";
+
+    string? pageTitleValue = Model.Value<string>("pageTitle");
+    string? newsTitleValue = Model.Value<string>("title");
+    string pageTitle = !string.IsNullOrWhiteSpace(pageTitleValue)
+        ? pageTitleValue
+        : !string.IsNullOrWhiteSpace(newsTitleValue)
+            ? newsTitleValue
+            : Model.Name;
+
+    string? pageHeadingValue = Model.Value<string>("pageHeading");
+    string pageHeading = !string.IsNullOrWhiteSpace(pageHeadingValue) ? pageHeadingValue : pageTitle;
+
+    string? summary = Model.Value<string>("heroText")
+        ?? Model.Value<string>("summary")
+        ?? Model.Value<string>("excerpt");
+
+    IPublishedContent? coverImage = Model.Value<IPublishedContent>("featuredImage")
+        ?? Model.Value<IPublishedContent>("image")
+        ?? Model.Value<IPublishedContent>("heroImage")
+        ?? Model.Value<IPublishedContent>("thumbnail");
+
+    IHtmlContent? bodyContent = Model.Value<IHtmlContent>("bodyContent")
+        ?? Model.Value<IHtmlContent>("mainContent");
+
+    if (bodyContent is null)
+    {
+        string? bodyText = Model.Value<string>("bodyContent")
+            ?? Model.Value<string>("mainContent")
+            ?? Model.Value<string>("content")
+            ?? Model.Value<string>("body");
+
+        if (!string.IsNullOrWhiteSpace(bodyText))
+        {
+            bodyContent = new HtmlString(bodyText);
+        }
+    }
+
+    object? publishDateRaw = Model.Value("publishDate");
+
+    string? publishDateText = publishDateRaw switch
+    {
+        DateOnly dateOnly => dateOnly.ToString("d MMM yyyy"),
+        DateTime dateTime => dateTime.ToString("d MMM yyyy"),
+        DateTimeOffset dateTimeOffset => dateTimeOffset.ToString("d MMM yyyy"),
+        _ => publishDateRaw?.ToString()
+    };
+}
+
+@if (Model.Parent is not null)
+{
+    <a class="back" href="@Model.Parent.Url()">Back to @Model.Parent.Name</a>
+}
+
+<h1 class="page-title">@pageHeading</h1>
+
+@if (!string.IsNullOrWhiteSpace(publishDateText))
+{
+    <p class="report-meta">Published @publishDateText</p>
+}
+
+@if (!string.IsNullOrWhiteSpace(summary))
+{
+    <p class="lead">@summary</p>
+}
+
+@if (coverImage is not null)
+{
+    <img class="report-cover-image" src="@coverImage.Url()" alt="@pageHeading" loading="eager" />
+}
+
+@if (bodyContent is not null)
+{
+    <article class="content">@bodyContent</article>
+}

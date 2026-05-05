@@ -1,0 +1,16 @@
+[
+  {
+    "WordPressType": "directory",
+    "ContentTypeAlias": "memberPage",
+    "Name": "Fallback Name Should Be Overridden",
+    "Slug": "waikato-management-school",
+    "Values": {
+      "Company Name": "Waikato Management School",
+      "About": "Waikato Management School is part of the University of Waikato and is in the top 1% of business schools globally. They were the first business school in New Zealand to achieve the prestigious Triple Crown Accreditation, which they still hold today. In 2024, they launched NZ’s first undergraduate degree in fintech: the Bachelor of Banking, Finance, and Technology.",
+      "Website": "https://www.waikato.ac.nz/about/faculties-schools/management/",
+      "Company Logo - Full Color": "https://tin100.com/wp-content/uploads/2024/05/2020_Waikato-Management-School-w-Logo-1526x1024-bc2a545.png",
+      "Company Type": "sponsor"
+    },
+    "Publish": false
+  }
+]

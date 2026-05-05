@@ -1,2 +1,47 @@
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<IPublishedContent>
-@await Html.PartialAsync("Partials/_ContentDetailPage", Model)
+@{
+    Layout = "~/Views/_Master.cshtml";
+
+    // Get the membership name and details
+    string memberName = Model.Name;
+    string? description = Model.Value<string>("description");
+    string? companyType = Model.Value<string>("companyType");
+    
+    // Try to get logo from media picker
+    IPublishedContent? logo = Model.Value<IPublishedContent>("logo");
+    
+    // Get website URL from MultiUrlPicker
+    var websiteLinks = Model.Value<IEnumerable<Umbraco.Cms.Core.Models.Link>>("websiteUrl");
+    string? websiteUrl = websiteLinks?.FirstOrDefault()?.Url;
+}
+
+@if (Model.Parent is not null)
+{
+    <a class="back" href="@Model.Parent.Url()">Back to @Model.Parent.Name</a>
+}
+
+<h1 class="page-title">@memberName</h1>
+
+@if (!string.IsNullOrWhiteSpace(companyType))
+{
+    <p class="member-type"><strong>Type:</strong> @companyType</p>
+}
+
+@if (logo is not null)
+{
+    <img class="member-logo" src="@logo.Url()" alt="@memberName logo" loading="eager" style="max-width: 300px; margin: 20px 0;" />
+}
+
+@if (!string.IsNullOrWhiteSpace(description))
+{
+    <article class="content">
+        @Html.Raw(description)
+    </article>
+}
+
+@if (!string.IsNullOrWhiteSpace(websiteUrl))
+{
+    <p style="margin-top: 20px;">
+        <a href="@websiteUrl" target="_blank" class="btn btn-primary">Visit Website</a>
+    </p>
+}

@@ -56,14 +56,14 @@
 
             @if (navigationItems.Count > 0 || showToolsLink)
             {
-                <button class="menu-toggle" type="button" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="menu-toggle" type="button" aria-expanded="false" aria-label="Toggle navigation" aria-controls="primary-menu">
                     <span class="menu-toggle-bar"></span>
                     <span class="menu-toggle-bar"></span>
                     <span class="menu-toggle-bar"></span>
                 </button>
 
                 <nav aria-label="Primary navigation">
-                    <ul class="menu">
+                    <ul class="menu" id="primary-menu">
                         @foreach (IPublishedContent navItem in navigationItems)
                         {
                             bool isActive = Model.Id == navItem.Id || Model.Path.Split(',').Contains(navItem.Id.ToString());

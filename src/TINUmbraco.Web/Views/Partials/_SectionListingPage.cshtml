@@ -9,6 +9,10 @@
     IHtmlContent? mainContent = Model.Value<IHtmlContent>("mainContent");
 
     bool isReportsPage = string.Equals(Model.ContentType.Alias, "reportsPage", StringComparison.OrdinalIgnoreCase);
+    bool isNewsPage = string.Equals(Model.ContentType.Alias, "newsPage", StringComparison.OrdinalIgnoreCase);
+    bool isMembershipsPage = string.Equals(Model.ContentType.Alias, "membershipsPage", StringComparison.OrdinalIgnoreCase);
+    bool usePagination = isReportsPage || isNewsPage;
+    const int pageSize = 12;
 
     DateTime GetPublishDateOrMin(IPublishedContent item)
     {
@@ -27,10 +31,35 @@
         .Children()
         .Where(x => x.IsVisible())
         .OrderByDescending(x => isReportsPage ? GetPublishDateOrMin(x) : DateTime.MinValue)
+        .ThenBy(x => isMembershipsPage ? x.Name : null, StringComparer.OrdinalIgnoreCase)
         .ThenBy(x => x.SortOrder)
         .ToList();
+
+    int currentPage = 1;
+    if (usePagination
+        && int.TryParse(Context.Request.Query["page"], out int parsedPage)
+        && parsedPage > 0)
+    {
+        currentPage = parsedPage;
+    }
+
+    int totalItems = children.Count;
+    int totalPages = usePagination ? Math.Max(1, (int)Math.Ceiling(totalItems / (double)pageSize)) : 1;
+    currentPage = Math.Min(currentPage, totalPages);
+
+    IReadOnlyList<IPublishedContent> visibleChildren = usePagination
+        ? children.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList()
+        : children;
+
+    string BuildPageUrl(int targetPage)
+    {
+        string basePath = Context.Request.Path.Value ?? string.Empty;
+        return targetPage <= 1 ? basePath : $"{basePath}?page={targetPage}";
+    }
+
+    int firstPageToShow = Math.Max(1, currentPage - 2);
+    int lastPageToShow = Math.Min(totalPages, currentPage + 2);
 }
-<p class="kicker">TIN Section</p>
 <h1 class="page-title">@pageHeading</h1>
 
 @if (!string.IsNullOrWhiteSpace(heroText))
@@ -50,7 +79,7 @@
 else
 {
     <section class="cards" aria-label="Section items">
-        @foreach (IPublishedContent child in children)
+        @foreach (IPublishedContent child in visibleChildren)
         {
             MediaWithCrops? cardImage = null;
             if (isReportsPage)
@@ -60,15 +89,53 @@ else
                     ?? child.Value<MediaWithCrops>("heroImage")
                     ?? child.Value<MediaWithCrops>("thumbnail");
             }
+            else if (isNewsPage)
+            {
+                cardImage = child.Value<MediaWithCrops>("featuredImage")
+                    ?? child.Value<MediaWithCrops>("image")
+                    ?? child.Value<MediaWithCrops>("heroImage")
+                    ?? child.Value<MediaWithCrops>("thumbnail");
+            }
+            else if (isMembershipsPage)
+            {
+                cardImage = child.Value<MediaWithCrops>("logo");
+            }
 
             <a class="card" href="@child.Url()">
                 @if (cardImage is not null)
                 {
-                    <img class="card-image" src="@cardImage.MediaUrl()" alt="@child.Name" loading="lazy" />
+                    <img class="card-image card-image--logo" src="@cardImage.MediaUrl()" alt="@child.Name" loading="lazy" />
                 }
                 <h2>@child.Name</h2>
+                @{ string? cardSummary = child.Value<string>("heroText") ?? child.Value<string>("summary") ?? child.Value<string>("excerpt"); }
+                @if (!string.IsNullOrWhiteSpace(cardSummary))
+                {
+                    <p class="card-summary">@cardSummary</p>
+                }
                 <p>Read more</p>
             </a>
         }
     </section>
+
+    @if (usePagination && totalPages > 1)
+    {
+        <nav class="pagination" aria-label="Pagination">
+            @if (currentPage > 1)
+            {
+                <a class="pagination-link" href="@BuildPageUrl(currentPage - 1)">Previous</a>
+            }
+
+            @for (int pageNumber = firstPageToShow; pageNumber <= lastPageToShow; pageNumber++)
+            {
+                <a class="pagination-link @(pageNumber == currentPage ? "is-active" : null)"
+                   href="@BuildPageUrl(pageNumber)"
+                   aria-current="@(pageNumber == currentPage ? "page" : null)">@pageNumber</a>
+            }
+
+            @if (currentPage < totalPages)
+            {
+                <a class="pagination-link" href="@BuildPageUrl(currentPage + 1)">Next</a>
+            }
+        </nav>
+    }
 }

@@ -52,19 +52,14 @@
                 <div class="tool-card tool-actions">
                     <p class="section-title">Configured dataset</p>
                     <label class="tool-label" for="migration-json-path">JSON file</label>
-                    <input id="migration-json-path"
-                           class="tool-input tool-mono"
-                           list="migration-json-options"
-                           type="text"
-                           data-json-path-input
-                           value="@Model.SelectedJsonPath"
-                           placeholder="migration-data.pilot.json" />
-                    <datalist id="migration-json-options">
+                    <select id="migration-json-path"
+                            class="tool-input tool-mono"
+                            data-json-path-input>
                         @foreach (string jsonPath in Model.AvailableJsonPaths)
                         {
-                            <option value="@jsonPath"></option>
+                            <option value="@jsonPath" selected="@(string.Equals(jsonPath, Model.SelectedJsonPath, StringComparison.OrdinalIgnoreCase) ? "selected" : null)">@jsonPath</option>
                         }
-                    </datalist>
+                    </select>
                     <p class="tool-note">Configured default: <span class="tool-mono" data-field="configuredJsonPath">@(string.IsNullOrWhiteSpace(Model.ConfiguredJsonPath) ? "Not configured" : Model.ConfiguredJsonPath)</span></p>
                     <div class="tool-button-row">
                         <button class="tool-button" type="button" data-run-button-live @(Model.CanStart ? null : "disabled")>
@@ -77,7 +72,7 @@
                             Check Preflight
                         </button>
                     </div>
-                    <p class="tool-note">Choose a listed dataset or type a different relative or absolute JSON path for this run.</p>
+                    <p class="tool-note">Choose a dataset from the list for this run.</p>
                 </div>
 
                 <div class="tool-grid">

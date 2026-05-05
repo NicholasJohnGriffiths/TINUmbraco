@@ -98,7 +98,13 @@
     }
 
     function updateInputs(snapshot) {
-        if (jsonPathInput && document.activeElement !== jsonPathInput) {
+        if (!jsonPathInput) {
+            return;
+        }
+
+        // Preserve the user's manual JSON selection while polling status.
+        // Only hydrate from snapshot if the input is currently empty.
+        if (!jsonPathInput.value) {
             jsonPathInput.value = snapshot.selectedJsonPath ?? '';
         }
     }

@@ -1,4 +1,5 @@
 using System.Net.Http;
+using System.Text.Json;
 using Umbraco.Cms.Core.IO;
 using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.PropertyEditors;
@@ -84,7 +85,11 @@ public sealed class WordPressMigrationMediaService(
             return false;
         }
 
-        if (!string.Equals(property.PropertyType.PropertyEditorAlias, "Umbraco.MediaPicker3", StringComparison.OrdinalIgnoreCase))
+        string propertyEditorAlias = property.PropertyType.PropertyEditorAlias;
+        bool isMediaPicker = string.Equals(propertyEditorAlias, "Umbraco.MediaPicker3", StringComparison.OrdinalIgnoreCase);
+        bool isImageCropper = string.Equals(propertyEditorAlias, "Umbraco.ImageCropper", StringComparison.OrdinalIgnoreCase);
+
+        if (!isMediaPicker && !isImageCropper)
         {
             return false;
         }
@@ -111,9 +116,63 @@ public sealed class WordPressMigrationMediaService(
         }
 
         IMedia mediaItem = ImportImage(imageUri, targetFolder.Id);
-        mappedValue = $"umb://media/{mediaItem.Key:N}";
+
+        if (isMediaPicker)
+        {
+            mappedValue = $"umb://media/{mediaItem.Key:N}";
+            return true;
+        }
+
+        string src = TryGetMediaFileUrl(mediaItem) ?? imageUri.AbsoluteUri;
+        mappedValue = JsonSerializer.Serialize(new
+        {
+            src,
+            crops = Array.Empty<object>(),
+            focalPoint = new { left = 0.5, top = 0.5 },
+            mediaKey = mediaItem.Key
+        });
 
         return true;
+    }
+
+    private static string? TryGetMediaFileUrl(IMedia mediaItem)
+    {
+        object? raw = mediaItem.GetValue(Conventions.Media.File);
+        if (raw is null)
+        {
+            return null;
+        }
+
+        if (raw is string str)
+        {
+            string trimmed = str.Trim();
+            if (string.IsNullOrWhiteSpace(trimmed))
+            {
+                return null;
+            }
+
+            if (!trimmed.StartsWith("{", StringComparison.Ordinal))
+            {
+                return trimmed;
+            }
+
+            try
+            {
+                using JsonDocument doc = JsonDocument.Parse(trimmed);
+                if (doc.RootElement.ValueKind == JsonValueKind.Object
+                    && doc.RootElement.TryGetProperty("src", out JsonElement srcElement)
+                    && srcElement.ValueKind == JsonValueKind.String)
+                {
+                    return srcElement.GetString();
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        return null;
     }
 
     private IMedia ImportImage(Uri imageUri, int parentFolderId)
