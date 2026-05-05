@@ -1,5 +1,3 @@
-using Umbraco.Cms.Core;
-
 namespace TINUmbraco.Web.Tools;
 
 public sealed class ToolsAccessService(IHostEnvironment hostEnvironment)
@@ -8,8 +6,7 @@ public sealed class ToolsAccessService(IHostEnvironment hostEnvironment)
     {
         ArgumentNullException.ThrowIfNull(httpContext);
 
-        return hostEnvironment.IsDevelopment()
-            || (httpContext.User.Identity?.IsAuthenticated == true
-                && httpContext.User.IsInRole(Constants.Security.AdminGroupAlias));
+        // Keep tools strictly local/dev-only and never expose on live environments.
+        return hostEnvironment.IsDevelopment();
     }
 }
