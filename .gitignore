@@ -26,3 +26,12 @@ src/TINUmbraco.Web/App_Data/
 .env
 .env.*
 appsettings.Production.json.override
+
+# ----- Local deployment artifacts -----
+appservice-logs*.zip
+publish-output*.zip
+wp-structure.json
+
+# ----- Generated test artifacts -----
+src/TINUmbraco.Web.Tests/appsettings-schema*.json
+src/TINUmbraco.Web.Tests/umbraco-package-schema.json
