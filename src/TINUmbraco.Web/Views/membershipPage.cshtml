@@ -1,4 +1,5 @@
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<IPublishedContent>
+@using System.Text.Json
 @{
     Layout = "~/Views/_Master.cshtml";
 
@@ -10,9 +11,53 @@
     // Try to get logo from media picker
     IPublishedContent? logo = Model.Value<IPublishedContent>("logo");
     
-    // Get website URL from MultiUrlPicker
-    var websiteLinks = Model.Value<IEnumerable<Umbraco.Cms.Core.Models.Link>>("websiteUrl");
-    string? websiteUrl = websiteLinks?.FirstOrDefault()?.Url;
+    // websiteUrl is now a text field, but may still contain legacy MultiUrlPicker JSON.
+    string? rawWebsiteUrl = Model.Value<string>("websiteUrl");
+    string? websiteUrl = null;
+
+    if (!string.IsNullOrWhiteSpace(rawWebsiteUrl))
+    {
+        string trimmed = rawWebsiteUrl.Trim();
+
+        if (trimmed.StartsWith("[") || trimmed.StartsWith("{"))
+        {
+            try
+            {
+                using JsonDocument doc = JsonDocument.Parse(trimmed);
+                JsonElement root = doc.RootElement;
+
+                if (root.ValueKind == JsonValueKind.Array)
+                {
+                    foreach (JsonElement item in root.EnumerateArray())
+                    {
+                        if (item.ValueKind == JsonValueKind.Object
+                            && item.TryGetProperty("url", out JsonElement urlProp)
+                            && urlProp.ValueKind == JsonValueKind.String)
+                        {
+                            string? parsed = urlProp.GetString();
+                            if (!string.IsNullOrWhiteSpace(parsed))
+                            {
+                                websiteUrl = parsed.Trim();
+                                break;
+                            }
+                        }
+                    }
+                }
+                else if (root.ValueKind == JsonValueKind.Object
+                         && root.TryGetProperty("url", out JsonElement singleUrlProp)
+                         && singleUrlProp.ValueKind == JsonValueKind.String)
+                {
+                    websiteUrl = singleUrlProp.GetString()?.Trim();
+                }
+            }
+            catch (JsonException)
+            {
+                // Fall back to treating the value as a plain URL string.
+            }
+        }
+
+        websiteUrl ??= trimmed;
+    }
 }
 
 @if (Model.Parent is not null)

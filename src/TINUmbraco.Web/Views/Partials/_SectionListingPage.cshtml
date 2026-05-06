@@ -54,6 +54,9 @@
         ? children.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList()
         : children;
 
+    bool hasEventChildren = children.Any(x => string.Equals(x.ContentType.Alias, "eventPage", StringComparison.OrdinalIgnoreCase));
+    bool useEventCardLayout = isEventsPage || hasEventChildren;
+
     string BuildPageUrl(int targetPage)
     {
         string basePath = Context.Request.Path.Value ?? string.Empty;
@@ -247,7 +250,7 @@
 }
 else
 {
-    <section class="cards @(isEventsPage ? "cards--events" : null)" aria-label="Section items">
+    <section class="cards @(useEventCardLayout ? "cards--events" : null)" aria-label="Section items">
         @foreach (IPublishedContent child in visibleChildren)
         {
             string? cardImageUrl = null;
@@ -261,6 +264,10 @@ else
                 cardImageUrl = GetCardImageUrl(child, "featuredImage", "image", "heroImage", "thumbnail");
             }
             else if (isEventsPage)
+            {
+                cardImageUrl = GetCardImageUrl(child, "image", "eventImage", "listingImage", "cardImage", "featuredImage", "heroImage", "coverImage", "thumbnail");
+            }
+            else if (string.Equals(child.ContentType.Alias, "eventPage", StringComparison.OrdinalIgnoreCase))
             {
                 cardImageUrl = GetCardImageUrl(child, "image", "eventImage", "listingImage", "cardImage", "featuredImage", "heroImage", "coverImage", "thumbnail");
             }

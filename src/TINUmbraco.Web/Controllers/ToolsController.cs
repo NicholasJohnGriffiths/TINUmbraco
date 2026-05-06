@@ -4,6 +4,7 @@ using Umbraco.Cms.Core.Models;
 using TINUmbraco.Web.Migrations;
 using TINUmbraco.Web.Tools;
 using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace TINUmbraco.Web.Controllers;
@@ -372,6 +373,11 @@ public sealed class ToolsController(
     private static string GetStringPropertyValue(IContent content, string alias)
     {
         string invariant = ToStringValue(content.GetValue(alias));
+        if (string.Equals(alias, "websiteUrl", StringComparison.OrdinalIgnoreCase))
+        {
+            invariant = NormalizeWebsiteUrl(invariant);
+        }
+
         if (!string.IsNullOrWhiteSpace(invariant))
         {
             return invariant;
@@ -380,6 +386,11 @@ public sealed class ToolsController(
         foreach (string culture in content.AvailableCultures)
         {
             string value = ToStringValue(content.GetValue(alias, culture));
+            if (string.Equals(alias, "websiteUrl", StringComparison.OrdinalIgnoreCase))
+            {
+                value = NormalizeWebsiteUrl(value);
+            }
+
             if (!string.IsNullOrWhiteSpace(value))
             {
                 return value;
@@ -397,5 +408,55 @@ public sealed class ToolsController(
             string str => str,
             _ => value.ToString() ?? string.Empty
         };
+    }
+
+    private static string NormalizeWebsiteUrl(string raw)
+    {
+        if (string.IsNullOrWhiteSpace(raw))
+        {
+            return string.Empty;
+        }
+
+        string trimmed = raw.Trim();
+        if (!trimmed.StartsWith('[') && !trimmed.StartsWith('{'))
+        {
+            return trimmed;
+        }
+
+        try
+        {
+            using JsonDocument doc = JsonDocument.Parse(trimmed);
+            JsonElement root = doc.RootElement;
+
+            if (root.ValueKind == JsonValueKind.Array)
+            {
+                foreach (JsonElement item in root.EnumerateArray())
+                {
+                    if (item.ValueKind == JsonValueKind.Object
+                        && item.TryGetProperty("url", out JsonElement urlProp)
+                        && urlProp.ValueKind == JsonValueKind.String)
+                    {
+                        string? parsed = urlProp.GetString();
+                        if (!string.IsNullOrWhiteSpace(parsed))
+                        {
+                            return parsed.Trim();
+                        }
+                    }
+                }
+            }
+
+            if (root.ValueKind == JsonValueKind.Object
+                && root.TryGetProperty("url", out JsonElement singleUrl)
+                && singleUrl.ValueKind == JsonValueKind.String)
+            {
+                return (singleUrl.GetString() ?? string.Empty).Trim();
+            }
+        }
+        catch (JsonException)
+        {
+            // Fall back to raw value.
+        }
+
+        return trimmed;
     }
 }

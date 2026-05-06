@@ -185,44 +185,6 @@
 	<img class="report-cover-image" src="@eventImage.Url()" alt="@pageTitle" loading="eager" />
 }
 
-@if (sponsors.Count > 0 || eventSponsored)
-{
-	if (sponsors.Count > 0)
-	{
-		<section class="event-sponsors" aria-label="Event sponsors">
-			<h2>Sponsors</h2>
-			<div class="event-sponsors__list">
-				@foreach (IPublishedContent sponsor in sponsors)
-				{
-					string? sponsorImageUrl = GetSponsorImageUrl(sponsor);
-					string sponsorUrl = sponsor.Url();
-
-					@if (!string.IsNullOrWhiteSpace(sponsorUrl) && sponsorUrl != "#")
-					{
-						<a class="event-sponsors__item event-sponsors__item--link" href="@sponsorUrl" aria-label="Open @sponsor.Name">
-							@if (!string.IsNullOrWhiteSpace(sponsorImageUrl))
-							{
-								<img class="event-sponsors__icon" src="@sponsorImageUrl" alt="@sponsor.Name" loading="lazy" />
-							}
-							<p class="event-sponsors__name">@sponsor.Name</p>
-						</a>
-					}
-					else
-					{
-						<div class="event-sponsors__item">
-							@if (!string.IsNullOrWhiteSpace(sponsorImageUrl))
-							{
-								<img class="event-sponsors__icon" src="@sponsorImageUrl" alt="@sponsor.Name" loading="lazy" />
-							}
-							<p class="event-sponsors__name">@sponsor.Name</p>
-						</div>
-					}
-				}
-			</div>
-		</section>
-	}
-}
-
 @if (reportLaunch)
 {
 	<section class="event-launch-details">
@@ -260,4 +222,42 @@
 @if (bodyContent is not null)
 {
 	<article class="content">@bodyContent</article>
+}
+
+@if (sponsors.Count > 0 || eventSponsored)
+{
+	if (sponsors.Count > 0)
+	{
+		<section class="event-sponsors" aria-label="Event sponsors">
+			<h2>Sponsors</h2>
+			<div class="event-sponsors__list">
+				@foreach (IPublishedContent sponsor in sponsors)
+				{
+					string? sponsorImageUrl = GetSponsorImageUrl(sponsor);
+					string sponsorUrl = sponsor.Url();
+
+					@if (!string.IsNullOrWhiteSpace(sponsorUrl) && sponsorUrl != "#")
+					{
+						<a class="event-sponsors__item event-sponsors__item--link" href="@sponsorUrl" aria-label="Open @sponsor.Name">
+							@if (!string.IsNullOrWhiteSpace(sponsorImageUrl))
+							{
+								<img class="event-sponsors__icon" src="@sponsorImageUrl" alt="@sponsor.Name" loading="lazy" />
+							}
+							<p class="event-sponsors__name">@sponsor.Name</p>
+						</a>
+					}
+					else
+					{
+						<div class="event-sponsors__item">
+							@if (!string.IsNullOrWhiteSpace(sponsorImageUrl))
+							{
+								<img class="event-sponsors__icon" src="@sponsorImageUrl" alt="@sponsor.Name" loading="lazy" />
+							}
+							<p class="event-sponsors__name">@sponsor.Name</p>
+						</div>
+					}
+				}
+			</div>
+		</section>
+	}
 }
