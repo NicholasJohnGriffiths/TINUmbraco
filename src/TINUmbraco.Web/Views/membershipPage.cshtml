@@ -1,7 +1,158 @@
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<IPublishedContent>
 @using System.Text.Json
+@using System.Linq
+@using Umbraco.Cms.Core.Models.PublishedContent
 @{
     Layout = "~/Views/_Master.cshtml";
+
+    static IHtmlContent GetSocialIcon(string label)
+    {
+        string svg = label switch
+        {
+            "X" => "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path fill=\"currentColor\" d=\"M18.9 2H22l-6.77 7.74L23.2 22h-6.26l-4.9-7.42L5.55 22H2.43l7.24-8.28L1.8 2h6.42l4.43 6.76L18.9 2Zm-1.1 18h1.73L6.16 3.9H4.3L17.8 20Z\"/></svg>",
+            "LinkedIn" => "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path fill=\"currentColor\" d=\"M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3A1.97 1.97 0 0 0 3.3 4.97c0 1.08.86 1.96 1.93 1.96h.02a1.97 1.97 0 1 0 0-3.93ZM20.7 12.96c0-3.46-1.85-5.07-4.32-5.07-1.99 0-2.88 1.1-3.38 1.87V8.5H9.62c.04.84 0 11.5 0 11.5H13v-6.42c0-.34.02-.68.13-.92.27-.68.9-1.38 1.95-1.38 1.37 0 1.92 1.04 1.92 2.56V20h3.38l.01-7.04Z\"/></svg>",
+            "Instagram" => "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path fill=\"currentColor\" d=\"M7.75 2h8.5A5.76 5.76 0 0 1 22 7.75v8.5A5.76 5.76 0 0 1 16.25 22h-8.5A5.76 5.76 0 0 1 2 16.25v-8.5A5.76 5.76 0 0 1 7.75 2Zm-.19 1.8A3.77 3.77 0 0 0 3.8 7.56v8.88a3.77 3.77 0 0 0 3.76 3.76h8.88a3.77 3.77 0 0 0 3.76-3.76V7.56a3.77 3.77 0 0 0-3.76-3.76H7.56Zm9.13 1.35a1.09 1.09 0 1 1 0 2.18 1.09 1.09 0 0 1 0-2.18ZM12 6.86A5.14 5.14 0 1 1 6.86 12 5.15 5.15 0 0 1 12 6.86Zm0 1.8A3.34 3.34 0 1 0 15.34 12 3.35 3.35 0 0 0 12 8.66Z\"/></svg>",
+            "YouTube" => "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path fill=\"currentColor\" d=\"M21.58 7.19a2.99 2.99 0 0 0-2.1-2.12C17.62 4.5 12 4.5 12 4.5s-5.62 0-7.48.57a2.99 2.99 0 0 0-2.1 2.12C1.85 9.08 1.85 12 1.85 12s0 2.92.57 4.81a2.99 2.99 0 0 0 2.1 2.12c1.86.57 7.48.57 7.48.57s5.62 0 7.48-.57a2.99 2.99 0 0 0 2.1-2.12c.57-1.89.57-4.81.57-4.81s0-2.92-.57-4.81ZM10.2 15.03V8.97L15.4 12l-5.2 3.03Z\"/></svg>",
+            "Facebook" => "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path fill=\"currentColor\" d=\"M13.5 21v-7.17h2.4l.36-2.8H13.5V9.24c0-.8.22-1.36 1.37-1.36h1.47V5.37c-.25-.03-1.13-.1-2.15-.1-2.12 0-3.58 1.3-3.58 3.68v2.08H8.2v2.8h2.41V21h2.89Z\"/></svg>",
+            _ => "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><circle cx=\"12\" cy=\"12\" r=\"9\" fill=\"currentColor\"/></svg>"
+        };
+
+        return new HtmlString(svg);
+    }
+
+    static string? NormalizeUrl(string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return null;
+        }
+
+        string trimmed = value.Trim();
+        if (trimmed.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
+            || trimmed.StartsWith("https://", StringComparison.OrdinalIgnoreCase)
+            || trimmed.StartsWith("mailto:", StringComparison.OrdinalIgnoreCase)
+            || trimmed.StartsWith("tel:", StringComparison.OrdinalIgnoreCase))
+        {
+            return trimmed;
+        }
+
+        return trimmed.StartsWith("www.", StringComparison.OrdinalIgnoreCase)
+            ? $"https://{trimmed}"
+            : trimmed;
+    }
+
+    static string? ExtractFirstUrlFromRaw(string? raw)
+    {
+        if (string.IsNullOrWhiteSpace(raw))
+        {
+            return null;
+        }
+
+        string trimmed = raw.Trim();
+        if (!trimmed.StartsWith("[") && !trimmed.StartsWith("{"))
+        {
+            return NormalizeUrl(trimmed);
+        }
+
+        try
+        {
+            using JsonDocument doc = JsonDocument.Parse(trimmed);
+            JsonElement root = doc.RootElement;
+
+            static string? ReadUrl(JsonElement obj)
+            {
+                string[] candidates = new[] { "url", "link", "videoUrl", "href" };
+                foreach (string candidate in candidates)
+                {
+                    if (obj.TryGetProperty(candidate, out JsonElement urlProp)
+                        && urlProp.ValueKind == JsonValueKind.String)
+                    {
+                        string? parsed = NormalizeUrl(urlProp.GetString());
+                        if (!string.IsNullOrWhiteSpace(parsed))
+                        {
+                            return parsed;
+                        }
+                    }
+                }
+
+                return null;
+            }
+
+            if (root.ValueKind == JsonValueKind.Array)
+            {
+                foreach (JsonElement item in root.EnumerateArray())
+                {
+                    if (item.ValueKind != JsonValueKind.Object)
+                    {
+                        continue;
+                    }
+
+                    string? parsed = ReadUrl(item);
+                    if (!string.IsNullOrWhiteSpace(parsed))
+                    {
+                        return parsed;
+                    }
+                }
+            }
+            else if (root.ValueKind == JsonValueKind.Object)
+            {
+                return ReadUrl(root);
+            }
+        }
+        catch (JsonException)
+        {
+            // Fall through to return normalized raw text.
+        }
+
+        return NormalizeUrl(trimmed);
+    }
+
+    static string? GetYouTubeThumbnailUrl(string? videoUrl)
+    {
+        if (string.IsNullOrWhiteSpace(videoUrl) || !Uri.TryCreate(videoUrl, UriKind.Absolute, out Uri? uri))
+        {
+            return null;
+        }
+
+        string host = uri.Host.ToLowerInvariant();
+        string? videoId = null;
+
+        if (host.Contains("youtu.be", StringComparison.OrdinalIgnoreCase))
+        {
+            videoId = uri.AbsolutePath.Trim('/');
+        }
+        else if (host.Contains("youtube.com", StringComparison.OrdinalIgnoreCase))
+        {
+            string path = uri.AbsolutePath.Trim('/');
+
+            if (path.Equals("watch", StringComparison.OrdinalIgnoreCase))
+            {
+                string query = uri.Query.TrimStart('?');
+                foreach (string part in query.Split('&', StringSplitOptions.RemoveEmptyEntries))
+                {
+                    string[] pair = part.Split('=', 2);
+                    if (pair.Length == 2 && pair[0].Equals("v", StringComparison.OrdinalIgnoreCase))
+                    {
+                        videoId = Uri.UnescapeDataString(pair[1]);
+                        break;
+                    }
+                }
+            }
+            else if (path.StartsWith("embed/", StringComparison.OrdinalIgnoreCase)
+                || path.StartsWith("shorts/", StringComparison.OrdinalIgnoreCase)
+                || path.StartsWith("live/", StringComparison.OrdinalIgnoreCase))
+            {
+                videoId = path.Split('/', StringSplitOptions.RemoveEmptyEntries).Skip(1).FirstOrDefault();
+            }
+        }
+
+        if (string.IsNullOrWhiteSpace(videoId))
+        {
+            return null;
+        }
+
+        return $"https://img.youtube.com/vi/{videoId}/hqdefault.jpg";
+    }
 
     // Get the membership name and details
     string memberName = Model.Name;
@@ -11,53 +162,187 @@
     // Try to get logo from media picker
     IPublishedContent? logo = Model.Value<IPublishedContent>("logo");
     
-    // websiteUrl is now a text field, but may still contain legacy MultiUrlPicker JSON.
-    string? rawWebsiteUrl = Model.Value<string>("websiteUrl");
-    string? websiteUrl = null;
+    string? websiteUrl = ExtractFirstUrlFromRaw(Model.Value<string>("websiteUrl"));
 
-    if (!string.IsNullOrWhiteSpace(rawWebsiteUrl))
+    string? xLink = ExtractFirstUrlFromRaw(Model.Value<string>("xLink"));
+    string? linkedInLink = ExtractFirstUrlFromRaw(Model.Value<string>("linkedInLink") ?? Model.Value<string>("linkedinLink"));
+    string? instagramLink = ExtractFirstUrlFromRaw(Model.Value<string>("instagramLink"));
+    string? youTubeLink = ExtractFirstUrlFromRaw(Model.Value<string>("youTubeLink") ?? Model.Value<string>("youtubeLink"));
+    string? facebookLink = ExtractFirstUrlFromRaw(Model.Value<string>("facebooLink") ?? Model.Value<string>("facebookLink"));
+
+    List<(string Label, string Url)> socialLinks = new()
     {
-        string trimmed = rawWebsiteUrl.Trim();
+        ("X", xLink ?? string.Empty),
+        ("LinkedIn", linkedInLink ?? string.Empty),
+        ("Instagram", instagramLink ?? string.Empty),
+        ("YouTube", youTubeLink ?? string.Empty),
+        ("Facebook", facebookLink ?? string.Empty)
+    };
 
-        if (trimmed.StartsWith("[") || trimmed.StartsWith("{"))
+    socialLinks = socialLinks
+        .Where(x => !string.IsNullOrWhiteSpace(x.Url))
+        .ToList();
+
+    string? GetVideoUrlFromElement(IPublishedElement element)
+    {
+        string[] aliases = new[] { "videoUrl", "url", "link", "youTubeLink", "youtubeLink" };
+        foreach (string alias in aliases)
+        {
+            string? found = ExtractFirstUrlFromRaw(element.Value<string>(alias));
+            if (!string.IsNullOrWhiteSpace(found))
+            {
+                return found;
+            }
+        }
+
+        return null;
+    }
+
+    string? GetVideoThumbnailFromElement(IPublishedElement element)
+    {
+        IPublishedContent? media = element.Value<IPublishedContent>("thumbnail")
+            ?? element.Value<IPublishedContent>("image")
+            ?? element.Value<IPublishedContent>("coverImage");
+
+        return media?.Url();
+    }
+
+    List<(string Url, string Thumbnail, string Title)> videos = new();
+
+    IEnumerable<string>? videoStrings = Model.Value<IEnumerable<string>>("videos");
+    if (videoStrings is not null)
+    {
+        foreach (string rawVideo in videoStrings.Where(x => !string.IsNullOrWhiteSpace(x)))
+        {
+            string? url = ExtractFirstUrlFromRaw(rawVideo);
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                continue;
+            }
+
+            string thumbnail = GetYouTubeThumbnailUrl(url) ?? string.Empty;
+            videos.Add((url, thumbnail, "Video"));
+        }
+    }
+
+    IEnumerable<IPublishedContent>? videoContentItems = Model.Value<IEnumerable<IPublishedContent>>("videos");
+    if (videoContentItems is not null)
+    {
+        foreach (IPublishedContent videoItem in videoContentItems)
+        {
+            string? url = GetVideoUrlFromElement(videoItem);
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                continue;
+            }
+
+            string thumbnail = GetVideoThumbnailFromElement(videoItem)
+                ?? GetYouTubeThumbnailUrl(url)
+                ?? string.Empty;
+            videos.Add((url, thumbnail, videoItem.Name));
+        }
+    }
+
+    IEnumerable<IPublishedElement>? videoElements = Model.Value<IEnumerable<IPublishedElement>>("videos");
+    if (videoElements is not null)
+    {
+        foreach (IPublishedElement videoElement in videoElements)
+        {
+            string? url = GetVideoUrlFromElement(videoElement);
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                continue;
+            }
+
+            string thumbnail = GetVideoThumbnailFromElement(videoElement)
+                ?? GetYouTubeThumbnailUrl(url)
+                ?? string.Empty;
+            string title = videoElement.ContentType.Alias;
+            videos.Add((url, thumbnail, title));
+        }
+    }
+
+    if (videos.Count == 0)
+    {
+        string? rawVideos = Model.Value<string>("videos");
+        if (!string.IsNullOrWhiteSpace(rawVideos) && (rawVideos.TrimStart().StartsWith("[") || rawVideos.TrimStart().StartsWith("{")))
         {
             try
             {
-                using JsonDocument doc = JsonDocument.Parse(trimmed);
+                using JsonDocument doc = JsonDocument.Parse(rawVideos);
                 JsonElement root = doc.RootElement;
 
-                if (root.ValueKind == JsonValueKind.Array)
+                IEnumerable<JsonElement> items = root.ValueKind == JsonValueKind.Array
+                    ? root.EnumerateArray()
+                    : root.ValueKind == JsonValueKind.Object
+                        ? new[] { root }
+                        : Enumerable.Empty<JsonElement>();
+
+                foreach (JsonElement item in items)
                 {
-                    foreach (JsonElement item in root.EnumerateArray())
+                    if (item.ValueKind != JsonValueKind.Object)
                     {
-                        if (item.ValueKind == JsonValueKind.Object
-                            && item.TryGetProperty("url", out JsonElement urlProp)
-                            && urlProp.ValueKind == JsonValueKind.String)
+                        continue;
+                    }
+
+                    string? url = null;
+                    string[] urlAliases = new[] { "videoUrl", "url", "link", "youTubeLink", "youtubeLink" };
+                    foreach (string alias in urlAliases)
+                    {
+                        if (item.TryGetProperty(alias, out JsonElement val) && val.ValueKind == JsonValueKind.String)
                         {
-                            string? parsed = urlProp.GetString();
-                            if (!string.IsNullOrWhiteSpace(parsed))
+                            url = NormalizeUrl(val.GetString());
+                            if (!string.IsNullOrWhiteSpace(url))
                             {
-                                websiteUrl = parsed.Trim();
                                 break;
                             }
                         }
                     }
-                }
-                else if (root.ValueKind == JsonValueKind.Object
-                         && root.TryGetProperty("url", out JsonElement singleUrlProp)
-                         && singleUrlProp.ValueKind == JsonValueKind.String)
-                {
-                    websiteUrl = singleUrlProp.GetString()?.Trim();
+
+                    if (string.IsNullOrWhiteSpace(url))
+                    {
+                        continue;
+                    }
+
+                    string thumbnail = string.Empty;
+                    string[] thumbAliases = new[] { "thumbnail", "thumb", "image", "coverImage" };
+                    foreach (string alias in thumbAliases)
+                    {
+                        if (item.TryGetProperty(alias, out JsonElement val) && val.ValueKind == JsonValueKind.String)
+                        {
+                            thumbnail = NormalizeUrl(val.GetString()) ?? string.Empty;
+                            if (!string.IsNullOrWhiteSpace(thumbnail))
+                            {
+                                break;
+                            }
+                        }
+                    }
+
+                    string title = "Video";
+                    if (item.TryGetProperty("name", out JsonElement nameVal) && nameVal.ValueKind == JsonValueKind.String)
+                    {
+                        title = nameVal.GetString() ?? title;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(thumbnail))
+                    {
+                        thumbnail = GetYouTubeThumbnailUrl(url) ?? string.Empty;
+                    }
+
+                    videos.Add((url, thumbnail, title));
                 }
             }
             catch (JsonException)
             {
-                // Fall back to treating the value as a plain URL string.
+                // Ignore malformed videos payload.
             }
         }
-
-        websiteUrl ??= trimmed;
     }
+
+    videos = videos
+        .GroupBy(x => x.Url, StringComparer.OrdinalIgnoreCase)
+        .Select(x => x.First())
+        .ToList();
 }
 
 @if (Model.Parent is not null)
@@ -74,7 +359,7 @@
 
 @if (logo is not null)
 {
-    <img class="member-logo" src="@logo.Url()" alt="@memberName logo" loading="eager" style="max-width: 300px; margin: 20px 0;" />
+    <img class="member-logo" src="@logo.Url()" alt="@memberName logo" loading="eager" />
 }
 
 @if (!string.IsNullOrWhiteSpace(description))
@@ -86,7 +371,43 @@
 
 @if (!string.IsNullOrWhiteSpace(websiteUrl))
 {
-    <p style="margin-top: 20px;">
+    <p class="member-links-row">
         <a href="@websiteUrl" target="_blank" class="btn btn-primary">Visit Website</a>
     </p>
+}
+
+@if (socialLinks.Count > 0)
+{
+    <section class="member-social" aria-label="Social links">
+        @foreach ((string Label, string Url) link in socialLinks)
+        {
+            <a class="member-social__link" href="@link.Url" target="_blank" rel="noopener" aria-label="Open @link.Label">
+                <span class="member-social__icon">@GetSocialIcon(link.Label)</span>
+                <span class="member-social__text">@link.Label</span>
+            </a>
+        }
+    </section>
+}
+
+@if (videos.Count > 0)
+{
+    <section class="member-videos" aria-label="Videos">
+        <h2 class="section-title">Videos</h2>
+        <div class="member-videos__grid">
+            @foreach ((string Url, string Thumbnail, string Title) video in videos)
+            {
+                <a class="member-video" href="@video.Url" target="_blank" rel="noopener">
+                    @if (!string.IsNullOrWhiteSpace(video.Thumbnail))
+                    {
+                        <img class="member-video__thumb" src="@video.Thumbnail" alt="@video.Title" loading="lazy" />
+                    }
+                    else
+                    {
+                        <div class="member-video__thumb member-video__thumb--placeholder" aria-hidden="true">Video</div>
+                    }
+                    <span class="member-video__title">@video.Title</span>
+                </a>
+            }
+        </div>
+    </section>
 }

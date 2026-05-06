@@ -56,6 +56,18 @@
 
     bool hasEventChildren = children.Any(x => string.Equals(x.ContentType.Alias, "eventPage", StringComparison.OrdinalIgnoreCase));
     bool useEventCardLayout = isEventsPage || hasEventChildren;
+    bool useMediaIndexCardLayout = isReportsPage || isNewsPage;
+
+    string cardsClass = "cards";
+    if (useEventCardLayout)
+    {
+        cardsClass += " cards--events";
+    }
+
+    if (useMediaIndexCardLayout)
+    {
+        cardsClass += " cards--media-index";
+    }
 
     string BuildPageUrl(int targetPage)
     {
@@ -250,7 +262,7 @@
 }
 else
 {
-    <section class="cards @(useEventCardLayout ? "cards--events" : null)" aria-label="Section items">
+    <section class="@cardsClass" aria-label="Section items">
         @foreach (IPublishedContent child in visibleChildren)
         {
             string? cardImageUrl = null;
@@ -258,10 +270,12 @@ else
             if (isReportsPage)
             {
                 cardImageUrl = GetCardImageUrl(child, "coverImage", "featuredImage", "heroImage", "thumbnail");
+                cardImageClass = "card-image card-image--index-media";
             }
             else if (isNewsPage)
             {
                 cardImageUrl = GetCardImageUrl(child, "featuredImage", "image", "heroImage", "thumbnail");
+                cardImageClass = "card-image card-image--index-media";
             }
             else if (isEventsPage)
             {

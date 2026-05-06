@@ -2,6 +2,29 @@
 @{
     Layout = "_Master.cshtml";
 
+    bool IsTruthy(object? value)
+    {
+        static bool IsTruthyString(string? raw)
+        {
+            if (string.IsNullOrWhiteSpace(raw))
+            {
+                return false;
+            }
+
+            string normalized = raw.Trim().ToLowerInvariant();
+            return normalized is not ("false" or "0" or "no" or "n" or "off" or "null");
+        }
+
+        return value switch
+        {
+            null => false,
+            bool b => b,
+            string s => IsTruthyString(s),
+            IEnumerable<string> values => values.Any(IsTruthyString),
+            _ => IsTruthyString(value.ToString())
+        };
+    }
+
     string pageTitle = Model.Value<string>("pageTitle") ?? Model.Name;
     string pageHeading = Model.Value<string>("pageHeading") ?? pageTitle;
     string heroText = Model.Value<string>("heroText") ?? "Welcome to TIN Umbraco.";
@@ -21,14 +44,10 @@
         : membershipsPage.Children().Where(x => x.IsVisible()).OrderBy(x => x.SortOrder).ToList();
 
     IReadOnlyList<IPublishedContent> sponsorMembershipItems = allMembershipItems
-        .Where(x => (x.Value<string>("companyType") ?? string.Empty).Contains("sponsor", StringComparison.OrdinalIgnoreCase))
+        .Where(x => IsTruthy(x.Value("currentSponsor")))
         .ToList();
 
-    IReadOnlyList<IPublishedContent> logoSourceItems = sponsorMembershipItems.Count > 0
-        ? sponsorMembershipItems
-        : allMembershipItems;
-
-    IReadOnlyList<IPublishedContent> sponsorLogos = logoSourceItems
+    IReadOnlyList<IPublishedContent> sponsorLogos = sponsorMembershipItems
         .Where(x => x.Value<IPublishedContent>("logo") is not null)
         .ToList();
 }
@@ -55,7 +74,9 @@
                     IPublishedContent? logo = sponsor.Value<IPublishedContent>("logo");
                     if (logo is not null)
                     {
-                        <img class="home-sponsors__logo" src="@logo.Url()" alt="@sponsor.Name" loading="lazy" />
+                        <a class="home-sponsors__link" href="@sponsor.Url()" aria-label="Open @sponsor.Name">
+                            <img class="home-sponsors__logo" src="@logo.Url()" alt="@sponsor.Name" loading="lazy" />
+                        </a>
                     }
                 }
 
@@ -64,7 +85,9 @@
                     IPublishedContent? logo = sponsor.Value<IPublishedContent>("logo");
                     if (logo is not null)
                     {
-                        <img class="home-sponsors__logo" src="@logo.Url()" alt="" loading="lazy" aria-hidden="true" />
+                        <a class="home-sponsors__link" href="@sponsor.Url()" tabindex="-1" aria-hidden="true">
+                            <img class="home-sponsors__logo" src="@logo.Url()" alt="" loading="lazy" aria-hidden="true" />
+                        </a>
                     }
                 }
             </div>
