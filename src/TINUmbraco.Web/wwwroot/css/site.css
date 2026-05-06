@@ -203,6 +203,11 @@ a {
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
+.cards--events {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 320px));
+    justify-content: start;
+}
+
 .card,
 .section-card {
     background: linear-gradient(180deg, var(--paper) 0%, #f8f6ee 100%);
@@ -245,6 +250,10 @@ a {
     background: #efe9d7;
 }
 
+.cards--events .card-image {
+    max-height: 190px;
+}
+
 .card-image--logo {
     object-fit: contain;
     padding: 0.75rem;
@@ -265,6 +274,279 @@ a {
     border: 1px solid var(--line);
     background: #efe9d7;
     margin-bottom: 1.2rem;
+}
+
+.report-buy-button,
+.report-buy-submit {
+    border: 0;
+    border-radius: 999px;
+    background: var(--accent-strong);
+    color: #fff;
+    padding: 0.7rem 1.15rem;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.report-buy-button:hover,
+.report-buy-submit:hover {
+    filter: brightness(1.06);
+}
+
+.report-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+}
+
+.report-modal[hidden] {
+    display: none;
+}
+
+.report-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(17, 24, 39, 0.55);
+}
+
+.report-modal__dialog {
+    position: relative;
+    width: min(680px, 100%);
+    max-height: calc(100vh - 2rem);
+    overflow: auto;
+    background: #fff;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    padding: 1.25rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.report-modal__close {
+    position: absolute;
+    top: 0.7rem;
+    right: 0.85rem;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    font-size: 1.65rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.report-buy-form {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.report-buy-form label {
+    display: grid;
+    gap: 0.35rem;
+    font-weight: 600;
+}
+
+.report-buy-form input,
+.report-buy-form select {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #fff;
+    padding: 0.65rem 0.75rem;
+    color: var(--ink);
+    font: inherit;
+}
+
+.report-selected-price {
+    margin: 0;
+    font-weight: 700;
+    color: var(--accent-strong);
+}
+
+.report-buy-note {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+}
+
+body.report-modal-open {
+    overflow: hidden;
+}
+
+.report-card-element {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #fff;
+    padding: 0.65rem 0.75rem;
+}
+
+.report-buy-error {
+    margin: 0;
+    color: #e53e3e;
+    font-size: 0.9rem;
+}
+
+.report-buy-submit:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.report-buy-success__msg {
+    font-weight: 600;
+    color: #276749;
+    padding: 1rem;
+    background: #f0fff4;
+    border: 1px solid #9ae6b4;
+    border-radius: 10px;
+}
+
+.event-sponsors {
+    margin: 1.25rem 0;
+}
+
+.event-meta {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0.4rem 0 1rem;
+    max-width: 760px;
+}
+
+.event-meta__item {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem 0.6rem;
+    align-items: center;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #fff;
+}
+
+.event-meta__label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.event-meta__value {
+    font-size: 0.96rem;
+    color: var(--ink);
+    font-weight: 600;
+}
+
+.event-meta__link {
+    color: var(--accent-strong);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.event-sponsors__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    align-items: stretch;
+}
+
+.event-sponsors__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    width: min(220px, 45vw);
+    padding: 0.45rem;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #fff;
+}
+
+.event-sponsors__item--link {
+    text-decoration: none;
+    color: inherit;
+    border-radius: 10px;
+    transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.event-sponsors__item--link:hover,
+.event-sponsors__item--link:focus-visible {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(20, 20, 20, 0.08);
+}
+
+.event-sponsors__icon {
+    width: 100%;
+    height: 84px;
+    object-fit: contain;
+}
+
+.event-sponsors__name {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--ink);
+    text-align: center;
+}
+
+.home-sponsors {
+    margin: 1.25rem 0 1.75rem;
+}
+
+.home-sponsors__marquee {
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: #fff;
+    padding: 0.85rem 0;
+}
+
+.home-sponsors__track {
+    display: flex;
+    width: max-content;
+    align-items: center;
+    gap: 2rem;
+    animation: sponsors-scroll 48s linear infinite;
+    will-change: transform;
+}
+
+.home-sponsors__logo {
+    height: 58px;
+    width: auto;
+    max-width: 210px;
+    object-fit: contain;
+}
+
+.home-sponsors__marquee:hover .home-sponsors__track,
+.home-sponsors__marquee:focus-within .home-sponsors__track {
+    animation-play-state: paused;
+}
+
+@keyframes sponsors-scroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-sponsors__track {
+        animation: none;
+    }
+}
+
+@media (max-width: 700px) {
+    .home-sponsors__track {
+        gap: 1.4rem;
+        animation-duration: 34s;
+    }
+
+    .home-sponsors__logo {
+        height: 46px;
+        max-width: 160px;
+    }
 }
 
 .pagination {

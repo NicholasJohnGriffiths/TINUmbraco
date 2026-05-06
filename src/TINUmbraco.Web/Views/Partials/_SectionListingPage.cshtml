@@ -1,5 +1,7 @@
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<IPublishedContent>
+@using Umbraco.Cms.Core
 @using Umbraco.Cms.Core.Models
+@using System.Text.Json
 @{
     Layout = "~/Views/_Master.cshtml";
 
@@ -10,8 +12,9 @@
 
     bool isReportsPage = string.Equals(Model.ContentType.Alias, "reportsPage", StringComparison.OrdinalIgnoreCase);
     bool isNewsPage = string.Equals(Model.ContentType.Alias, "newsPage", StringComparison.OrdinalIgnoreCase);
+    bool isEventsPage = string.Equals(Model.ContentType.Alias, "eventsPage", StringComparison.OrdinalIgnoreCase);
     bool isMembershipsPage = string.Equals(Model.ContentType.Alias, "membershipsPage", StringComparison.OrdinalIgnoreCase);
-    bool usePagination = isReportsPage || isNewsPage;
+    bool usePagination = isReportsPage || isNewsPage || isEventsPage;
     const int pageSize = 12;
 
     DateTime GetPublishDateOrMin(IPublishedContent item)
@@ -59,6 +62,172 @@
 
     int firstPageToShow = Math.Max(1, currentPage - 2);
     int lastPageToShow = Math.Min(totalPages, currentPage + 2);
+
+    string? GetCardImageUrl(IPublishedContent item, params string[] aliases)
+    {
+        static string? NormalizeImageUrl(string? value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return null;
+            }
+
+            string raw = value.Trim();
+
+            if (raw.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
+                || raw.StartsWith("https://", StringComparison.OrdinalIgnoreCase)
+                || raw.StartsWith('/'))
+            {
+                return raw;
+            }
+
+            if (!raw.StartsWith("umb://", StringComparison.OrdinalIgnoreCase)
+                && (raw.StartsWith("media/", StringComparison.OrdinalIgnoreCase)
+                    || raw.StartsWith("uploads/", StringComparison.OrdinalIgnoreCase)))
+            {
+                return "/" + raw;
+            }
+
+            return null;
+        }
+
+        static string? TryGetUrlFromJson(string raw)
+        {
+            static string? ReadUrlFromObject(JsonElement obj)
+            {
+                if (obj.TryGetProperty("src", out JsonElement srcProp) && srcProp.ValueKind == JsonValueKind.String)
+                {
+                    return NormalizeImageUrl(srcProp.GetString());
+                }
+
+                if (obj.TryGetProperty("url", out JsonElement urlProp) && urlProp.ValueKind == JsonValueKind.String)
+                {
+                    return NormalizeImageUrl(urlProp.GetString());
+                }
+
+                return null;
+            }
+
+            try
+            {
+                using JsonDocument doc = JsonDocument.Parse(raw);
+                JsonElement root = doc.RootElement;
+
+                if (root.ValueKind == JsonValueKind.Object)
+                {
+                    return ReadUrlFromObject(root);
+                }
+
+                if (root.ValueKind == JsonValueKind.Array)
+                {
+                    foreach (JsonElement entry in root.EnumerateArray())
+                    {
+                        if (entry.ValueKind != JsonValueKind.Object)
+                        {
+                            continue;
+                        }
+
+                        string? parsed = ReadUrlFromObject(entry);
+                        if (!string.IsNullOrWhiteSpace(parsed))
+                        {
+                            return parsed;
+                        }
+                    }
+                }
+            }
+            catch (JsonException)
+            {
+                // Ignore malformed JSON-like values and continue with other fallbacks.
+            }
+
+            return null;
+        }
+
+        foreach (string alias in aliases)
+        {
+            MediaWithCrops? mediaWithCrops = item.Value<MediaWithCrops>(alias);
+            if (mediaWithCrops is not null)
+            {
+                return mediaWithCrops.MediaUrl();
+            }
+
+            IPublishedContent? mediaItem = item.Value<IPublishedContent>(alias);
+            if (mediaItem is not null)
+            {
+                return mediaItem.Url();
+            }
+
+            string? rawValue = item.Value<string>(alias);
+            string? normalized = NormalizeImageUrl(rawValue);
+            if (!string.IsNullOrWhiteSpace(normalized))
+            {
+                return normalized;
+            }
+
+            if (!string.IsNullOrWhiteSpace(rawValue)
+                && UdiParser.TryParse(rawValue.Trim(), out Udi? udi)
+                && udi is GuidUdi guidUdi)
+            {
+                IPublishedContent? mediaByUdi = Umbraco.Media(guidUdi.Guid);
+                if (mediaByUdi is not null)
+                {
+                    return mediaByUdi.Url();
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(rawValue) && (rawValue.TrimStart().StartsWith('{') || rawValue.TrimStart().StartsWith('[')))
+            {
+                string? parsedFromJson = TryGetUrlFromJson(rawValue);
+                if (!string.IsNullOrWhiteSpace(parsedFromJson))
+                {
+                    return parsedFromJson;
+                }
+
+                try
+                {
+                    using JsonDocument doc = JsonDocument.Parse(rawValue);
+                    JsonElement root = doc.RootElement;
+                    IEnumerable<JsonElement> objectNodes = root.ValueKind == JsonValueKind.Array
+                        ? root.EnumerateArray().Where(x => x.ValueKind == JsonValueKind.Object)
+                        : root.ValueKind == JsonValueKind.Object
+                            ? [root]
+                            : [];
+
+                    foreach (JsonElement node in objectNodes)
+                    {
+                        if (node.TryGetProperty("mediaKey", out JsonElement mediaKeyProp)
+                            && mediaKeyProp.ValueKind == JsonValueKind.String
+                            && Guid.TryParse(mediaKeyProp.GetString(), out Guid mediaKey))
+                        {
+                            IPublishedContent? mediaByKey = Umbraco.Media(mediaKey);
+                            if (mediaByKey is not null)
+                            {
+                                return mediaByKey.Url();
+                            }
+                        }
+
+                        if (node.TryGetProperty("udi", out JsonElement udiProp)
+                            && udiProp.ValueKind == JsonValueKind.String
+                            && UdiParser.TryParse(udiProp.GetString(), out Udi? parsedUdi)
+                            && parsedUdi is GuidUdi parsedGuidUdi)
+                        {
+                            IPublishedContent? mediaByParsedUdi = Umbraco.Media(parsedGuidUdi.Guid);
+                            if (mediaByParsedUdi is not null)
+                            {
+                                return mediaByParsedUdi.Url();
+                            }
+                        }
+                    }
+                }
+                catch (JsonException)
+                {
+                    // Ignore malformed JSON-like values and continue with other fallbacks.
+                }
+            }
+        }
+
+        return null;
+    }
 }
 <h1 class="page-title">@pageHeading</h1>
 
@@ -78,33 +247,35 @@
 }
 else
 {
-    <section class="cards" aria-label="Section items">
+    <section class="cards @(isEventsPage ? "cards--events" : null)" aria-label="Section items">
         @foreach (IPublishedContent child in visibleChildren)
         {
-            MediaWithCrops? cardImage = null;
+            string? cardImageUrl = null;
+            string cardImageClass = "card-image";
             if (isReportsPage)
             {
-                cardImage = child.Value<MediaWithCrops>("coverImage")
-                    ?? child.Value<MediaWithCrops>("featuredImage")
-                    ?? child.Value<MediaWithCrops>("heroImage")
-                    ?? child.Value<MediaWithCrops>("thumbnail");
+                cardImageUrl = GetCardImageUrl(child, "coverImage", "featuredImage", "heroImage", "thumbnail");
             }
             else if (isNewsPage)
             {
-                cardImage = child.Value<MediaWithCrops>("featuredImage")
-                    ?? child.Value<MediaWithCrops>("image")
-                    ?? child.Value<MediaWithCrops>("heroImage")
-                    ?? child.Value<MediaWithCrops>("thumbnail");
+                cardImageUrl = GetCardImageUrl(child, "featuredImage", "image", "heroImage", "thumbnail");
+            }
+            else if (isEventsPage)
+            {
+                cardImageUrl = GetCardImageUrl(child, "image", "eventImage", "listingImage", "cardImage", "featuredImage", "heroImage", "coverImage", "thumbnail");
             }
             else if (isMembershipsPage)
             {
-                cardImage = child.Value<MediaWithCrops>("logo");
+                cardImageUrl = GetCardImageUrl(child, "logo");
+                cardImageClass = "card-image card-image--logo";
             }
 
+            cardImageUrl ??= GetCardImageUrl(child, "image", "eventImage", "listingImage", "cardImage", "featuredImage", "heroImage", "coverImage", "thumbnail", "logo");
+
             <a class="card" href="@child.Url()">
-                @if (cardImage is not null)
+                @if (!string.IsNullOrWhiteSpace(cardImageUrl))
                 {
-                    <img class="card-image card-image--logo" src="@cardImage.MediaUrl()" alt="@child.Name" loading="lazy" />
+                    <img class="@cardImageClass" src="@cardImageUrl" alt="@child.Name" loading="lazy" />
                 }
                 <h2>@child.Name</h2>
                 @{ string? cardSummary = child.Value<string>("heroText") ?? child.Value<string>("summary") ?? child.Value<string>("excerpt"); }

@@ -1,4 +1,5 @@
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<IPublishedContent>
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @{
 	Layout = "~/Views/_Master.cshtml";
 
@@ -44,9 +45,17 @@
 		_ => publishDateRaw?.ToString()
 	};
 
+	bool freeDownload = Model.Value<bool?>("freeDownload") ?? false;
 	string? flipbookUrl = Model.Value<string>("flipbookUrl");
 	bool hasFlipbookUrl = !string.IsNullOrWhiteSpace(flipbookUrl);
 	string readReportHref = hasFlipbookUrl ? flipbookUrl! : "#";
+
+	string? singleUserEbookPrice = Model.Value("singleUserEbookPrice")?.ToString();
+	string? multiUserEbookPrice = Model.Value("multiUserEbookPrice")?.ToString();
+	bool hasSingleUserPrice = !string.IsNullOrWhiteSpace(singleUserEbookPrice);
+	bool hasMultiUserPrice = !string.IsNullOrWhiteSpace(multiUserEbookPrice);
+
+	string stripePublishableKey = Configuration["Stripe:PublishableKey"] ?? string.Empty;
 }
 
 @if (Model.Parent is not null)
@@ -66,13 +75,250 @@
 	<img class="report-cover-image" src="@coverImage.Url()" alt="@pageHeading" loading="eager" />
 }
 
-@if (bodyContent is not null || hasFlipbookUrl)
+@if (bodyContent is not null || hasFlipbookUrl || !freeDownload)
 {
 	<article class="content">
-		<p><a href="@readReportHref">Read report</a></p>
+		@if (freeDownload)
+		{
+			<p><a href="@readReportHref">Read report</a></p>
+		}
+		else
+		{
+			<p>
+				<button type="button" class="report-buy-button" data-report-buy-open>Buy Now</button>
+			</p>
+			<div class="report-modal" data-report-buy-modal aria-hidden="true" hidden>
+				<div class="report-modal__backdrop" data-report-buy-close></div>
+				<div class="report-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="buy-now-title">
+					<button type="button" class="report-modal__close" aria-label="Close" data-report-buy-close>&times;</button>
+					<h2 id="buy-now-title">Buy Report</h2>
+
+					<div class="report-buy-success" data-report-buy-success hidden>
+						<p class="report-buy-success__msg">Thank you for your purchase! A receipt has been sent to your email.</p>
+					</div>
+
+					<form class="report-buy-form" data-report-buy-form>
+						<input type="hidden" name="contentId" value="@Model.Id" />
+						<label>First Name<input type="text" name="firstName" required /></label>
+						<label>Last Name<input type="text" name="lastName" required /></label>
+						<label>Company Name<input type="text" name="companyName" /></label>
+						<label>Email Address<input type="email" name="emailAddress" required /></label>
+						<label>Phone Number<input type="tel" name="phoneNumber" /></label>
+						<label>Report Purchase Selection
+							<select name="reportPurchaseSelection" required data-report-price-select>
+								<option value="">Select a pricing option</option>
+								@if (hasSingleUserPrice)
+								{
+									<option value="single-user" data-price="@singleUserEbookPrice">Single user eBook - @singleUserEbookPrice</option>
+								}
+								@if (hasMultiUserPrice)
+								{
+									<option value="multi-user" data-price="@multiUserEbookPrice">Multi user eBook - @multiUserEbookPrice</option>
+								}
+							</select>
+						</label>
+						<p class="report-selected-price" data-report-selected-price>Selected price: -</p>
+						<label>Promotion Code<input type="text" name="promotionCode" /></label>
+						<label>Card Details
+							<div id="report-card-element" class="report-card-element"></div>
+						</label>
+						<p class="report-buy-error" data-report-buy-error hidden></p>
+						<button type="submit" class="report-buy-submit" data-report-buy-submit>Pay Now</button>
+					</form>
+				</div>
+			</div>
+		}
 		@if (bodyContent is not null)
 		{
 			@bodyContent
 		}
 	</article>
+}
+
+@if (!freeDownload)
+{
+	@section scripts {
+		<script src="https://js.stripe.com/v3/"></script>
+		<script>
+			(function () {
+				const PUBLISHABLE_KEY = '@Html.Raw(stripePublishableKey)';
+				const CONTENT_ID = @Model.Id;
+				const GST_RATE = 0.15;
+
+				const modal = document.querySelector('[data-report-buy-modal]');
+				const openButton = document.querySelector('[data-report-buy-open]');
+				if (!modal || !openButton) return;
+
+				const closeButtons = modal.querySelectorAll('[data-report-buy-close]');
+				const form = modal.querySelector('[data-report-buy-form]');
+				const priceSelect = modal.querySelector('[data-report-price-select]');
+				const selectedPriceEl = modal.querySelector('[data-report-selected-price]');
+				const errorEl = modal.querySelector('[data-report-buy-error]');
+				const submitBtn = modal.querySelector('[data-report-buy-submit]');
+				const successEl = modal.querySelector('[data-report-buy-success]');
+
+				// Modal open / close
+				const setModalOpen = (isOpen) => {
+					modal.hidden = !isOpen;
+					modal.setAttribute('aria-hidden', String(!isOpen));
+					document.body.classList.toggle('report-modal-open', isOpen);
+				};
+
+				openButton.addEventListener('click', () => setModalOpen(true));
+				closeButtons.forEach((btn) => btn.addEventListener('click', () => setModalOpen(false)));
+				document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setModalOpen(false); });
+
+				// Currency formatting
+				const formatCurrency = (amount) =>
+					'$' + amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+				// Price dropdown
+				if (priceSelect) {
+					Array.from(priceSelect.options).forEach((opt) => {
+						const raw = opt.getAttribute('data-price');
+						if (raw === null) return;
+						const num = parseFloat(raw);
+						if (!isNaN(num)) opt.textContent = opt.textContent.replace(raw, formatCurrency(num));
+					});
+
+					priceSelect.addEventListener('change', updatePriceDisplay);
+				}
+
+				function updatePriceDisplay() {
+					const opt = priceSelect && priceSelect.options[priceSelect.selectedIndex];
+					const raw = opt ? opt.getAttribute('data-price') : null;
+					if (raw) {
+						const base = parseFloat(raw);
+						if (!isNaN(base)) {
+							const gst = base * GST_RATE;
+							const total = base + gst;
+							selectedPriceEl.innerHTML =
+								'Price: ' + formatCurrency(base) +
+								'<br>GST (15%): ' + formatCurrency(gst) +
+								'<br><strong>Total incl. GST: ' + formatCurrency(total) + '</strong>';
+							return;
+						}
+					}
+					selectedPriceEl.textContent = 'Selected price: -';
+				}
+
+				// Stripe Elements
+				if (!PUBLISHABLE_KEY) {
+					console.warn('Stripe publishable key is not configured.');
+					return;
+				}
+
+				const stripe = Stripe(PUBLISHABLE_KEY);
+				const elements = stripe.elements();
+				const cardElement = elements.create('card', {
+					style: {
+						base: { fontFamily: 'inherit', fontSize: '16px', color: '#1a1a2e' },
+						invalid: { color: '#e53e3e' }
+					}
+				});
+				cardElement.mount('#report-card-element');
+
+				cardElement.on('change', (event) => {
+					if (event.error) showError(event.error.message);
+					else hideError();
+				});
+
+				// Form submission
+				form.addEventListener('submit', async (e) => {
+					e.preventDefault();
+					hideError();
+					setLoading(true);
+
+					const selectionType = priceSelect ? priceSelect.value : '';
+					if (!selectionType) {
+						showError('Please select a pricing option.');
+						setLoading(false);
+						return;
+					}
+
+					const firstName = form.querySelector('[name="firstName"]').value.trim();
+					const lastName  = form.querySelector('[name="lastName"]').value.trim();
+					const email     = form.querySelector('[name="emailAddress"]').value.trim();
+					const company   = form.querySelector('[name="companyName"]').value.trim();
+					const phone     = form.querySelector('[name="phoneNumber"]').value.trim();
+					const promoCode = form.querySelector('[name="promotionCode"]').value.trim();
+
+					// 1. Create PaymentIntent server-side
+					let clientSecret;
+					try {
+						const res = await fetch('/api/report/create-payment-intent', {
+							method: 'POST',
+							headers: { 'Content-Type': 'application/json' },
+							body: JSON.stringify({
+								contentId: CONTENT_ID,
+								selectionType,
+								customerName: firstName + ' ' + lastName,
+								customerEmail: email,
+								customerCompany: company,
+								customerPhone: phone,
+								promotionCode: promoCode
+							})
+						});
+
+						const data = await res.json();
+						if (!res.ok) {
+							showError(data.error || 'Unable to initialise payment. Please try again.');
+							setLoading(false);
+							return;
+						}
+						clientSecret = data.clientSecret;
+					} catch {
+						showError('A network error occurred. Please check your connection and try again.');
+						setLoading(false);
+						return;
+					}
+
+					// 2. Confirm card payment with Stripe
+					const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+						payment_method: {
+							card: cardElement,
+							billing_details: {
+								name: firstName + ' ' + lastName,
+								email,
+								phone: phone || undefined,
+								address: { country: 'NZ' }
+							}
+						},
+						receipt_email: email
+					});
+
+					if (error) {
+						showError(error.message);
+						setLoading(false);
+						return;
+					}
+
+					if (paymentIntent.status === 'succeeded') {
+						form.hidden = true;
+						successEl.hidden = false;
+					} else {
+						showError('Payment was not completed. Please try again.');
+					}
+
+					setLoading(false);
+				});
+
+				// Helpers
+				function showError(msg) {
+					errorEl.textContent = msg;
+					errorEl.hidden = false;
+				}
+
+				function hideError() {
+					errorEl.textContent = '';
+					errorEl.hidden = true;
+				}
+
+				function setLoading(loading) {
+					submitBtn.disabled = loading;
+					submitBtn.textContent = loading ? 'Processing...' : 'Pay Now';
+				}
+			})();
+		</script>
+	}
 }

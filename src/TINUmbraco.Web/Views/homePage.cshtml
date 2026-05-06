@@ -12,6 +12,25 @@
         .Where(x => x.IsVisible())
         .OrderBy(x => x.SortOrder)
         .ToList();
+
+    IPublishedContent? membershipsPage = sectionPages
+        .FirstOrDefault(x => string.Equals(x.ContentType.Alias, "membershipsPage", StringComparison.OrdinalIgnoreCase));
+
+    IReadOnlyList<IPublishedContent> allMembershipItems = membershipsPage is null
+        ? []
+        : membershipsPage.Children().Where(x => x.IsVisible()).OrderBy(x => x.SortOrder).ToList();
+
+    IReadOnlyList<IPublishedContent> sponsorMembershipItems = allMembershipItems
+        .Where(x => (x.Value<string>("companyType") ?? string.Empty).Contains("sponsor", StringComparison.OrdinalIgnoreCase))
+        .ToList();
+
+    IReadOnlyList<IPublishedContent> logoSourceItems = sponsorMembershipItems.Count > 0
+        ? sponsorMembershipItems
+        : allMembershipItems;
+
+    IReadOnlyList<IPublishedContent> sponsorLogos = logoSourceItems
+        .Where(x => x.Value<IPublishedContent>("logo") is not null)
+        .ToList();
 }
 <section class="hero">
     <p class="kicker">Technology Investment Network</p>
@@ -24,6 +43,34 @@
         <div class="body-content">@mainContent</div>
     }
 </section>
+
+@if (sponsorLogos.Count > 0)
+{
+    <section class="home-sponsors" aria-label="Sponsors">
+        <h2 class="section-title">Sponsors</h2>
+        <div class="home-sponsors__marquee" role="presentation">
+            <div class="home-sponsors__track">
+                @foreach (IPublishedContent sponsor in sponsorLogos)
+                {
+                    IPublishedContent? logo = sponsor.Value<IPublishedContent>("logo");
+                    if (logo is not null)
+                    {
+                        <img class="home-sponsors__logo" src="@logo.Url()" alt="@sponsor.Name" loading="lazy" />
+                    }
+                }
+
+                @foreach (IPublishedContent sponsor in sponsorLogos)
+                {
+                    IPublishedContent? logo = sponsor.Value<IPublishedContent>("logo");
+                    if (logo is not null)
+                    {
+                        <img class="home-sponsors__logo" src="@logo.Url()" alt="" loading="lazy" aria-hidden="true" />
+                    }
+                }
+            </div>
+        </div>
+    </section>
+}
 
 @if (sectionPages.Count == 0)
 {

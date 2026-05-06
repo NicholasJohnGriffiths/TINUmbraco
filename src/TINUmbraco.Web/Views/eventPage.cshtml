@@ -1,2 +1,263 @@
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<IPublishedContent>
-@await Html.PartialAsync("Partials/_ContentDetailPage", Model)
+@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Core.Models.PublishedContent
+@{
+	Layout = "~/Views/_Master.cshtml";
+
+	string? pageTitleValue = Model.Value<string>("pageTitle");
+	string pageTitle = !string.IsNullOrWhiteSpace(pageTitleValue) ? pageTitleValue : Model.Name;
+
+	IPublishedContent? eventImage = Model.Value<IPublishedContent>("image")
+		?? Model.Value<IPublishedContent>("featuredImage")
+		?? Model.Value<IPublishedContent>("heroImage")
+		?? Model.Value<IPublishedContent>("thumbnail");
+
+	object? GetFirstValue(params string[] aliases)
+	{
+		foreach (string alias in aliases)
+		{
+			object? value = Model.Value(alias);
+			if (value is not null)
+			{
+				return value;
+			}
+		}
+
+		return null;
+	}
+
+	object? eventDateRaw = GetFirstValue("eventStartDate", "eventDate", "startDate", "date");
+	object? endDateRaw = GetFirstValue("eventEndDate", "endEndDate", "endDate");
+
+	string? eventDateText = eventDateRaw switch
+	{
+		DateOnly dateOnly => dateOnly.ToString("d MMM yyyy"),
+		DateTime dateTime => dateTime.ToString("d MMM yyyy"),
+		DateTimeOffset dateTimeOffset => dateTimeOffset.ToString("d MMM yyyy"),
+		_ => eventDateRaw?.ToString()
+	};
+
+	string? endDateText = endDateRaw switch
+	{
+		DateOnly dateOnly => dateOnly.ToString("d MMM yyyy"),
+		DateTime dateTime => dateTime.ToString("d MMM yyyy"),
+		DateTimeOffset dateTimeOffset => dateTimeOffset.ToString("d MMM yyyy"),
+		_ => endDateRaw?.ToString()
+	};
+
+	string? location = Model.Value<string>("location");
+
+	object? eventTypeRaw = Model.Value("eventType");
+	string? eventTypeText = eventTypeRaw switch
+	{
+		IEnumerable<string> values => string.Join(", ", values.Where(x => !string.IsNullOrWhiteSpace(x))),
+		_ => eventTypeRaw?.ToString()
+	};
+
+	bool eventSponsored = Model.Value<bool?>("eventSponsored") ?? false;
+
+	List<IPublishedContent> sponsorItems = [];
+
+	void AddSponsorsFromAlias(string alias)
+	{
+		IEnumerable<IPublishedContent>? many = Model.Value<IEnumerable<IPublishedContent>>(alias);
+		if (many is not null)
+		{
+			sponsorItems.AddRange(many.Where(x => x is not null));
+		}
+
+		IPublishedContent? single = Model.Value<IPublishedContent>(alias);
+		if (single is not null)
+		{
+			sponsorItems.Add(single);
+		}
+	}
+
+	AddSponsorsFromAlias("sponsors");
+	AddSponsorsFromAlias("sponsor");
+	AddSponsorsFromAlias("eventSponsors");
+	AddSponsorsFromAlias("eventSponsor");
+	AddSponsorsFromAlias("sponsorIcons");
+
+	IReadOnlyList<IPublishedContent> sponsors = sponsorItems
+		.GroupBy(x => x.Key)
+		.Select(x => x.First())
+		.ToList();
+
+	string? GetSponsorImageUrl(IPublishedContent sponsorItem)
+	{
+		IPublishedContent? imageContent = sponsorItem.Value<IPublishedContent>("icon")
+			?? sponsorItem.Value<IPublishedContent>("image")
+			?? sponsorItem.Value<IPublishedContent>("logo")
+			?? sponsorItem.Value<IPublishedContent>("featuredImage")
+			?? sponsorItem.Value<IPublishedContent>("coverImage")
+			?? sponsorItem.Value<IPublishedContent>("thumbnail");
+
+		if (imageContent is not null)
+		{
+			return imageContent.Url();
+		}
+
+		MediaWithCrops? imageCrop = sponsorItem.Value<MediaWithCrops>("icon")
+			?? sponsorItem.Value<MediaWithCrops>("image")
+			?? sponsorItem.Value<MediaWithCrops>("logo")
+			?? sponsorItem.Value<MediaWithCrops>("featuredImage")
+			?? sponsorItem.Value<MediaWithCrops>("coverImage")
+			?? sponsorItem.Value<MediaWithCrops>("thumbnail");
+
+		if (imageCrop is not null)
+		{
+			return imageCrop.MediaUrl();
+		}
+
+		return sponsorItem.ContentType.ItemType == PublishedItemType.Media ? sponsorItem.Url() : null;
+	}
+
+	bool reportLaunch = Model.Value<bool?>("reportLaunch") ?? false;
+	IPublishedContent? reportToLaunchContent = Model.Value<IPublishedContent>("reportToLaunch");
+	string? reportToLaunchText = reportToLaunchContent?.Name ?? Model.Value<string>("reportToLaunch");
+    string? reportToLaunchUrl = reportToLaunchContent?.Url();
+
+	string? eventStatus = Model.Value("eventStatus")?.ToString();
+	object? soldOutRaw = Model.Value("soldOut");
+	bool isSoldOut = soldOutRaw switch
+	{
+		bool b => b,
+		string s when bool.TryParse(s, out bool parsed) => parsed,
+		_ => false
+	};
+	string? soldOutText = soldOutRaw?.ToString();
+
+	IHtmlContent? bodyContent = Model.Value<IHtmlContent>("bodyContent")
+		?? Model.Value<IHtmlContent>("mainContent");
+
+	if (bodyContent is null)
+	{
+		string? bodyText = Model.Value<string>("bodyContent")
+			?? Model.Value<string>("mainContent")
+			?? Model.Value<string>("content")
+			?? Model.Value<string>("body");
+
+		if (!string.IsNullOrWhiteSpace(bodyText))
+		{
+			bodyContent = new HtmlString(bodyText);
+		}
+	}
+}
+
+@if (Model.Parent is not null)
+{
+	<a class="back" href="@Model.Parent.Url()">Back to @Model.Parent.Name</a>
+}
+
+<h1 class="page-title">@pageTitle</h1>
+
+@if (!string.IsNullOrWhiteSpace(eventDateText)
+	|| !string.IsNullOrWhiteSpace(endDateText)
+	|| !string.IsNullOrWhiteSpace(location)
+	|| !string.IsNullOrWhiteSpace(eventTypeText))
+{
+	<section class="event-meta" aria-label="Event information">
+		@if (!string.IsNullOrWhiteSpace(eventDateText))
+		{
+			<p class="event-meta__item"><span class="event-meta__label">Event Date</span><span class="event-meta__value">@eventDateText</span></p>
+		}
+
+		@if (!string.IsNullOrWhiteSpace(endDateText))
+		{
+			<p class="event-meta__item"><span class="event-meta__label">End Date</span><span class="event-meta__value">@endDateText</span></p>
+		}
+
+		@if (!string.IsNullOrWhiteSpace(location))
+		{
+			<p class="event-meta__item"><span class="event-meta__label">Location</span><span class="event-meta__value">@location</span></p>
+		}
+
+		@if (!string.IsNullOrWhiteSpace(eventTypeText))
+		{
+			<p class="event-meta__item"><span class="event-meta__label">Type</span><span class="event-meta__value">@eventTypeText</span></p>
+		}
+	</section>
+}
+
+@if (eventImage is not null)
+{
+	<img class="report-cover-image" src="@eventImage.Url()" alt="@pageTitle" loading="eager" />
+}
+
+@if (sponsors.Count > 0 || eventSponsored)
+{
+	if (sponsors.Count > 0)
+	{
+		<section class="event-sponsors" aria-label="Event sponsors">
+			<h2>Sponsors</h2>
+			<div class="event-sponsors__list">
+				@foreach (IPublishedContent sponsor in sponsors)
+				{
+					string? sponsorImageUrl = GetSponsorImageUrl(sponsor);
+					string sponsorUrl = sponsor.Url();
+
+					@if (!string.IsNullOrWhiteSpace(sponsorUrl) && sponsorUrl != "#")
+					{
+						<a class="event-sponsors__item event-sponsors__item--link" href="@sponsorUrl" aria-label="Open @sponsor.Name">
+							@if (!string.IsNullOrWhiteSpace(sponsorImageUrl))
+							{
+								<img class="event-sponsors__icon" src="@sponsorImageUrl" alt="@sponsor.Name" loading="lazy" />
+							}
+							<p class="event-sponsors__name">@sponsor.Name</p>
+						</a>
+					}
+					else
+					{
+						<div class="event-sponsors__item">
+							@if (!string.IsNullOrWhiteSpace(sponsorImageUrl))
+							{
+								<img class="event-sponsors__icon" src="@sponsorImageUrl" alt="@sponsor.Name" loading="lazy" />
+							}
+							<p class="event-sponsors__name">@sponsor.Name</p>
+						</div>
+					}
+				}
+			</div>
+		</section>
+	}
+}
+
+@if (reportLaunch)
+{
+	<section class="event-launch-details">
+		<h2>Report launch details</h2>
+
+		@if (!string.IsNullOrWhiteSpace(reportToLaunchText))
+		{
+			<p class="event-meta__item">
+				<span class="event-meta__label">Report To Launch</span>
+				<span class="event-meta__value">
+					@if (!string.IsNullOrWhiteSpace(reportToLaunchUrl) && reportToLaunchUrl != "#")
+					{
+						<a class="event-meta__link" href="@reportToLaunchUrl">@reportToLaunchText</a>
+					}
+					else
+					{
+						@reportToLaunchText
+					}
+				</span>
+			</p>
+		}
+
+		@if (!string.IsNullOrWhiteSpace(eventStatus))
+		{
+			<p class="event-meta__item"><span class="event-meta__label">Status</span><span class="event-meta__value">@eventStatus</span></p>
+		}
+
+		@if (isSoldOut || string.Equals(soldOutText, "sold out", StringComparison.OrdinalIgnoreCase))
+		{
+			<p class="event-meta__item"><span class="event-meta__label">Sold Out</span><span class="event-meta__value">Yes</span></p>
+		}
+	</section>
+}
+
+@if (bodyContent is not null)
+{
+	<article class="content">@bodyContent</article>
+}
